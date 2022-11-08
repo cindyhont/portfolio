@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="207"
+   height="207"
+   viewBox="0 0 207 207"
+   version="1.1"
+   id="svg78"
+   sodipodi:docname="nextjs.svg"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview80"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.9032258"
+     inkscape:cx="105.34746"
+     inkscape:cy="112.17797"
+     inkscape:window-width="1309"
+     inkscape:window-height="691"
+     inkscape:window-x="47"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg78" />
+  <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title65">next-black</title>
+  <desc
+     id="desc67">Created with Sketch.</desc>
+  <defs
+     id="defs69" />
+  <g
+     id="Page-1"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd"
+     transform="translate(0,41.20519)">
+    <g
+       id="Black-Next.js"
+       transform="translate(-247,-138)"
+       fill="#ffffff"
+       fill-rule="nonzero">
+      <g
+         id="next-black"
+         transform="translate(247,138)">
+        <g
+           id="EXT-+-Type-something">
+          <path
+             d="m 48.942196,32.632006 h 38.958962 v 3.081636 H 52.513435 V 58.90701 h 33.277446 v 3.081637 H 52.513435 V 87.452694 H 88.306981 V 90.53433 H 48.942196 Z m 42.449037,0 h 4.139389 L 113.8738,58.096053 132.6228,32.632006 158.1245,0.28680981 116.22757,60.772211 137.81733,90.53433 h -4.30172 L 113.8738,63.448369 94.150825,90.53433 H 89.930272 L 111.68236,60.772211 Z m 47.968217,3.081636 v -3.081636 h 44.39699 v 3.081636 H 163.30298 V 90.53433 h -3.57124 V 35.713642 Z"
+             id="EXT" />
+          <polygon
+             id="Type-something"
+             points="3.9364909,37.011173 3.7741619,90.53433 0.20292365,90.53433 0.20292365,32.632006 4.6669714,32.632006 66.223578,124.30309 40.785176,90.53433 " />
+        </g>
+        <path
+           d="m 183.39662,86.522722 c 0.73832,0 1.27685,-0.562614 1.27685,-1.289685 0,-0.727071 -0.53853,-1.289686 -1.27685,-1.289686 -0.72963,0 -1.27685,0.562615 -1.27685,1.289686 0,0.727071 0.54722,1.289685 1.27685,1.289685 z m 3.50917,-3.392999 c 0,2.146592 1.55481,3.5488 3.82187,3.5488 2.41473,0 3.87399,-1.445486 3.87399,-3.955613 v -8.837377 h -1.94568 v 8.828721 c 0,1.393553 -0.70357,2.137936 -1.94568,2.137936 -1.11182,0 -1.86751,-0.692449 -1.89356,-1.722467 z m 10.24087,-0.112522 c 0.13898,2.233147 2.00648,3.661322 4.78603,3.661322 2.97063,0 4.82945,-1.49742 4.82945,-3.886368 0,-1.878267 -1.0597,-2.91694 -3.63078,-3.514177 l -1.38108,-0.337569 c -1.63298,-0.380847 -2.29312,-0.891528 -2.29312,-1.783055 0,-1.12523 1.02495,-1.860956 2.56239,-1.860956 1.45926,0 2.46684,0.718416 2.64925,1.869611 h 1.89356 c -0.11292,-2.103313 -1.97174,-3.583422 -4.51676,-3.583422 -2.73611,0 -4.56018,1.480109 -4.56018,3.704601 0,1.834989 1.03364,2.925595 3.30071,3.453588 l 1.6156,0.389502 c 1.65904,0.389503 2.38867,0.960773 2.38867,1.91289 0,1.107918 -1.14656,1.912889 -2.71005,1.912889 -1.67641,0 -2.84034,-0.753037 -3.00538,-1.938856 z"
+           id=".JS" />
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata186">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>next-black</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
