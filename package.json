@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "dev": "next dev -p 888",
+    "build": "next build",
+    "start": "next start -p 888",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mdx-js/loader": "^2.1.5",
+    "@mdx-js/react": "^2.1.5",
+    "@next/mdx": "^13.0.1",
+    "@react-three/fiber": "^8.9.0",
+    "@react-three/postprocessing": "^2.7.0",
+    "gray-matter": "^4.0.3",
+    "gsap": "^3.11.3",
+    "next": "^13.0.1",
+    "next-mdx-remote": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.55.0",
+    "three": "^0.146.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.9",
+    "@types/three": "^0.144.0",
+    "eslint": "8.26.0",
+    "eslint-config-next": "13.0.1",
+    "typescript": "4.8.4"
+  }
+}
