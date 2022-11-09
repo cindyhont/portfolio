@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+import { Context } from '../../context';
 
 class BlurEffect {
     renderer:THREE.WebGLRenderer;
@@ -14,7 +15,7 @@ class BlurEffect {
     material:THREE.RawShaderMaterial;
     triangle:THREE.Mesh;
     fbmTexture:THREE.Texture;
-    constructor(renderer:THREE.WebGLRenderer, fbmTexture:THREE.Texture){
+    constructor(renderer:THREE.WebGLRenderer, fbmTexture:THREE.Texture, lowRes:boolean){
         this.renderer = renderer;
         this.fbmTexture = fbmTexture;
         this.scene = new THREE.Scene();
@@ -39,6 +40,11 @@ class BlurEffect {
                 uResolution: { value: this.resolution },
                 uFBM:{value:this.fbmTexture},
                 row:{value:Math.random()},
+            },
+            defines:{
+                LOOPS:lowRes ? 11 : 21,
+                LOOPS_FLOAT:lowRes ? '11.0' : '21.0',
+                OFFSET:lowRes ? 6 : 11
             },
             vertexShader:`
                 precision mediump float;
@@ -68,13 +74,13 @@ class BlurEffect {
 
                         if (uv.y > 0.4){
                             vec4 tot;
-                            for (int i=0; i<21; i++){
-                                vec2 st = ( gl_FragCoord.xy + vec2(i - 11,0.) ) / uResolution.xy;
+                            for (int i=0; i<LOOPS; i++){
+                                vec2 st = ( gl_FragCoord.xy + vec2(i - OFFSET,0.) ) / uResolution.xy;
                                 vec4 co = texture2D( uScene, st );
                                 tot += pow(co,vec4(2.2));
                             }
                             
-                            color = pow(tot/21.,vec4(1./2.2));
+                            color = pow(tot/LOOPS_FLOAT,vec4(1./2.2));
                         } else {
                             vec2 st = gl_FragCoord.xy / uResolution.xy;
                             vec4 co = texture2D( uScene, st );
@@ -111,8 +117,9 @@ const
         gsap.registerPlugin(ScrollTrigger)
         const 
             { gl, scene, camera, invalidate } = useThree(),
+            {isSafari} = useContext(Context),
             fbmTexture = useMemo(()=>new THREE.TextureLoader().load('/fog.jpg'),[]),
-            renderer = new BlurEffect(gl, fbmTexture),
+            renderer = new BlurEffect(gl, fbmTexture, isSafari),
             windowVisible = useRef(true),
             inRange = useRef(false),
             windowIsHidden = () => {
@@ -133,7 +140,9 @@ const
             modalStatusOnChange = (e:CustomEvent) => {
                 modalOn.current = e.detail
                 if (!e.detail) invalidate()
-            }
+            },
+            safariRender = useRef(true),
+            count = useRef(0)
 
         useEffect(()=>{
             const 
@@ -164,11 +173,14 @@ const
         },[])
 
         return useFrame(() => {
-            if (windowVisible.current && inRange.current && !modalOn.current) renderer.render(scene, camera)
+            if (safariRender.current && windowVisible.current && inRange.current && !modalOn.current) renderer.render(scene, camera)
+            if (isSafari && count.current === 2) safariRender.current = false
+            if (windowVisible.current && inRange.current && !modalOn.current) count.current ++
         }, 1)
     },
     Scene = ({pn,tSize,start,end}:{pn:Uint8Array;tSize:number;start:number;end:number;}) => {
         const 
+            {isSafari} = useContext(Context),
             invalidate = useThree(state => state.invalidate),
             noise = useMemo(()=>{
                 const t = new THREE.DataTexture(pn,tSize,tSize)
@@ -318,7 +330,8 @@ const
             modalStatusOnChange = (e:CustomEvent) => {
                 modalOn.current = e.detail
                 if (!e.detail) invalidate()
-            }
+            },
+            safariRender = useRef(true)
 
         useEffect(()=>{
             const 
@@ -349,8 +362,9 @@ const
         },[])
 
         useFrame(({invalidate},delta)=>{
-            if (windowVisible.current && inRange.current && !modalOn.current) invalidate();
+            if (safariRender.current && windowVisible.current && inRange.current && !modalOn.current) invalidate();
             material.uniforms.uTime.value += delta * 0.1
+            if (isSafari && !!pn.length) safariRender.current = false
         })
 
         return (
@@ -372,10 +386,12 @@ const
         },[])
 
         return (
-            <Canvas dpr={1} style={{position:'absolute'}} frameloop='demand'>
-                <Scene {...{pn,tSize:pnSpec.px,start,end}} />
-                <Blur {...{start,end}} />
-            </Canvas>
+            <Context.Consumer>{({isSafari})=>
+                <Canvas dpr={isSafari ? 0.5 : 1} style={{position:'absolute'}} frameloop='demand'>
+                    <Scene {...{pn,tSize:pnSpec.px,start,end}} />
+                    <Blur {...{start,end}} />
+                </Canvas>
+            }</Context.Consumer>
         )
     }
 

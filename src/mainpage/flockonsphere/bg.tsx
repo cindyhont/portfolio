@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
@@ -10,6 +10,7 @@ const
     pos = new THREE.Vector3(),
     bi = new THREE.Vector3(),
     config = {
+        safariCount:1000,
         count:5000,
         speed:5,
     },
@@ -112,8 +113,7 @@ const
         varying vec3 vColor;
         varying float print;
         varying float opacity;
-
-        #define POINTSIZE 20.
+        
         #define OPACITY_AT_BACK 0.2
 
         void main(){
@@ -123,7 +123,7 @@ const
             vColor = normalize(vColor);
             vColor = min(vColor + 0.6,1.);
             float a = 0.5 - 0.5 * OPACITY_AT_BACK;
-            opacity = (tPosition.z * a + 1. - a) * 0.5;
+            opacity = (tPosition.z * a + 1. - a) * BRIGHTNESS;
             tPosition *= R;
             gl_PointSize = max(POINTSIZE / distance(cameraPos, tPosition),6.);
             gl_Position = projectionMatrix * modelViewMatrix * vec4(tPosition,1.);
@@ -151,6 +151,7 @@ const
     Scene = () => {
         gsap.registerPlugin(ScrollTrigger)
         const
+            {isSafari} = useContext(Context),
             {
                 r,
                 particleCount,
@@ -161,7 +162,7 @@ const
                     fovInRad = fov * 0.5 * Math.PI / 180,
                     height = Math.tan(fovInRad) * position.z * 2,
                     r = Math.min(200,size.height * 0.35, size.width * 0.4) * height / size.height,
-                    particleCount = Math.floor(Math.min(0.125 * Math.pow(r * size.height / height,2),config.count))
+                    particleCount = Math.floor(Math.min(0.125 * Math.pow(r * size.height / height,2),isSafari ? config.safariCount : config.count))
                 
                 return {
                     r,
@@ -213,7 +214,9 @@ const
                     cameraPos:{value:null},
                 },
                 defines:{
-                    R:r
+                    R:r,
+                    POINTSIZE:isSafari ? (40 * r).toFixed(1) : '20.0',
+                    BRIGHTNESS:isSafari ? 0.15 : 0.5,
                 },
                 vertexShader:materialVS,
                 fragmentShader:materialFS,
