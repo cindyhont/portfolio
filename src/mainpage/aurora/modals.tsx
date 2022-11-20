@@ -118,7 +118,7 @@ const
         }
     ) => (
         <>
-        <input type='radio' id={`${id}-${j}`} name={id} defaultChecked={j===0} className="modal-slider-input" />
+        <input type='radio' id={`${id}-${j}`} name={id} defaultChecked={j===0} className="modal-slider-input" hidden />
         <div className='modal-slider-img' style={{backgroundImage:`url(/${fileName})`}}>
             <label htmlFor={`${id}-${j > 0 ? j - 1 : slideImg.length - 1}`} className='modal-slider-arrow'>
                 <svg height='30' width='50'>

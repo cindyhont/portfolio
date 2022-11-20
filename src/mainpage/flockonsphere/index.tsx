@@ -7,10 +7,9 @@ import {AboutSceneTab} from "../../common";
 
 const FlockOnSphere = () => {
     gsap.registerPlugin(ScrollTrigger);
-    const containerRef = useRef<HTMLDivElement>()
 
     useEffect(()=>{
-        gsap.to(containerRef.current,{
+        gsap.to('#flock-container',{
             scrollTrigger:{
                 trigger:document.body,
                 start:'top 0%',
@@ -21,7 +20,7 @@ const FlockOnSphere = () => {
         })
 
         gsap.timeline()
-        .fromTo(containerRef.current,{
+        .fromTo('#flock-container',{
             autoAlpha:0
         },{
             duration:1,
@@ -31,7 +30,7 @@ const FlockOnSphere = () => {
     },[])
     
     return (
-        <div ref={containerRef} style={{position:'fixed',height:'100vh',width:'100vw'}}>
+        <div id='flock-container'>
             <Background />
             <Content />
             <AboutSceneTab codeURL='https://xxxxxxxxxxx.com/' id='flock-sphere-about-scene'>

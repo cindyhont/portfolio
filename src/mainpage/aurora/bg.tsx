@@ -15,7 +15,7 @@ class BlurEffect {
     material:THREE.RawShaderMaterial;
     triangle:THREE.Mesh;
     fbmTexture:THREE.Texture;
-    constructor(renderer:THREE.WebGLRenderer, fbmTexture:THREE.Texture, lowRes:boolean){
+    constructor(renderer:THREE.WebGLRenderer, fbmTexture:THREE.Texture){
         this.renderer = renderer;
         this.fbmTexture = fbmTexture;
         this.scene = new THREE.Scene();
@@ -40,11 +40,6 @@ class BlurEffect {
                 uResolution: { value: this.resolution },
                 uFBM:{value:this.fbmTexture},
                 row:{value:Math.random()},
-            },
-            defines:{
-                LOOPS:lowRes ? 11 : 21,
-                LOOPS_FLOAT:lowRes ? '11.0' : '21.0',
-                OFFSET:lowRes ? 6 : 11
             },
             vertexShader:`
                 precision mediump float;
@@ -74,13 +69,13 @@ class BlurEffect {
 
                         if (uv.y > 0.4){
                             vec4 tot;
-                            for (int i=0; i<LOOPS; i++){
-                                vec2 st = ( gl_FragCoord.xy + vec2(i - OFFSET,0.) ) / uResolution.xy;
+                            for (int i=0; i<21; i++){
+                                vec2 st = ( gl_FragCoord.xy + vec2(i - 11.,0.) ) / uResolution.xy;
                                 vec4 co = texture2D( uScene, st );
                                 tot += pow(co,vec4(2.2));
                             }
                             
-                            color = pow(tot/LOOPS_FLOAT,vec4(1./2.2));
+                            color = pow(tot/21.,vec4(1./2.2));
                         } else {
                             vec2 st = gl_FragCoord.xy / uResolution.xy;
                             vec4 co = texture2D( uScene, st );
@@ -119,7 +114,7 @@ const
             { gl, scene, camera, invalidate } = useThree(),
             {isSafari} = useContext(Context),
             fbmTexture = useMemo(()=>new THREE.TextureLoader().load('/fog.jpg'),[]),
-            renderer = new BlurEffect(gl, fbmTexture, isSafari),
+            renderer = new BlurEffect(gl, fbmTexture),
             windowVisible = useRef(true),
             inRange = useRef(false),
             windowIsHidden = () => {
@@ -386,12 +381,10 @@ const
         },[])
 
         return (
-            <Context.Consumer>{({isSafari})=>
-                <Canvas dpr={isSafari ? 0.5 : 1} style={{position:'absolute'}} frameloop='demand'>
-                    <Scene {...{pn,tSize:pnSpec.px,start,end}} />
-                    <Blur {...{start,end}} />
-                </Canvas>
-            }</Context.Consumer>
+            <Canvas dpr={1} style={{position:'absolute'}} frameloop='demand'>
+                <Scene {...{pn,tSize:pnSpec.px,start,end}} />
+                <Blur {...{start,end}} />
+            </Canvas>
         )
     }
 

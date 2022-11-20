@@ -272,11 +272,42 @@ label[for='mobile-menu-checkbox']{
     }
 }
 
+#flock-container{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+
+@keyframes separator-anim {
+    from { width: 0%; }
+    to { width: 100% }
+}
+
+@keyframes name-anim {
+    from { transform: translateY(150%); }
+    to { transform: translateY(0%); }
+}
+
+@keyframes title-anim {
+    from { transform: translateY(-200%); }
+    to { transform: translateY(0%); }
+}
+
 #title-container{
     position:absolute;
 
-    & > svg{
-        display: block;
+    & > div{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        & > svg {
+            width: 0%;
+            animation-name: separator-anim;
+            animation-duration: 1s;
+            animation-delay: 2s;
+            animation-fill-mode: forwards;
+        }
     }
 
     & > p{
@@ -292,6 +323,9 @@ label[for='mobile-menu-checkbox']{
 
         & > span{
             display: block;
+            animation-delay: 3.4s;
+            animation-duration: 1.2s;
+            animation-fill-mode: forwards;
         }
 
         &:first-of-type{
@@ -299,6 +333,7 @@ label[for='mobile-menu-checkbox']{
 
             & > span{
                 transform: translateY(150%);
+                animation-name: name-anim;
             }
         }
 
@@ -311,8 +346,20 @@ label[for='mobile-menu-checkbox']{
 
             & > span{
                 transform: translateY(-200%);
+                animation-name: title-anim;
             }
         }
+    }
+}
+
+@keyframes scroll-sign-anim {
+    from {
+        opacity:0;
+        transform:translateY(-20px);
+    }
+    to {
+        opacity:1;
+        transform:translateY(0px);
     }
 }
 
@@ -332,6 +379,11 @@ label[for='mobile-menu-checkbox']{
         0 0 3px #fff,
         0 0 5px #fff;
 
+    animation-delay: 5s;
+    animation-duration: 1.2s;
+    animation-name: scroll-sign-anim;
+    animation-fill-mode: forwards;
+
     & p{
         margin-bottom: 0.3rem;
     }
@@ -342,6 +394,12 @@ label[for='mobile-menu-checkbox']{
         stroke-width:3;
         stroke-linejoin:round;
         stroke-linecap:round;
+    }
+
+    @media screen and (max-height: 300px) {
+        & svg {
+            visibility: hidden;
+        }
     }
 }
 
