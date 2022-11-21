@@ -285,7 +285,7 @@ const
                 dpr={devicePixelRatio} 
                 gl={{antialias:true}}
                 frameloop='demand'
-                style={{position:'absolute',top:'0',left:'0'}}
+                style={{position:'absolute',top:'0px',left:'0px',bottom:'0px',right:'0px'}}
             >
                 <Scene />
             </Canvas>
