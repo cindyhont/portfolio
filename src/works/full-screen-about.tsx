@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const FullScreenAbout = ({children}:{children:JSX.Element}) => {
     const 
@@ -30,7 +31,7 @@ const FullScreenAbout = ({children}:{children:JSX.Element}) => {
     return (
         <>
         <label htmlFor={checkboxID} id={`${checkboxID}-icon`}>
-            <img src='/circle-question-regular.svg' width={30} height={30} />
+            <Image src='/circle-question-regular.svg' width={30} height={30} alt='About' />
         </label>
         <input type='checkbox' id={checkboxID} hidden ref={checkbox} onChange={onChange} />
         <div id='full-screen-about-container'>
