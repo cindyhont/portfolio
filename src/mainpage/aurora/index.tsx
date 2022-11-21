@@ -54,7 +54,7 @@ const Aurora = ({end}:{end:number;}) => {
         <>
         <div style={{height:'100vh',width:'100vw'}} />
         <div id='aurora-container' style={{height:'100vh',width:'100vw'}} ref={containerRef}>
-            <Background {...{start:100,end:end-100}} />
+            {/*<Background {...{start:100,end:end-100}} />*/}
             <Slides {...{start:100,end:end-100}} />
             <Modals />
             <AboutSceneTab codeURL='https://xxxxxxxxxxx.com/' id='aurora-about-scene'>

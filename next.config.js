@@ -13,4 +13,7 @@ const withMDX = require('@next/mdx')({
   module.exports = withMDX({
     // Append the default value with md extensions
     pageExtensions: ['tsx','ts','js','mdx'],
+    images: {
+      unoptimized: true,
+    },
   })
