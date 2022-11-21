@@ -70,7 +70,7 @@ class BlurEffect {
                         if (uv.y > 0.4){
                             vec4 tot;
                             for (int i=0; i<21; i++){
-                                vec2 st = ( gl_FragCoord.xy + vec2(i - 11.,0.) ) / uResolution.xy;
+                                vec2 st = ( gl_FragCoord.xy + vec2(i - 11,0.) ) / uResolution.xy;
                                 vec4 co = texture2D( uScene, st );
                                 tot += pow(co,vec4(2.2));
                             }
