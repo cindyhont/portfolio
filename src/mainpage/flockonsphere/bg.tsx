@@ -151,7 +151,7 @@ const
     Scene = () => {
         gsap.registerPlugin(ScrollTrigger)
         const
-            {isSafari} = useContext(Context),
+            {isSafari,mobile} = useContext(Context),
             {
                 r,
                 particleCount,
@@ -162,7 +162,7 @@ const
                     fovInRad = fov * 0.5 * Math.PI / 180,
                     height = Math.tan(fovInRad) * position.z * 2,
                     r = Math.min(200,size.height * 0.35, size.width * 0.4) * height / size.height,
-                    particleCount = Math.floor(Math.min(0.125 * Math.pow(r * size.height / height,2),isSafari ? config.safariCount : config.count))
+                    particleCount = Math.floor(Math.min(0.125 * Math.pow(r * size.height / height,2),isSafari || mobile ? config.safariCount : config.count))
                 
                 return {
                     r,
@@ -215,8 +215,8 @@ const
                 },
                 defines:{
                     R:r,
-                    POINTSIZE:isSafari ? (40 * r).toFixed(1) : '20.0',
-                    BRIGHTNESS:isSafari ? 0.15 : 0.5,
+                    POINTSIZE:isSafari || mobile ? (40 * r).toFixed(1) : '20.0',
+                    BRIGHTNESS:isSafari || mobile ? 0.15 : 0.5,
                 },
                 vertexShader:materialVS,
                 fragmentShader:materialFS,
