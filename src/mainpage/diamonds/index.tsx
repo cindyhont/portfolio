@@ -17,7 +17,7 @@ const Diamonds = () => {
             const 
                 {innerHeight} = window,
                 containerHeight = containerRef.current.offsetHeight,
-                transitionDuration = innerHeight * 0.5 / containerHeight,
+                transitionDuration = innerHeight / containerHeight,
                 fullOpacityDuration = 1 - transitionDuration * 2,
                 tl = gsap.timeline();
 
@@ -40,6 +40,7 @@ const Diamonds = () => {
                 start:`top 0%`,
                 end:`bottom 0%`,
                 scrub:true,
+                markers:true
             })
         }
 
