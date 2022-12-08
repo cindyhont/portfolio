@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
 import { IndexContext } from "../../context";
@@ -32,7 +32,7 @@ const Cinema = () => {
             animation:tl,
             trigger:containerRef.current,
             start:`top 0%`,
-            end:`top -${works.length + 2}00%`,
+            end:`bottom 0%`,
             scrub:true,
             onLeaveBack:()=>{
                 document.body.style.cursor = null

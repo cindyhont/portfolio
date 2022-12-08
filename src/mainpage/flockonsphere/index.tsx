@@ -24,7 +24,7 @@ const FlockOnSphere = () => {
             autoAlpha:0
         },{
             duration:1,
-            delay:0.5,
+            delay:1.5,
             autoAlpha:1
         });
     },[])

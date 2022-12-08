@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from 'next/head';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
@@ -45,10 +45,6 @@ export const getStaticProps:GetStaticProps = async () => {
 const Index = ({works}:{works:IindexItem[]}) => {
     gsap.registerPlugin(ScrollTrigger,ScrollToPlugin)
     const 
-        auroraEnd = (works.length - 1) * 200 + 400,
-        diamondSlideDuration = 300,
-        diamondSlideBgTransition = 50,
-        diamondEnd = 200 + diamondSlideBgTransition * 4 + diamondSlideDuration * 2,
         progressRef = useRef<HTMLDivElement>(),
         mobileCheckbox = useRef<HTMLInputElement>(),
         toTop = () => {
@@ -68,9 +64,6 @@ const Index = ({works}:{works:IindexItem[]}) => {
             mobileCheckbox.current.checked = false
         },
         toDiamonds = () => {
-            // if (window.scrollY > window.innerHeight * (auroraEnd / 100 + 1) && window.scrollY < window.innerHeight * (diamondEnd / 100 + 1) + window.innerHeight * (auroraEnd / 100 + 1)) return
-
-
             const 
                 {innerHeight} = window,
                 container = document.getElementById('diamonds-container'),

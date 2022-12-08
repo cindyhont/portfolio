@@ -23,8 +23,12 @@ ul {
 }
 
 #home{
-    animation: 1s startAnim;
+    animation-name: startAnim;
+    animation-duration: 1s;
+    animation-delay: 1s;
     position: absolute;
+    animation-fill-mode: forwards;
+    opacity:0;
 }
 
 #fps-counter {
@@ -315,7 +319,7 @@ label[for='mobile-menu-checkbox']{
             width: 0%;
             animation-name: separator-anim;
             animation-duration: 1s;
-            animation-delay: 2s;
+            animation-delay: 3s;
             animation-fill-mode: forwards;
         }
     }
@@ -333,7 +337,7 @@ label[for='mobile-menu-checkbox']{
 
         & > span{
             display: block;
-            animation-delay: 3.4s;
+            animation-delay: 4.4s;
             animation-duration: 1.2s;
             animation-fill-mode: forwards;
         }
@@ -389,7 +393,7 @@ label[for='mobile-menu-checkbox']{
         0 0 3px #fff,
         0 0 5px #fff;
 
-    animation-delay: 5s;
+    animation-delay: 6s;
     animation-duration: 1.2s;
     animation-name: scroll-sign-anim;
     animation-fill-mode: forwards;

@@ -456,7 +456,7 @@ const
 
         return (
             <div style={{position:'fixed',height:'100vh',width:'100vw',bottom:'0px',left:'0px'}}>
-                <Canvas camera={{far:10000}} dpr={2} frameloop='demand'>
+                <Canvas camera={{far:10000}} dpr={2} frameloop='demand' gl={{powerPreference:'high-performance'}}>
                     <Scene {...{frontNoise,desertNoise,tSize:pnSpec.px}} />
                 </Canvas>
             </div>

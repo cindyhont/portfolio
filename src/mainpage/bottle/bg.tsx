@@ -472,9 +472,9 @@ const
 
         useEffect(()=>{
             const triggerAnimate = ScrollTrigger.create({
-                trigger:document.body,
-                start:`bottom 300%`,
-                end:`bottom 0%`,
+                trigger:'#bottle-container',
+                start:`top 0%`,
+                end:`top -200%`,
                 scrub:true,
                 onEnter:isInRange,
                 onLeaveBack:notInRange,
