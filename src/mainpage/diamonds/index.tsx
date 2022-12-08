@@ -10,6 +10,7 @@ const Diamonds = () => {
     
     const 
         containerRef = useRef<HTMLDivElement>(),
+        paragraph = useRef<HTMLParagraphElement>(),
         trigger = useRef<ScrollTrigger>(),
         updateTrigger = () => {
             if (!!trigger.current) trigger.current.kill()
@@ -20,6 +21,8 @@ const Diamonds = () => {
                 transitionDuration = innerHeight / containerHeight,
                 fullOpacityDuration = 1 - transitionDuration * 2,
                 tl = gsap.timeline();
+
+            paragraph.current.innerText = `innerHeight: ${innerHeight}, containerHeight: ${containerHeight}`
 
             tl.from(containerRef.current,{
                 autoAlpha:0,
@@ -55,12 +58,15 @@ const Diamonds = () => {
             <Background />
             <About />
             <AboutSceneTab codeURL='https://xxxxxxxxxxx.com/' id='diamonds-about-scene'>
+                <>
                 <p>
                     This scene is build with three.js, instacing and postprocessing. 
                     In each frame, the 3D position of each diamond is set by original positions multiplied by the rotation matrix. 
                     The normals are transformed by being multplied by the transpose of the inverse of the same matrix.
                     Shader material and instanced buffer geometry are used instead of a simple instanced mesh for the realistic reflection.
                 </p>
+                <p ref={paragraph} />
+                </>
             </AboutSceneTab>
         </div>
     )
