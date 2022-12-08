@@ -211,6 +211,7 @@ const
                 dpr={devicePixelRatio}
                 camera={{fov: 30, near: 0.1, far: 1000, position: [0, 0, 25]}}
                 frameloop='demand'
+                gl={{antialias:true}}
                 style={{position:'fixed',height:'100vh',width:'100vw',top:'0px'}}
             >
                 <Scene />

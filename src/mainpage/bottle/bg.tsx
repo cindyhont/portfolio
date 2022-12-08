@@ -647,6 +647,7 @@ const
             <Canvas 
                 dpr={devicePixelRatio} 
                 frameloop='demand' 
+                gl={{antialias:true}}
                 style={{position:'fixed',height:'100vh',width:'100vw',top:'0px'}}
             >
                 <Scene />

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from 'three';
 import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber'
-import { IndexContext } from "../../context";
+import { Context, IndexContext } from "../../context";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
 
@@ -456,9 +456,11 @@ const
 
         return (
             <div style={{position:'fixed',height:'100vh',width:'100vw',bottom:'0px',left:'0px'}}>
-                <Canvas camera={{far:10000}} dpr={2} frameloop='demand' gl={{powerPreference:'high-performance'}}>
-                    <Scene {...{frontNoise,desertNoise,tSize:pnSpec.px}} />
-                </Canvas>
+                <Context.Consumer>{({devicePixelRatio})=>
+                    <Canvas camera={{far:10000}} dpr={devicePixelRatio} frameloop='demand' gl={{antialias:true}}>
+                        <Scene {...{frontNoise,desertNoise,tSize:pnSpec.px}} />
+                    </Canvas>
+                }</Context.Consumer>
             </div>
         )
     }
