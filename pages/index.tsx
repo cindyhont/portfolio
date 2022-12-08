@@ -15,6 +15,7 @@ import { closeAllModals } from "../src/common";
 import Bottle from "../src/mainpage/bottle";
 import FlockOnSphere from "../src/mainpage/flockonsphere";
 import FpsCounter from "../src/mainpage/fps-counter";
+import Cinema from "../src/mainpage/cinema";
 
 export const getStaticProps:GetStaticProps = async () => {
     const 
@@ -55,55 +56,53 @@ const Index = ({works}:{works:IindexItem[]}) => {
             closeAllModals()
             mobileCheckbox.current.checked = false
             window.scrollTo(0,window.innerHeight)
-            gsap.to(window,{
-                duration:2,
-                scrollTo:{
-                    y:'#home',
-                    offsetY:0,
-                    autoKill:true
-                }
-            });
+            window.scrollTo({top:0,behavior:'smooth'})
         },
         toSlides = () => {
-            if (window.scrollY > window.innerHeight && window.scrollY < window.innerHeight * (auroraEnd / 100 + 1)) return
-            window.scrollTo(0,window.innerHeight)
-            gsap.to(window,{
-                duration:3,
-                scrollTo:{
-                    y:'#aurora-container',
-                    offsetY:window.innerHeight * -2,
-                    autoKill:true
-                }
-            });
+            const 
+                container = document.getElementById('cinema-container'),
+                {top,height} = container.getClientRects()[0]
+            if (top < 0 && top > -height) return
+            container.scrollIntoView()
+            window.scrollBy({top:window.innerHeight * 1.1,behavior:'smooth'})
             mobileCheckbox.current.checked = false
         },
         toDiamonds = () => {
-            if (window.scrollY > window.innerHeight * (auroraEnd / 100 + 1) && window.scrollY < window.innerHeight * (diamondEnd / 100 + 1) + window.innerHeight * (auroraEnd / 100 + 1)) return
+            // if (window.scrollY > window.innerHeight * (auroraEnd / 100 + 1) && window.scrollY < window.innerHeight * (diamondEnd / 100 + 1) + window.innerHeight * (auroraEnd / 100 + 1)) return
+
+
+            const 
+                {innerHeight} = window,
+                container = document.getElementById('diamonds-container'),
+                {top,height} = container.getClientRects()[0]
+            if (top < 0 && top > -height) return
+
             closeAllModals()
             mobileCheckbox.current.checked = false
-            window.scrollTo(0,window.innerHeight * (auroraEnd / 100 + 1))
-            gsap.to(window,{
-                duration:2,
-                scrollTo:{
-                    y:'#diamonds-container',
-                    offsetY:window.innerHeight * -(100 + diamondSlideBgTransition + 10) / 100,
-                    autoKill:true
-                }
-            });
+
+            container.scrollIntoView()
+
+            const 
+                aboutMeRect = document.getElementById('about-me').getClientRects()[0],
+                aboutMeHeight = aboutMeRect.height
+
+            if (aboutMeHeight > innerHeight) window.scrollBy({top:innerHeight,behavior:'smooth'})
+            else {
+                const h = (innerHeight - aboutMeHeight) * 0.5
+                window.scrollBy({top:innerHeight - h,behavior:'smooth'})
+            }
         },
         toContact = () => {
-            if (window.scrollY > document.body.offsetHeight - window.innerHeight * 3) return
+            const 
+                container = document.getElementById('bottle-container'),
+                {top} = container.getClientRects()[0]
+
+            if (top < 0) return
+
             closeAllModals()
             mobileCheckbox.current.checked = false
-            document.getElementById('bottle-container').scrollIntoView();
-            gsap.to(window,{
-                duration:3,
-                scrollTo:{
-                    y:'#bottle-container',
-                    offsetY:window.innerHeight * -2,
-                    autoKill:true
-                }
-            });
+            container.scrollIntoView()
+            container.scrollIntoView({block:'end',behavior:'smooth'})
         },
         onResize = () => mobileCheckbox.current.checked = false,
         bgOnClick = (e:any) => {
@@ -111,19 +110,17 @@ const Index = ({works}:{works:IindexItem[]}) => {
         }
 
     useEffect(()=>{
-        const
-            dFlock = 1 + 1,
-            dAurora = (works.length - 1) * 2 + 4 + 2,
-            dDiamond = 0.5 * 4 + 3 * 2 + 2,
-            dContact = 1,
-            g = 1 / (dFlock + dAurora + dDiamond + dContact + 4)
-        ScrollTrigger.create({
-            trigger:document.body,
-            onUpdate:({progress})=>{
-                progressRef.current.style.width = `${(progress - g) / (1 - g * 2) * 100}%`
-            }
-        })
         window.addEventListener('resize',onResize)
+
+        progressRef.current.style.width = '0%'
+
+        ScrollTrigger.create({
+            trigger:'#home',
+            start:'top 0%',
+            end:'bottom 100%',
+            onUpdate:({progress})=> progressRef.current.style.width = `${progress * 100}%`
+        })
+
         return () => window.removeEventListener('resize',onResize)
     },[])
 
@@ -135,9 +132,9 @@ const Index = ({works}:{works:IindexItem[]}) => {
         <div id='home'>
             <FlockOnSphere />
             <IndexContext.Provider value={{works}}>
-                <Aurora end={auroraEnd} />
+                <Cinema />
             </IndexContext.Provider>
-            <Diamonds end={diamondEnd} slideDuration={diamondSlideDuration} bgTransition={diamondSlideBgTransition} />
+            <Diamonds />
             <Bottle />
             <FpsCounter />
             <div id='desktop-menu'>

@@ -22,20 +22,22 @@ const
         'GSAP',
     ],
     About = (
-        {
-            start,
-            end,
-            slideDuration,
-            bgTransition
-        }:{
-            start:number;
-            end:number;
-            slideDuration:number;
-            bgTransition:number;
-        }
+        // {
+        //     start,
+        //     end,
+        //     slideDuration,
+        //     bgTransition
+        // }:{
+        //     start:number;
+        //     end:number;
+        //     slideDuration:number;
+        //     bgTransition:number;
+        // }
     ) => {
         gsap.registerPlugin(ScrollTrigger);
 
+
+        /*
         const 
             [aboutMeStatus,setAboutMeStatus] = useState(0),
             [aboutSiteStatus,setAboutSiteStatus] = useState(0),
@@ -141,7 +143,7 @@ const
                         wLen = words.length,
                         appendNewLine = () => {
                             const span = document.createElement('span')
-                            span.classList.add('about-me-lines')
+                            span.classList.add('about-me-sections')
                             span.innerText = line
                             paragraph.appendChild(span)
                         }
@@ -159,7 +161,7 @@ const
                     }
                     aboutMeLinesRef.current.appendChild(paragraph)
                 }
-                animateContent(aboutMeStatus,'.about-me-lines')
+                animateContent(aboutMeStatus,'.about-me-sections')
             }
             
 
@@ -237,34 +239,134 @@ const
         useEffect(()=>{
             animateContent(aboutSiteStatus,'.about-site-lines');
         },[aboutSiteStatus])
+        */
+
+        const 
+            aboutMeRef = useRef<HTMLDivElement>(),
+            aboutSiteRef = useRef<HTMLDivElement>()
+
+        useEffect(()=>{
+            const 
+                allAboutMeSections = gsap.utils.toArray('.about-me-sections'),
+                allAboutSiteSections = gsap.utils.toArray('.about-site-sections')
+
+            ScrollTrigger.create({
+                trigger:aboutMeRef.current,
+                start:'top 80%',
+                end:'bottom 20%',
+                scrub:true,
+                onEnter:()=>{
+                    aboutMeRef.current.classList.add('bg-visible')
+                    allAboutMeSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.add('neutral')
+                    })
+                },
+                onLeave:()=>{
+                    aboutMeRef.current.classList.remove('bg-visible')
+                    allAboutMeSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.add('left')
+                    })
+                },
+                onEnterBack:()=>{
+                    aboutMeRef.current.classList.add('bg-visible')
+                    allAboutMeSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.remove('left')
+                    })
+                },
+                onLeaveBack:()=>{
+                    aboutMeRef.current.classList.remove('bg-visible')
+                    allAboutMeSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.remove('neutral')
+                    })
+                }
+            })
+
+            ScrollTrigger.create({
+                trigger:aboutSiteRef.current,
+                start:'top 80%',
+                end:'bottom 20%',
+                scrub:true,
+                onEnter:()=>{
+                    aboutSiteRef.current.classList.add('bg-visible')
+                    allAboutSiteSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.add('neutral')
+                    })
+                },
+                onLeave:()=>{
+                    aboutSiteRef.current.classList.remove('bg-visible')
+                    allAboutSiteSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.add('left')
+                    })
+                },
+                onEnterBack:()=>{
+                    aboutSiteRef.current.classList.add('bg-visible')
+                    allAboutSiteSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.remove('left')
+                    })
+                },
+                onLeaveBack:()=>{
+                    aboutSiteRef.current.classList.remove('bg-visible')
+                    allAboutSiteSections.forEach(e=>{
+                        const elem = e as HTMLElement
+                        elem.classList.remove('neutral')
+                    })
+                }
+            })
+        },[])
 
         return (
             <>
+            <div style={{height:'100vh',width:'100vw'}} />
             <div id='about-me' ref={aboutMeRef}>
-                <h1 className="about-me-lines">ABOUT ME</h1>
-                <div ref={aboutMeLinesRef} />
-                <h2 className="about-me-lines">Skills</h2>
-                <div style={{display: 'flex',flexWrap:'wrap'}}>
+                <h1 className="about-me-sections title">ABOUT ME</h1>
+                <p className="about-me-sections content">
+                    I am a self-taught developer, 
+                    born and raised in Hong Kong, 
+                    used to work as a product manager and marketer for over 5 years 
+                    in the fashion accessories sector - which means: 
+                    I value both functionality and commercial value.
+                </p>
+                <p className="about-me-sections content">
+                    I am a fast and aggressive learner. 
+                    I learn new things whenever I have problems to solve but cannot find a solution. 
+                    While I was working on this portfolio, 
+                    it happened more than once that none of the packages/plugins available could meet my needs. 
+                    I ended up writing my own version.
+                </p>
+                <h2 className="about-me-sections title">Skills</h2>
+                <div style={{display: 'flex',flexWrap:'wrap'}} className='about-me-sections content'>
                     {skills.map((skill,i)=>(
-                        <div className='skill about-me-lines' key={i}>{skill}</div>
+                        <div className='skill' key={i}>{skill}</div>
                     ))}
                 </div>
             </div>
-            <div ref={aboutSiteRef} id='about-site'>
-                <h1 className="about-site-lines">ABOUT THIS SITE</h1>
-                <a className="about-site-lines" href='https://xxxxxxxxxxx.com' target='_blank' rel='noopener noreferrer'>
+            <div style={{height:'100vh',width:'100vw'}} />
+            <div 
+                ref={aboutSiteRef}
+                id='about-site'
+            >
+                <h1 className="about-site-sections title">ABOUT THIS SITE</h1>
+                <a className="about-site-sections content" href='https://xxxxxxxxxxx.com' target='_blank' rel='noopener noreferrer'>
                     Check the source code
                 </a>
-                <p className="about-site-lines">This website was built with...</p>
-                <div style={{display: 'flex',flexWrap:'wrap'}}>
+                <p className="about-site-sections content">This website was built with...</p>
+                <div style={{display: 'flex',flexWrap:'wrap'}} className="about-site-sections content">
                     {techs.map((tech,i)=>(
-                        <div className="about-site-lines" key={i} style={{display: 'flex',flexDirection: 'column',width:'60px',marginRight:'15px',marginBottom:'25px'}}>
+                        <div key={i} style={{display: 'flex',flexDirection: 'column',width:'60px',marginRight:'15px',marginBottom:'25px'}}>
                             <img src={`/${tech.replace(/[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g,'').toLowerCase()}.svg`} />
                             <div style={{textAlign:'center',marginTop:'5px',fontSize:'13px'}}>{tech}</div>
                         </div>
                     ))}
                 </div>
             </div>
+            <div style={{height:'100vh',width:'100vw'}} />
             </>
         )
     }

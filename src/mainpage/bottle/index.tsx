@@ -14,26 +14,40 @@ const Bottle = () => {
             scrollTrigger:{
                 trigger:containerRef.current,
                 start:`top 0%`,
+                end:`top -100%`,
+                scrub:true,
+            },
+            
+        })
+        .fromTo(containerRef.current,{
+            autoAlpha:0
+        },{
+            duration:1,
+            autoAlpha:1
+        });
+
+        gsap.timeline({
+            scrollTrigger:{
+                trigger:containerRef.current,
+                start:`top -100%`,
                 end:`top -200%`,
                 scrub:true,
-                pin:true,
             },
+            
         })
-        .to(containerRef.current,{
-            autoAlpha:1,
-            duration:1
-        })
-        .to('#contact-form',{
-            autoAlpha:1,
-            duration:1
-        })
+        .fromTo('#contact-form',{
+            autoAlpha:0
+        },{
+            duration:1,
+            autoAlpha:1
+        });
     },[])
     
     return (
         <div 
             id='bottle-container' 
             ref={containerRef}
-            style={{opacity:'0',visibility:'hidden'}}
+            style={{height:'300vh'}}
         >
             <Background />
             <div id='contact-form'>

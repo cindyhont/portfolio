@@ -45,7 +45,7 @@ const Content = () => {
 
     return (
         <>
-        <div ref={titleContainerRef} style={{position:'absolute'}} id='title-container'>
+        <div ref={titleContainerRef} id='title-container'>
             <p>
                 <span ref={nameRef}>CINDY HO</span>
             </p>

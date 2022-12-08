@@ -30,7 +30,9 @@ self.onmessage = ({data}) => {
         cellSize = px / size,
         srcArr = Array.from(Array(size).keys(),()=>new Float32Array(Array.from(Array(size).keys(),()=>Math.random())))
 
-    let result = new Uint8Array(px * px * 4)
+    let 
+        frontNoise = new Float32Array(px * px * 4),
+        desertNoise = new Float32Array(px * px * 4)
 
     for (let y=0; y<px; y++){
         const 
@@ -53,14 +55,16 @@ self.onmessage = ({data}) => {
                 dBottomRight = getDotProduct(srcArr[bottom][right],xCoord,yCoord,1,1),
                 dTop = interpolate(dTopLeft,dTopRight,xInterpolate),
                 dBottom = interpolate(dBottomLeft,dBottomRight,xInterpolate),
-                d = interpolate(dTop,dBottom,yInterpolate)
+                d = interpolate(dTop,dBottom,yInterpolate),
+                dd = d * Math.min(1,Math.min(y / cellSize,1))
 
             for (let z=0; z<4; z++){
-                result[i+z] = z===3 ? d * 255 : 255
+                frontNoise[i+z] = d
+                desertNoise[i+z] = dd
             }
         }
     }
-    self.postMessage({result})
+    self.postMessage({frontNoise,desertNoise})
 }
 
 export {}

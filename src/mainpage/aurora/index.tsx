@@ -1,16 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
 import { AboutSceneTab } from "../../common";
 import Background from "./bg";
 import Slides from "./slides";
 import Modals from "./modals";
+import { IndexContext } from "../../context";
 
-const Aurora = ({end}:{end:number;}) => {
+const Aurora = () => {
     gsap.registerPlugin(ScrollTrigger);
     const 
         containerRef = useRef<HTMLDivElement>(),
-        transitionDuration = 100 / end,
+        {works} = useContext(IndexContext),
+        transitionDuration = 1 / (works.length + 4), //100 / end,
         fullOpacityDuration = 1 - transitionDuration * 2,
         closeAboutScene = () => {
             const elem = document.getElementById('aurora-about-scene') as HTMLInputElement
@@ -36,9 +38,8 @@ const Aurora = ({end}:{end:number;}) => {
             animation:tl,
             trigger:containerRef.current,
             start:`top 0%`,
-            end:`top -${end}%`,
+            end:`top -${works.length + 4}00%`,
             scrub:true,
-            pin:true,
             onLeaveBack:()=>{
                 closeAboutScene()
                 document.body.style.cursor = "default"
@@ -48,15 +49,15 @@ const Aurora = ({end}:{end:number;}) => {
                 document.body.style.cursor = "default"
             },
         })
+        
     },[])
 
     return (
         <>
-        <div style={{height:'100vh',width:'100vw'}} />
-        <div id='aurora-container' style={{height:'100vh',width:'100vw'}} ref={containerRef}>
-            <Background {...{start:100,end:end-100}} />
-            <Slides {...{start:100,end:end-100}} />
-            <Modals />
+        <div id='aurora-container' style={{height:`${works.length + 4}00vh`,width:'100vw'}} ref={containerRef}>
+            <Background />
+            <Slides />
+            {/*<Modals />
             <AboutSceneTab codeURL='https://xxxxxxxxxxx.com/' id='aurora-about-scene'>
                 <>
                 <p>
@@ -67,8 +68,9 @@ const Aurora = ({end}:{end:number;}) => {
                     Then the scene is blurred by a postprocessing filter horizontally.
                 </p>
                 </>
-            </AboutSceneTab>
+            </AboutSceneTab>*/}
         </div>
+        <div style={{height:'100vh',width:'100vw'}} />
         </>
     )
 }

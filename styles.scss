@@ -5,6 +5,10 @@ body {
     color:#fff;
 }
 
+html {
+    overscroll-behavior: none;
+}
+
 a {
     color:#fff;
 }
@@ -20,6 +24,7 @@ ul {
 
 #home{
     animation: 1s startAnim;
+    position: absolute;
 }
 
 #fps-counter {
@@ -86,6 +91,7 @@ ul {
 }
 
 label[for='mobile-menu-checkbox']{
+    z-index: 99;
     display:none;
     height:30px;
     width:30px;
@@ -108,6 +114,7 @@ label[for='mobile-menu-checkbox']{
 }
 
 #mobile-menu-container{
+    z-index: 99;
     position:fixed;
     top:0;
     background-color:rgba(0,0,0,0.5);
@@ -273,9 +280,12 @@ label[for='mobile-menu-checkbox']{
 }
 
 #flock-container{
-    position: fixed;
     height: 100vh;
     width: 100vw;
+
+    & > div {
+        position: fixed;
+    }
 }
 
 @keyframes separator-anim {
@@ -464,6 +474,11 @@ label[for='mobile-menu-checkbox']{
     transition: all 0.5s;
 }
 
+.modal-container {
+    position:fixed;
+    top:0px;
+}
+
 .modal-input:checked{
     & + .slide-modal{
         opacity:1;
@@ -541,14 +556,6 @@ label[for='mobile-menu-checkbox']{
     flex-direction: row;
 }
 
-#diamonds-container, #bottle-container{
-    height:100vh;
-    width:100vw;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .skill{
     padding: 10px;
     background-color: #555;
@@ -557,22 +564,51 @@ label[for='mobile-menu-checkbox']{
     border-radius: 5px;
 }
 
-.about-me-lines{
+.about-me-sections,.about-site-sections{
     display:block;
-    transform:translateX(0.3%);
+    opacity: 0;
+    visibility:hidden;
+    transition:all 1s;
+
+    &.title {
+        transform:translateX(-10%);
+        &.left {
+            transform: translateX(10%);
+        }
+    }
+
+    &.content {
+        transform:translateX(10%);
+        &.left {
+            transform: translateX(-10%);
+        }
+    }
+
+    &.neutral{
+        opacity: 1;
+        visibility:visible;
+        transform:translateX(0%);
+    }
+
+    &.left{
+        opacity: 0;
+        visibility:hidden;
+    }
 }
 
 #about-me, #about-site, #contact-form{
     text-align:left;
     z-index:1;
-    padding: 5vh 10vw;
-    background-color:rgba(30,30,30,0.7);
+    background-color:rgba(0,0,0,0);
     font-size:1.1rem;
-    opacity: 0;
-    visibility:hidden;
-    max-height: 80vh;
+    max-width: fit-content;
     overflow-y:scroll;
     scrollbar-width: none;
+    transition: background-color 0.3s;
+
+    &.bg-visible {
+        background-color:rgba(30,30,30,0.7);
+    }
 
     &::-webkit-scrollbar{
         width: 0;
@@ -581,7 +617,6 @@ label[for='mobile-menu-checkbox']{
 
 #about-me, #contact-form {
     margin: 0 20vw;
-    position:absolute;
 }
 
 #about-site {
@@ -589,6 +624,7 @@ label[for='mobile-menu-checkbox']{
 }
 
 #about-me, #about-site{
+    padding: 5vh 10vw;
     a {
         text-decoration: none;
         background-color: #555;
@@ -615,6 +651,18 @@ label[for='mobile-menu-checkbox']{
 }
 
 #contact-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    position: fixed;
+    top:0px;
+    
+    form {
+        padding: 0vh 8vw;
+        background-color:rgba(30,30,30,0.7);
+    }
+
     input, textarea{
         font-family: Helvetica;
     }

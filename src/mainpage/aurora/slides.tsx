@@ -38,12 +38,8 @@ const
     SceneWithRipple = (
         {
             imageIdList,
-            start,
-            end
         }:{
             imageIdList:{img:string;id:string}[];
-            start:number;
-            end:number;
         }
     ) => {
         gsap.registerPlugin(ScrollTrigger)
@@ -278,16 +274,16 @@ const
             const 
                 triggerFade = ScrollTrigger.create({
                     animation:gsap.to(groupRef.current.position,{x:-1.5 * slideSize.x * (imageIdList.length - 1)}),
-                    trigger:document.body,
-                    start:`top -${start}%`,
-                    end:`top -${end}%`,
+                    trigger:'#aurora-container',
+                    start:`top -200%`,
+                    end:`bottom 200%`,
                     scrub:true,
                     onUpdate:onScroll,
                 }),
                 triggerAnimate = ScrollTrigger.create({
-                    trigger:document.body,
-                    start:`top -${start - 100}%`,
-                    end:`top -${end + 100}%`,
+                    trigger:'#aurora-container',
+                    start:`top -100%`,
+                    end:`bottom 100%`,
                     scrub:true,
                     onEnter:isInRange,
                     onEnterBack:isInRange,
@@ -352,12 +348,8 @@ const
     SceneNoRipple = (
         {
             imageIdList,
-            start,
-            end
         }:{
             imageIdList:{img:string;id:string}[];
-            start:number;
-            end:number;
         }
     ) => {
         gsap.registerPlugin(ScrollTrigger)
@@ -375,7 +367,7 @@ const
                 ).multiplyScalar(height / size.height)
             }),
             scrHeight = useThree(state => state.size.height),
-            slideResolution = useThree(state => new THREE.Vector2(Math.min(state.size.width *0.8,400),Math.min(state.size.height * 0.8,400))),
+            // slideResolution = useThree(state => new THREE.Vector2(Math.min(state.size.width *0.8,400),Math.min(state.size.height * 0.8,400))),
             currOffset = useRef(0),
             prevOffset = useRef(0),
             extent = useRef(0),
@@ -422,11 +414,11 @@ const
                     void main(){
                         vec2 uv = vUv * repeat + offset;
 
-                        float r = texture2D( uMap, uv + vExtent).r;
-                        float g = texture2D( uMap, uv).g;
-                        float b = texture2D( uMap, uv - vExtent).b;
+                        // float r = texture2D( uMap, uv + vExtent).r;
+                        // float g = texture2D( uMap, uv).g;
+                        // float b = texture2D( uMap, uv - vExtent).b;
 
-                        gl_FragColor = vec4(r,g,b,1.);
+                        gl_FragColor = texture2D( uMap, uv);//vec4(r,g,b,1.);
                     }
                 `,
                 transparent:true,
@@ -548,16 +540,16 @@ const
             const 
                 triggerFade = ScrollTrigger.create({
                     animation:gsap.to(groupRef.current.position,{x:-1.5 * slideSize.x * (imageIdList.length - 1)}),
-                    trigger:document.body,
-                    start:`top -${start}%`,
-                    end:`top -${end}%`,
+                    trigger:'#aurora-container',
+                    start:`top -200%`,
+                    end:`bottom 200%`,
                     scrub:true,
                     onUpdate:onScroll,
                 }),
                 triggerAnimate = ScrollTrigger.create({
-                    trigger:document.body,
-                    start:`top -${start - 100}%`,
-                    end:`top -${end + 100}%`,
+                    trigger:'#aurora-container',
+                    start:`top -100%`,
+                    end:`bottom 100%`,
                     scrub:true,
                     onEnter:isInRange,
                     onEnterBack:isInRange,
@@ -609,29 +601,21 @@ const
             </group>
         )
     },
-    Slides = (
-        {
-            start,
-            end
-        }:{
-            start:number;
-            end:number;
-        }
-    ) => {
+    Slides = () => {
         gsap.registerPlugin(ScrollTrigger);
         const 
             {works} = useContext(IndexContext),
             imageIdList = works.map(e=>({img:e.img,id:e.slug})),
             canvasRef = useRef(),
-            transitionDuration = 100 / (end - start),
+            transitionDuration = 1 / (works.length + 2),
             fullOpacityDuration = 1 - transitionDuration * 2
 
         useEffect(()=>{
             gsap.timeline({
                 scrollTrigger:{
                     trigger:'#aurora-container',
-                    start:`top -${start}%`,
-                    end:`top -${end}%`,
+                    start:`top -100%`,
+                    end:`bottom 100%`,
                     scrub:true,
                     onLeaveBack:closeAllModals,
                     onLeave:closeAllModals,
@@ -652,12 +636,12 @@ const
         },[])
             
         return (
-            <div ref={canvasRef}>
+            <div ref={canvasRef} style={{position:'fixed',height:'100vh',width:'100vw',top:'0px',left:'0px'}}>
                 <Context.Consumer>{({devicePixelRatio,mobile,isSafari})=>
                     <Canvas dpr={devicePixelRatio} style={{position:'absolute'}} frameloop='demand'>
                         {(mobile || isSafari) 
-                        ? <SceneNoRipple imageIdList={imageIdList} start={start+200} end={end} />
-                        : <SceneWithRipple imageIdList={imageIdList} start={start+200} end={end} />}
+                        ? <SceneNoRipple imageIdList={imageIdList} />
+                        : <SceneWithRipple imageIdList={imageIdList} />}
                     </Canvas>
                 }</Context.Consumer>
             </div>

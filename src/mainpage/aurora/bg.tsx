@@ -108,7 +108,7 @@ class BlurEffect {
 }
 
 const 
-    Blur = ({start,end}:{start:number;end:number;}) => {
+    Blur = () => {
         gsap.registerPlugin(ScrollTrigger)
         const 
             { gl, scene, camera, invalidate } = useThree(),
@@ -118,33 +118,37 @@ const
             windowVisible = useRef(true),
             inRange = useRef(false),
             windowIsHidden = () => {
+                if (!safariRender.current) return
                 windowVisible.current = false
             },
             windowIsVisible = () => {
+                if (!safariRender.current) return
                 windowVisible.current = true;
                 invalidate();
             },
             isInRange = () => {
+                if (!safariRender.current) return
                 inRange.current = true
                 invalidate()
             },
             notInRange = () => {
+                if (!safariRender.current) return
                 inRange.current = false
             },
             modalOn = useRef(false),
             modalStatusOnChange = (e:CustomEvent) => {
+                if (!safariRender.current) return
                 modalOn.current = e.detail
-                if (!e.detail) invalidate()
+                if (!e.detail && safariRender.current) invalidate()
             },
-            safariRender = useRef(true),
-            count = useRef(0)
+            safariRender = useRef(true)
 
         useEffect(()=>{
             const 
                 triggerAnimate = ScrollTrigger.create({
-                    trigger:document.body,
-                    start:`top -${start}%`,
-                    end:`top -${end + 150}%`,
+                    trigger:'#aurora-container',
+                    start:`top 0%`,
+                    end:'bottom 0%',
                     scrub:true,
                     onEnter:isInRange,
                     onEnterBack:isInRange,
@@ -169,11 +173,10 @@ const
 
         return useFrame(() => {
             if (safariRender.current && windowVisible.current && inRange.current && !modalOn.current) renderer.render(scene, camera)
-            if (isSafari && count.current === 2) safariRender.current = false
-            if (windowVisible.current && inRange.current && !modalOn.current) count.current ++
+            if (windowVisible.current && inRange.current && !modalOn.current && isSafari) safariRender.current = false
         }, 1)
     },
-    Scene = ({pn,tSize,start,end}:{pn:Uint8Array;tSize:number;start:number;end:number;}) => {
+    Scene = ({pn,tSize}:{pn:Uint8Array;tSize:number;}) => {
         const 
             {isSafari} = useContext(Context),
             invalidate = useThree(state => state.invalidate),
@@ -268,7 +271,7 @@ const
                         float strength = texture2D(fbmTexture,fract(vec2(vUv.x,vTime + vR1))).x 
                                 * texture2D(fbmTexture,fract(vec2(vTime + vR1,vUv.x))).x
                                 * texture2D(fbmTexture,fract(vec2(1.-vUv.x,vTime + vR2))).x
-                                * min(vUv.y * 20.,exp(-vUv.y * vR5));//* min(pow(vUv.y,0.2),pow(1.-vUv.y,0.3));//pow(1.-vUv.y,4.))
+                                * min(vUv.y * 20.,exp(-vUv.y * vR5));
                         strength -= 0.05;//-= 0.06;
                         strength *= vR4;//5.;
                         strength *= diminish;
@@ -308,32 +311,36 @@ const
             windowVisible = useRef(true),
             inRange = useRef(false),
             windowIsHidden = () => {
+                if (!safariRender.current) return
                 windowVisible.current = false
             },
             windowIsVisible = () => {
+                if (!safariRender.current) return
                 windowVisible.current = true;
                 invalidate();
             },
             isInRange = () => {
+                if (!safariRender.current) return
                 inRange.current = true
                 invalidate()
             },
             notInRange = () => {
+                if (!safariRender.current) return
                 inRange.current = false
             },
             modalOn = useRef(false),
             modalStatusOnChange = (e:CustomEvent) => {
                 modalOn.current = e.detail
-                if (!e.detail) invalidate()
+                if (!e.detail && safariRender.current) invalidate()
             },
             safariRender = useRef(true)
 
         useEffect(()=>{
             const 
                 triggerAnimate = ScrollTrigger.create({
-                    trigger:document.body,
-                    start:`top -${start}%`,
-                    end:`top -${end + 150}%`,
+                    trigger:'#aurora-container',
+                    start:`top 0%`,
+                    end:'bottom 0%',
                     scrub:true,
                     onEnter:isInRange,
                     onEnterBack:isInRange,
@@ -369,22 +376,24 @@ const
             </group>
         )
     },
-    Background = ({start,end}:{start:number;end:number;}) => {
+    Background = () => {
         const 
             pnSpec = useRef({px:512,size:8}).current,
             [pn,setPN] = useState<Uint8Array>(new Uint8Array(4 * pnSpec.px * pnSpec.px))
 
         useEffect(()=>{
-            const worker = new Worker(new URL('./worker.ts',import.meta.url))
+            const worker = new Worker(new URL('../perlin-noise-worker.ts',import.meta.url))
             worker.postMessage(pnSpec)
             worker.addEventListener('message',e=>setPN(e.data.result as Uint8Array))
         },[])
 
         return (
-            <Canvas dpr={1} style={{position:'absolute'}} frameloop='demand'>
-                <Scene {...{pn,tSize:pnSpec.px,start,end}} />
-                <Blur {...{start,end}} />
-            </Canvas>
+            <div style={{position:'fixed',height:'100vh',width:'100vw',bottom:'0px',left:'0px'}}>
+                <Canvas dpr={1} frameloop='demand'>
+                    <Scene {...{pn,tSize:pnSpec.px}} />
+                    <Blur />
+                </Canvas>
+            </div>
         )
     }
 

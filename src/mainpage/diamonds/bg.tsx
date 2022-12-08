@@ -8,7 +8,7 @@ import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
 
 const 
-    Scene = ({end}:{end:number;}) => {
+    Scene = () => {
         gsap.registerPlugin(ScrollTrigger)
         const 
             srcGLTF = useLoader(GLTFLoader,'/gemstone.glb',loader=>{
@@ -177,7 +177,7 @@ const
             const triggerAnimate = ScrollTrigger.create({
                 trigger:'#diamonds-container',
                 start:`top 0%`,
-                end:`top -${end}%`,
+                end:`bottom 0%`,
                 scrub:true,
                 onEnter:isInRange,
                 onEnterBack:isInRange,
@@ -205,15 +205,15 @@ const
             <mesh args={[instancedGeometry,material]} />
         )
     },
-    Background = ({end}:{end:number}) => (
+    Background = () => (
         <Context.Consumer>{({devicePixelRatio})=>
             <Canvas
                 dpr={devicePixelRatio}
                 camera={{fov: 30, near: 0.1, far: 1000, position: [0, 0, 25]}}
                 frameloop='demand'
-                style={{position:'absolute'}}
+                style={{position:'fixed',height:'100vh',width:'100vw',top:'0px'}}
             >
-                <Scene end={end} />
+                <Scene />
             </Canvas>
         }</Context.Consumer>
     )
