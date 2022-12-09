@@ -10,6 +10,7 @@ const
         gsap.registerPlugin(ScrollTrigger)
         const
             {works} = useContext(IndexContext),
+            {mobile} = useContext(Context),
             camera = useThree(state=>state.camera),
             invalidate = useThree(state=>state.invalidate),
             cloudMap = useMemo(()=>new THREE.TextureLoader().load('/fog.jpg'),[]),
@@ -354,6 +355,7 @@ const
                 inRange.current = false
             },
             onMouseMove = (e:MouseEvent) => {
+                if (mobile) return
                 const 
                     {innerHeight,innerWidth} = window,
                     unitPixel = 0.2 / (Math.max(innerHeight,innerWidth) * 0.5),
