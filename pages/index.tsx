@@ -56,10 +56,12 @@ const Index = ({works}:{works:IindexItem[]}) => {
         toSlides = () => {
             const 
                 container = document.getElementById('cinema-container'),
-                {top,height} = container.getClientRects()[0]
+                {top,height} = container.getClientRects()[0],
+                flockContainer = document.getElementById('flock-container')
+            
             if (top < 0 && top > -height) return
             container.scrollIntoView()
-            window.scrollBy({top:window.innerHeight * 1.5,behavior:'smooth'})
+            window.scrollBy({top:flockContainer.offsetHeight * 1.1,behavior:'smooth'})
             mobileCheckbox.current.checked = false
         },
         toDiamonds = () => {
