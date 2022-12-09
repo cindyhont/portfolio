@@ -9,6 +9,13 @@ html {
     overscroll-behavior: none;
 }
 
+// body, html {
+//     height: 100vh;
+// 	width: 100vw;
+//     overscroll-behavior: none;
+// 	overflow: hidden !important;
+// }
+
 a {
     color:#fff;
 }
@@ -29,6 +36,16 @@ ul {
     position: absolute;
     animation-fill-mode: forwards;
     opacity:0;
+
+
+    // position: fixed;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	// height: 100vh;
+	// width: 100vw;
+	-webkit-overscroll-behavior: none;
+	overscroll-behavior: none;
+	-webkit-overflow-scrolling: touch;
 }
 
 #fps-counter {

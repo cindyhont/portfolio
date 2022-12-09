@@ -127,7 +127,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <IndexContext.Provider value={{works}}>
                 <Cinema />
             </IndexContext.Provider>
-            <Diamonds />
+            {/*<Diamonds />*/}
             <Bottle />
             <FpsCounter />
             <div id='desktop-menu'>

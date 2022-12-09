@@ -26,15 +26,15 @@ const Diamonds = () => {
 
             tl.from(containerRef.current,{
                 autoAlpha:0,
-                duration:transitionDuration
+                duration:0.01//transitionDuration
             })
             tl.to(containerRef.current, {
                 autoAlpha: 1,
-                duration:fullOpacityDuration
+                duration:0.98//fullOpacityDuration
             })
             tl.to(containerRef.current,{
                 autoAlpha:0,
-                duration:transitionDuration
+                duration:0.01//transitionDuration
             })
 
             trigger.current = ScrollTrigger.create({
