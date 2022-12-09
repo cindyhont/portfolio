@@ -9,7 +9,6 @@ import { join } from 'path'
 import { GetStaticProps } from 'next'
 import { IindexItem } from "../src/interfaces";
 import { IndexContext } from "../src/context";
-import Aurora from "../src/mainpage/aurora";
 import Diamonds from "../src/mainpage/diamonds";
 import { closeAllModals } from "../src/common";
 import Bottle from "../src/mainpage/bottle";
@@ -60,7 +59,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 {top,height} = container.getClientRects()[0]
             if (top < 0 && top > -height) return
             container.scrollIntoView()
-            window.scrollBy({top:window.innerHeight * 1.1,behavior:'smooth'})
+            window.scrollBy({top:window.innerHeight * 1.5,behavior:'smooth'})
             mobileCheckbox.current.checked = false
         },
         toDiamonds = () => {
