@@ -39,6 +39,7 @@ const Content = () => {
 
     useEffect(()=>{
         getSphereDia()
+        
         window.addEventListener('resize',getSphereDia)
         return () => window.removeEventListener('resize',getSphereDia)
     },[])

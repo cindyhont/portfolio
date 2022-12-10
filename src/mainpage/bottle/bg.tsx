@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import {Context} from '../../context';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+import { canvasIsLoaded } from '../../common';
 
 const 
     moonMaterialMaster = new THREE.RawShaderMaterial({
@@ -441,6 +442,24 @@ const
             },
             notInRange = () => {
                 inRange.current = false
+            },
+            trigger = useRef<ScrollTrigger>(),
+            onRefreshInit = () => {
+                if (!!trigger.current) trigger.current.kill(true)
+
+                trigger.current = ScrollTrigger.create({
+                    trigger:'#bottle-container',
+                    start:`top 0%`,
+                    end:`top -200%`,
+                    scrub:true,
+                    onEnter:isInRange,
+                    onLeaveBack:notInRange,
+                    onRefresh:({progress})=>{
+                        const active = progress > 0
+                        inRange.current = active
+                        if (active) invalidate()
+                    }
+                })
             }
 
         moonMaterial.uniforms.moonTexture.value = moonColorMap;
@@ -471,23 +490,17 @@ const
         seaMaterial.uniforms[ 'textureMatrix' ].value = textureMatrix;
 
         useEffect(()=>{
-            const triggerAnimate = ScrollTrigger.create({
-                trigger:'#bottle-container',
-                start:`top 0%`,
-                end:`top -200%`,
-                scrub:true,
-                onEnter:isInRange,
-                onLeaveBack:notInRange,
-            })
+            onRefreshInit()
             window.addEventListener('resize',windowIsVisible)
             window.addEventListener('focus',windowIsVisible)
             window.addEventListener('blur',windowIsHidden)
+            ScrollTrigger.addEventListener('refreshInit',onRefreshInit)
 
             return () => {
-                triggerAnimate.kill()
                 window.removeEventListener('resize',windowIsVisible)
                 window.removeEventListener('focus',windowIsVisible)
                 window.removeEventListener('blur',windowIsHidden)
+                ScrollTrigger.removeEventListener('refreshInit',onRefreshInit)
             }
         },[])
         
@@ -649,6 +662,7 @@ const
                 frameloop='demand' 
                 gl={{antialias:true}}
                 style={{position:'fixed',height:'100vh',width:'100vw',top:'0px'}}
+                onCreated={canvasIsLoaded}
             >
                 <Scene />
             </Canvas>

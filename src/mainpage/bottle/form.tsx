@@ -43,7 +43,7 @@ const Form = () => {
                 message:messageRef.current.value,
                 accessKey:process.env.STATIC_FORMS,
                 replyTo:'@',
-                subject:'Contact us from - xxxxxxxx.com'
+                subject:'Contact us from - cindyhodev.com'
             }
 
             try {

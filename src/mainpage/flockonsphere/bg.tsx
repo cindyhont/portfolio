@@ -5,6 +5,7 @@ import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRe
 import {Context} from '../../context';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+import { canvasIsLoaded } from '../../common';
 
 const 
     pos = new THREE.Vector3(),
@@ -286,6 +287,7 @@ const
                 gl={{antialias:true}}
                 frameloop='demand'
                 style={{position:'fixed',top:'0px',left:'0px',bottom:'0px',right:'0px'}}
+                onCreated={canvasIsLoaded}
             >
                 <Scene />
             </Canvas>

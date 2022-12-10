@@ -78,9 +78,11 @@ const
                 </div>
             )
         }</Context.Consumer>
-    )
+    ),
+    canvasIsLoaded = () => document.getElementById('home').dispatchEvent(new CustomEvent('canvasLoaded',{detail:true}))
 
 export {
     closeAllModals,
     AboutSceneTab,
+    canvasIsLoaded,
 }

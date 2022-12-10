@@ -11,37 +11,44 @@ const Cinema = () => {
         {works} = useContext(IndexContext),
         containerRef = useRef<HTMLDivElement>(),
         transitionDuration = 1 / (works.length + 2),
-        fullOpacityDuration = 1 - transitionDuration * 2
+        fullOpacityDuration = 1 - transitionDuration * 2,
+        st = useRef<ScrollTrigger>(),
+        onResize = () => {
+            if (!!st.current) st.current.kill(true) 
+
+            const tl = gsap.timeline();
+            tl.from(containerRef.current,{
+                autoAlpha:0,
+                duration:transitionDuration
+            })
+            tl.to(containerRef.current, {
+                autoAlpha: 1,
+                duration:fullOpacityDuration
+            })
+            tl.to(containerRef.current,{
+                autoAlpha:0,
+                duration:transitionDuration
+            })
+
+            st.current = ScrollTrigger.create({
+                animation:tl,
+                trigger:containerRef.current,
+                start:`top 0%`,
+                end:`bottom 0%`,
+                scrub:true,
+                onLeaveBack:()=>{
+                    document.body.style.cursor = null
+                },
+                onLeave:()=>{
+                    document.body.style.cursor = null
+                },
+            })
+        }
 
     useEffect(()=>{
-        const tl = gsap.timeline();
-        tl.from(containerRef.current,{
-            autoAlpha:0,
-            duration:transitionDuration
-        })
-        tl.to(containerRef.current, {
-            autoAlpha: 1,
-            duration:fullOpacityDuration
-        })
-        tl.to(containerRef.current,{
-            autoAlpha:0,
-            duration:transitionDuration
-        })
-        
-        ScrollTrigger.create({
-            animation:tl,
-            trigger:containerRef.current,
-            start:`top 0%`,
-            end:`bottom 0%`,
-            scrub:true,
-            onLeaveBack:()=>{
-                document.body.style.cursor = null
-            },
-            onLeave:()=>{
-                document.body.style.cursor = null
-            },
-        })
-        
+        onResize()
+        ScrollTrigger.addEventListener('refreshInit',onResize)
+        return () => ScrollTrigger.removeEventListener('refreshInit',onResize)
     },[])
 
     return (

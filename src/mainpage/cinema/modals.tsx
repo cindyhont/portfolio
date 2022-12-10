@@ -88,8 +88,8 @@ const
                         </div>}
                         {!youtube && !slideImg && !!img && <div className='slide-cropped-image' style={{backgroundImage:`url(/${img})`}}/>}
                         <div className='modal-link-container'>
-                            <a href={live || `/work/${slug}/`} className='modal-link' target='_blank' rel="noreferrer">LIVE</a>
-                            {!!code && <a href={code} className='modal-link'>CODE</a>}
+                            {slug!=='portfolio' && <a href={live || `/work/${slug}/`} className='modal-link' target='_blank' rel="noreferrer">LIVE</a>}
+                            {!!code && <a href={code} className='modal-link' target='_blank' rel="noreferrer">CODE</a>}
                             {!!frontend && <a href={frontend} className='modal-link'>FRONT END</a>}
                             {!!backend && <a href={backend} className='modal-link'>BACK END</a>}
                         </div>

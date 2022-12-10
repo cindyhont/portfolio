@@ -4,6 +4,7 @@ import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber'
 import { Context, IndexContext } from "../../context";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+import { canvasIsLoaded } from "../../common";
 
 const 
     Scene = ({frontNoise,desertNoise,tSize}:{frontNoise:Uint8Array;desertNoise:Uint8Array;tSize:number;}) => {
@@ -368,11 +369,11 @@ const
             onClick = () => {
                 if (transitioning.current || slideRef.current < 0 || slideRef.current >= works.length) return
                 document.getElementById(works[slideRef.current].slug)?.click()
-            }
-
-        useEffect(()=>{
-            const 
-                trigger = ScrollTrigger.create({
+            },
+            trigger = useRef<ScrollTrigger>(),
+            onResize = () => {
+                if (!!trigger.current) trigger.current.kill(true)
+                trigger.current = ScrollTrigger.create({
                     trigger:'#cinema-container',
                     start:`top 0%`,
                     end:'bottom 0%',
@@ -381,15 +382,24 @@ const
                     onEnterBack:isInRange,
                     onLeave:notInRange,
                     onLeaveBack:notInRange,
+                    onRefresh:({isActive})=>{
+                        inRange.current = isActive
+                        if (isActive) invalidate()
+                    },
                     onUpdate:({progress})=>{
                         slideRef.current = Math.floor(progress * (works.length + 2)) - 1
                         slideProgressRef.current = progress * (works.length + 2) % 1
                     }
                 })
+            }
+
+        useEffect(()=>{
+            onResize()
             window.addEventListener('mousemove',onMouseMove)
+            ScrollTrigger.addEventListener('refreshInit',onResize)
             return () => {
-                trigger.kill()
                 window.removeEventListener('mousemove',onMouseMove)
+                ScrollTrigger.removeEventListener('refreshInit',onResize)
             }
         },[])
 
@@ -459,7 +469,7 @@ const
         return (
             <div style={{position:'fixed',height:'100vh',width:'100vw',bottom:'0px',left:'0px'}}>
                 <Context.Consumer>{({devicePixelRatio})=>
-                    <Canvas camera={{far:10000}} dpr={devicePixelRatio} frameloop='demand' gl={{antialias:true}}>
+                    <Canvas camera={{far:10000}} dpr={devicePixelRatio} frameloop='demand' gl={{antialias:true}} onCreated={canvasIsLoaded}>
                         <Scene {...{frontNoise,desertNoise,tSize:pnSpec.px}} />
                     </Canvas>
                 }</Context.Consumer>
