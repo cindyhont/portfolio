@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /500
+Disallow: /404

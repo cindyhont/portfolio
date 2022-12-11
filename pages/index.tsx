@@ -158,6 +158,23 @@ const Index = ({works}:{works:IindexItem[]}) => {
         <>
         <Head>
             <title>Cindy Ho - Full Stack Developer</title>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{__html:`{
+                "@context": "https://schema.org",
+                "@type" : "WebSite",
+                "name": "Cindy Ho - Full Stack Developer",
+                "url": "https://cindyhodev.com",
+                "image":"portfolio.jpg",
+                "creator":{
+                    "@type": "Person",
+                    "name": "Cindy Ho"
+                }
+            }`}}></script>
+            <link rel="canonical" href="https://cindyhodev.com" />
+            <meta charSet="utf-8"/>
+            <meta name="robots" content="index,follow" />
+            <meta httpEquiv="cache-control" content="private" />
+            <meta httpEquiv="expires" content="43200"/>
+            <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
         </Head>
         <svg height='100' width='100' viewBox="0 0 150 150" style={{position:'fixed',top:'calc(50vh - 50px)',left:'calc(50vw - 50px)'}}>
             <filter id='shadow' colorInterpolationFilters="sRGB">
@@ -173,10 +190,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 style={{filter:'url(#shadow)'}} 
             />
         </svg>
-        <div id='home' 
-            ref={containerRef} 
-            // className="loaded"
-        >
+        <div id='home' ref={containerRef}>
             <FlockOnSphere />
             <IndexContext.Provider value={{works}}>
                 <Cinema />
