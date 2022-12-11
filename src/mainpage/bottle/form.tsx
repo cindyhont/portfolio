@@ -41,7 +41,7 @@ const Form = () => {
                 name:nameRef.current.value,
                 email:emailRef.current.value,
                 message:messageRef.current.value,
-                accessKey:process.env.STATIC_FORMS,
+                accessKey:'be609245-f050-4f5a-bec4-7aaf43e4216b',
                 replyTo:'@',
                 subject:'Contact us from - cindyhodev.com'
             }
@@ -55,6 +55,8 @@ const Form = () => {
                     }),
                     json = await res.json()
 
+                console.log('j:',json)
+
                 if (json.success) {
                     restore();
                     clearForm();
@@ -64,6 +66,7 @@ const Form = () => {
                     setAdminMsg('There was an error. Please try again later.')
                 }
             } catch (error) {
+                console.log('e:',error)
                 restore();
                 setAdminMsg('There was an error. Please try again later.')
             }
