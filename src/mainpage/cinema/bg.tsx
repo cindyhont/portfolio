@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from 'three';
-import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Context, IndexContext } from "../../context";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
@@ -350,7 +350,7 @@ const
             transitioning = useRef(false),
             isInRange = () => {
                 inRange.current = true
-                invalidate()
+                if (!modalOn.current && windowVisible.current && inRange.current) invalidate()
             },
             notInRange = () => {
                 inRange.current = false
@@ -391,15 +391,39 @@ const
                         slideProgressRef.current = progress * (works.length + 2) % 1
                     }
                 })
+            },
+            windowVisible = useRef(true),
+            windowIsHidden = () => {
+                windowVisible.current = false
+            },
+            windowIsVisible = () => {
+                windowVisible.current = true;
+                if (!modalOn.current && windowVisible.current && inRange.current) invalidate()
+            },
+            modalOn = useRef(false),
+            modalStatusOnChange = (e:any) => {
+                modalOn.current = e.detail as boolean
+                if (!modalOn.current && windowVisible.current && inRange.current) invalidate()
             }
 
         useEffect(()=>{
+            const container = document.getElementById('cinema-container')
+
             onResize()
             window.addEventListener('mousemove',onMouseMove)
+            window.addEventListener('resize',windowIsVisible)
+            window.addEventListener('focus',windowIsVisible)
+            window.addEventListener('blur',windowIsHidden)
             ScrollTrigger.addEventListener('refreshInit',onResize)
+            container.addEventListener('modal',modalStatusOnChange)
+
             return () => {
                 window.removeEventListener('mousemove',onMouseMove)
+                window.removeEventListener('resize',windowIsVisible)
+                window.removeEventListener('focus',windowIsVisible)
+                window.removeEventListener('blur',windowIsHidden)
                 ScrollTrigger.removeEventListener('refreshInit',onResize)
+                container.addEventListener('modal',modalStatusOnChange)
             }
         },[])
 
@@ -408,7 +432,8 @@ const
         },[slideSize])
 
         useFrame(({camera:{position},invalidate},delta)=>{
-            if (inRange.current) invalidate()
+            console.count('a')
+            if (windowVisible.current && inRange.current && !modalOn.current) invalidate()
 
             const noShow = slideRef.current < 0 && slideProgressRef.current < 1 - gap * 0.5 || slideRef.current > works.length || slideRef.current === works.length && slideProgressRef.current > gap * 0.5
             screenMaterial.uniforms.noShow.value = noShow

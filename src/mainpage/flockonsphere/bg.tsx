@@ -229,7 +229,26 @@ const
                 inRange.current = true
                 invalidate()
             },
-            notInRange = () => inRange.current = false
+            notInRange = () => inRange.current = false,
+            trigger = useRef<ScrollTrigger>(),
+            onRefreshInit = () => {
+                if (!!trigger.current) trigger.current.kill(true)
+
+                trigger.current = ScrollTrigger.create({
+                    trigger:document.body,
+                    start:'top 0%',
+                    end:'top -100%',
+                    scrub:true,
+                    onRefresh:({progress})=>{
+                        const active = progress < 1
+                        if (active) isInRange()
+                        else notInRange()
+                    },
+                    onEnter:isInRange,
+                    onEnterBack:isInRange,
+                    onLeave:notInRange,
+                })
+            }
 
         gpuCompute.setVariableDependencies( positionVariable, [ positionVariable, velocityVariable ] );
         gpuCompute.setVariableDependencies( velocityVariable, [ positionVariable, velocityVariable ] );
@@ -254,25 +273,17 @@ const
         })
 
         useEffect(()=>{
-            const trigger = ScrollTrigger.create({
-                trigger:document.body,
-                start:'top 0%',
-                end:'top -100%',
-                scrub:true,
-                onEnter:isInRange,
-                onEnterBack:isInRange,
-                onLeave:notInRange,
-            })
-
+            onRefreshInit()
             window.addEventListener('resize',windowIsVisible)
             window.addEventListener('focus',windowIsVisible)
             window.addEventListener('blur',windowIsHidden)
+            ScrollTrigger.addEventListener('refreshInit',onRefreshInit)
 
             return () => {
-                trigger.kill()
                 window.removeEventListener('resize',windowIsVisible)
                 window.removeEventListener('focus',windowIsVisible)
                 window.removeEventListener('blur',windowIsHidden)
+                ScrollTrigger.removeEventListener('refreshInit',onRefreshInit)
             }
         },[])
 

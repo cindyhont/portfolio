@@ -64,7 +64,7 @@ const
 
             document.getElementById('desktop-menu').style.display = checked ? 'none' : null
 
-            // document.getElementById('cinema-container').dispatchEvent(new CustomEvent('modal',{detail:checked}))
+            document.getElementById('cinema-container').dispatchEvent(new CustomEvent('modal',{detail:checked}))
         }
 
         return (
