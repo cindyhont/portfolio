@@ -159,11 +159,11 @@ const Index = ({works}:{works:IindexItem[]}) => {
         <Head>
             <title>Cindy Ho - Full Stack Developer</title>
             <script type="application/ld+json" dangerouslySetInnerHTML={{__html:`{
-                "@context": "https://schema.org/",
+                "@context": "https://schema.org",
                 "@type" : "WebSite",
                 "name": "Cindy Ho - Full Stack Developer",
                 "description": "I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site.",
-                "url": "https://cindyhodev.com",
+                "url": "https://cindyhodev.com/",
                 "image":"portfolio.jpg",
                 "creator":{
                     "@type": "Person",
