@@ -16,5 +16,4 @@ const withMDX = require('@next/mdx')({
     images: {
       unoptimized: true,
     },
-    // trailingSlash:true,
   })
