@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document'
 
 const Document = () => {
     return (
-        <Html style={{backgroundColor:'#000'}}>
+        <Html style={{backgroundColor:'#000'}} lang="en">
             <Head>
                 <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png" />
