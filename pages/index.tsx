@@ -47,6 +47,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
         mobileCheckbox = useRef<HTMLInputElement>(),
         containerRef = useRef<HTMLDivElement>(),
         pathRef = useRef<SVGPathElement>(),
+        loaderRef = useRef<HTMLDivElement>(),
         toTop = () => {
             if (window.scrollY < window.innerHeight) return
             closeAllModals()
@@ -113,7 +114,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
 
                 if (backAngle > 0) window.requestAnimationFrame(loadBack)
                 else {
-                    pathRef.current.style.display = 'none'
+                    loaderRef.current.style.display = 'none'
                     containerRef.current.classList.add('loaded')
                 }
             } else {
@@ -177,20 +178,6 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <meta httpEquiv="expires" content="43200"/>
             <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
         </Head>
-        <svg height='100' width='100' viewBox="0 0 150 150" style={{position:'fixed',top:'calc(50vh - 50px)',left:'calc(50vw - 50px)'}}>
-            <filter id='shadow' colorInterpolationFilters="sRGB">
-                <feDropShadow dx="0" dy="0" stdDeviation="3" floodOpacity="1" floodColor='white' />
-                <feDropShadow dx="0" dy="0" stdDeviation="1" floodOpacity="1" floodColor='white' />
-            </filter>
-            <path 
-                ref={pathRef} 
-                stroke='#ffffff' 
-                fill='none' 
-                strokeWidth={3} 
-                strokeLinecap='round' 
-                style={{filter:'url(#shadow)'}} 
-            />
-        </svg>
         <div id='home' ref={containerRef}>
             <FlockOnSphere />
             <IndexContext.Provider value={{works}}>
@@ -220,6 +207,22 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <label htmlFor="mobile-menu-checkbox">
                 {Array.from(Array(3).keys(),(i)=>(<div key={i} />))}
             </label>
+        </div>
+        <div id='loader' ref={loaderRef}>
+            <svg height='100' width='100' viewBox="0 0 150 150" style={{position:'fixed',top:'calc(50vh - 50px)',left:'calc(50vw - 50px)'}}>
+                <filter id='shadow' colorInterpolationFilters="sRGB">
+                    <feDropShadow dx="0" dy="0" stdDeviation="3" floodOpacity="1" floodColor='white' />
+                    <feDropShadow dx="0" dy="0" stdDeviation="1" floodOpacity="1" floodColor='white' />
+                </filter>
+                <path 
+                    ref={pathRef} 
+                    stroke='#ffffff' 
+                    fill='none' 
+                    strokeWidth={3} 
+                    strokeLinecap='round' 
+                    style={{filter:'url(#shadow)'}} 
+                />
+            </svg>
         </div>
         </>
     )
