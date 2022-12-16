@@ -10,7 +10,7 @@ const
         'Sass',
         'Three.js',
         'PostgreSQL',
-        'Python',
+        'Golang',
         'Git',
     ],
     About = () => {
