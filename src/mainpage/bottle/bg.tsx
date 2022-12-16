@@ -85,11 +85,11 @@ const
         gsap.registerPlugin(ScrollTrigger)
         const 
             moonColorMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/fullmoon.jpg'),[]),
-            waterNormalTexture = useMemo(()=>new THREE.TextureLoader().load('cdnPrefix() + /waternormals.jpg'),[]),
+            waterNormalTexture = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/waternormals.jpg'),[]),
             paperMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/paper.png'),[]),
             corkMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/cork_color.jpg'),[]),
             waterDuDv = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/waterdudv.jpg'),[]),
-            bottleModel = useLoader(GLTFLoader,cdnPrefix() + 'bottle.glb',loader=>{
+            bottleModel = useLoader(GLTFLoader,cdnPrefix() + '/bottle.glb',loader=>{
                 const dracoLoader = new DRACOLoader();
                 dracoLoader.setDecoderPath(cdnPrefix() + '/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
