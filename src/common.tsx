@@ -44,7 +44,7 @@ const
         <div className='about-scene-content'>
             {children}
             <a href={codeURL} target="_blank" rel="noreferrer">
-                <img src='/github.svg' alt='Code URL' />
+                <img src={cdnPrefix() + '/github.svg'} alt='Code URL' />
             </a>
         </div>
     ),
