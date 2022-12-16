@@ -1,7 +1,7 @@
 const
-    smoothStep = (t:number) => t*t*t*(t*(t*6-15)+10),
-    interpolate = (e0:number,e1:number,x:number) => (e1 - e0) * x + e0,
-    getDotProduct = (angleCornerNoPi:number,xCoord:number,yCoord:number,cornerX:0|1,cornerY:0|1) => {
+    smoothStep = t => t*t*t*(t*(t*6-15)+10),
+    interpolate = (e0,e1,x) => (e1 - e0) * x + e0,
+    getDotProduct = (angleCornerNoPi,xCoord,yCoord,cornerX,cornerY) => {
         let angleSelf = 0;
 
         if (cornerX === 0){
@@ -26,7 +26,7 @@ const
 
 self.onmessage = ({data}) => {
     const 
-        {px,size} = data as {px:number;size:number},
+        {px,size} = data,
         cellSize = px / size,
         srcArr = Array.from(Array(size).keys(),()=>new Float32Array(Array.from(Array(size).keys(),()=>Math.random())))
 
@@ -67,4 +67,4 @@ self.onmessage = ({data}) => {
     self.postMessage({frontNoise,desertNoise})
 }
 
-export {}
+// export {}
