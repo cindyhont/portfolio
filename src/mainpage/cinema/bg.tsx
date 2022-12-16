@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Context, IndexContext } from "../../context";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
-import { canvasIsLoaded, cdnPrefix } from "../../common";
+import { canvasIsLoaded } from "../../common";
 
 const 
     Scene = ({frontNoise,desertNoise,tSize}:{frontNoise:Uint8Array;desertNoise:Uint8Array;tSize:number;}) => {
@@ -74,7 +74,7 @@ const
                             resolve({texture,repeat,offset})
                         })
                     })
-                textureSpecs.current = await Promise.all(works.map(e=>getSpec(`${cdnPrefix()}/${e.img}`)))
+                textureSpecs.current = await Promise.all(works.map(e=>getSpec(`/${e.img}`)))
             },
             screenGeometry = new THREE.PlaneGeometry(slideSize.x,slideSize.y),
             screenMaterial = new THREE.RawShaderMaterial({
