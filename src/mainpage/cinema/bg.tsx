@@ -483,7 +483,9 @@ const
             [desertNoise,setDesertNoise] = useState<Uint8Array>(new Uint8Array(4 * pnSpec.px * pnSpec.px))
 
         useEffect(()=>{
-            const worker = new Worker(new URL('https://cindyhodev.com/perlin-noise-worker.js',import.meta.url))
+            const 
+            blob = new Blob([document.querySelector('#perlin-noise-worker').textContent], { type: "text/javascript" }),
+            worker = new Worker(window.URL.createObjectURL(blob))
             worker.postMessage(pnSpec)
             worker.addEventListener('message',e=>{
                 setFrontNoise(e.data.frontNoise as Uint8Array)
