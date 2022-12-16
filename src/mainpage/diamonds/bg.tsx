@@ -6,7 +6,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {Context} from "../../context";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
-import { canvasIsLoaded } from "../../common";
+import { canvasIsLoaded, cdnPrefix } from "../../common";
 
 const 
     v2 = new THREE.Vector2(),
@@ -14,9 +14,9 @@ const
     Scene = () => {
         gsap.registerPlugin(ScrollTrigger)
         const 
-            srcGLTF = useLoader(GLTFLoader,'/gemstone.glb',loader=>{
+            srcGLTF = useLoader(GLTFLoader,cdnPrefix() + '/gemstone.glb',loader=>{
                 const dracoLoader = new DRACOLoader();
-                dracoLoader.setDecoderPath('/draco/gltf/');
+                dracoLoader.setDecoderPath(cdnPrefix() + '/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
             {diaGeom,stoneMaxY} = useMemo(()=>{

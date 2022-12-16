@@ -172,7 +172,7 @@ const
             }),
             gl = useThree(state => state.gl),
             invalidate = useThree(state => state.invalidate),
-            geometry = useMemo(()=>new THREE.PlaneGeometry(1,1,particleCount, 1),[]),
+            geometry = useMemo(()=>new THREE.PlaneGeometry(1,1,particleCount, 1),[particleCount]),
             windowVisible = useRef(true),
             windowIsHidden = () => {
                 windowVisible.current = false

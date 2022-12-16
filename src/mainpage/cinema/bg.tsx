@@ -14,7 +14,7 @@ const
             {mobile} = useContext(Context),
             camera = useThree(state=>state.camera),
             invalidate = useThree(state=>state.invalidate),
-            cloudMap = useMemo(()=>new THREE.TextureLoader().load('/fog.jpg'),[]),
+            cloudMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/fog.jpg'),[]),
             starCount = useRef(1200).current,
             randomNoise = useMemo(()=>{
                 const 

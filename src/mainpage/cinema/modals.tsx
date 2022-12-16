@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react'
+import { cdnPrefix } from '../../common';
 import { IndexContext } from '../../context'
 
 const 
@@ -86,7 +87,7 @@ const
                         {!youtube && !!slideImg && <div className='modal-slider-container'>
                             {slideImg.map((fileName,j)=>(<ModalImgSlider {...{id:slug,j,fileName,slideImg}} key={j} />))}
                         </div>}
-                        {!youtube && !slideImg && !!img && <div className='slide-cropped-image' style={{backgroundImage:`url(/${img})`}}/>}
+                        {!youtube && !slideImg && !!img && <div className='slide-cropped-image' style={{backgroundImage:`url(${cdnPrefix()}/${img})`}}/>}
                         <div className='modal-link-container'>
                             {slug!=='portfolio' && <a href={live || `/work/${slug}/`} className='modal-link' target='_blank' rel="noreferrer">LIVE</a>}
                             {!!code && <a href={code} className='modal-link' target='_blank' rel="noreferrer">CODE</a>}
@@ -119,7 +120,7 @@ const
     ) => (
         <>
         <input type='radio' id={`${id}-${j}`} name={id} defaultChecked={j===0} className="modal-slider-input" hidden />
-        <div className='modal-slider-img' style={{backgroundImage:`url(/${fileName})`}}>
+        <div className='modal-slider-img' style={{backgroundImage:`url(${cdnPrefix()}/${fileName})`}}>
             <label htmlFor={`${id}-${j > 0 ? j - 1 : slideImg.length - 1}`} className='modal-slider-arrow'>
                 <svg height='30' width='50'>
                     <polyline points='29,3 20,15 29,27' />

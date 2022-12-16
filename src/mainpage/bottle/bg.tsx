@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import {Context} from '../../context';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
-import { canvasIsLoaded } from '../../common';
+import { canvasIsLoaded, cdnPrefix } from '../../common';
 
 const 
     moonMaterialMaster = new THREE.RawShaderMaterial({
@@ -84,14 +84,14 @@ const
     Scene = () => {
         gsap.registerPlugin(ScrollTrigger)
         const 
-            moonColorMap = useMemo(()=>new THREE.TextureLoader().load('/fullmoon.jpg'),[]),
-            waterNormalTexture = useMemo(()=>new THREE.TextureLoader().load('/waternormals.jpg'),[]),
-            paperMap = useMemo(()=>new THREE.TextureLoader().load('/paper.png'),[]),
-            corkMap = useMemo(()=>new THREE.TextureLoader().load('/cork_color.jpg'),[]),
-            waterDuDv = useMemo(()=>new THREE.TextureLoader().load('/waterdudv.jpg'),[]),
-            bottleModel = useLoader(GLTFLoader,'bottle.glb',loader=>{
+            moonColorMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/fullmoon.jpg'),[]),
+            waterNormalTexture = useMemo(()=>new THREE.TextureLoader().load('cdnPrefix() + /waternormals.jpg'),[]),
+            paperMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/paper.png'),[]),
+            corkMap = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/cork_color.jpg'),[]),
+            waterDuDv = useMemo(()=>new THREE.TextureLoader().load(cdnPrefix() + '/waterdudv.jpg'),[]),
+            bottleModel = useLoader(GLTFLoader,cdnPrefix() + 'bottle.glb',loader=>{
                 const dracoLoader = new DRACOLoader();
-                dracoLoader.setDecoderPath('/draco/gltf/');
+                dracoLoader.setDecoderPath(cdnPrefix() + '/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
             bottleMeshes = useMemo(()=>bottleModel.scene.children as THREE.Mesh[],[]),
