@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Context, IndexContext } from "../../context";
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
-import { canvasIsLoaded, cdnPrefix } from "../../common";
+import { canvasIsLoaded } from "../../common";
 
 const 
     Scene = ({frontNoise,desertNoise,tSize}:{frontNoise:Uint8Array;desertNoise:Uint8Array;tSize:number;}) => {
@@ -483,7 +483,7 @@ const
             [desertNoise,setDesertNoise] = useState<Uint8Array>(new Uint8Array(4 * pnSpec.px * pnSpec.px))
 
         useEffect(()=>{
-            const worker = new Worker(new URL(cdnPrefix() + '/perlin-noise-worker.js',import.meta.url))
+            const worker = new Worker(new URL('/perlin-noise-worker.js',import.meta.url))
             worker.postMessage(pnSpec)
             worker.addEventListener('message',e=>{
                 setFrontNoise(e.data.frontNoise as Uint8Array)
