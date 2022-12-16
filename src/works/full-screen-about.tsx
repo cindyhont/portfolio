@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef } from "react";
 import Image from "next/image";
+import { cdnPrefix } from "../common";
 
 const FullScreenAbout = ({children}:{children:JSX.Element}) => {
     const 
@@ -31,7 +32,7 @@ const FullScreenAbout = ({children}:{children:JSX.Element}) => {
     return (
         <>
         <label htmlFor={checkboxID} id={`${checkboxID}-icon`}>
-            <Image src='/circle-question-regular.svg' width={30} height={30} alt='About' />
+            <Image src={cdnPrefix() + '/circle-question-regular.svg'} width={30} height={30} alt='About' />
         </label>
         <input type='checkbox' id={checkboxID} hidden ref={checkbox} onChange={onChange} />
         <div id='full-screen-about-container'>
