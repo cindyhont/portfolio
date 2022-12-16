@@ -79,10 +79,12 @@ const
             )
         }</Context.Consumer>
     ),
-    canvasIsLoaded = () => document.getElementById('home').dispatchEvent(new CustomEvent('canvasLoaded',{detail:true}))
+    canvasIsLoaded = () => document.getElementById('home').dispatchEvent(new CustomEvent('canvasLoaded',{detail:true})),
+    cdnPrefix = () => `${process.env.NEXT_PUBLIC_NODE_ENV === 'production' && 'https://cdn.cindyhodev.com'}`
 
 export {
     closeAllModals,
     AboutSceneTab,
     canvasIsLoaded,
+    cdnPrefix
 }

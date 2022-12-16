@@ -5,6 +5,7 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
+import { cdnPrefix } from '../../common';
 
 class SkinnedMeshSurfaceSampler{
     randomFunction:()=>number;
@@ -196,9 +197,9 @@ const
                 transparent:true,
                 depthTest:false
             }),
-            model = useLoader(GLTFLoader,'/bird.glb',loader=>{
+            model = useLoader(GLTFLoader,cdnPrefix() + '/bird.glb',loader=>{
                 const dracoLoader = new DRACOLoader();
-                dracoLoader.setDecoderPath('/draco/gltf/');
+                dracoLoader.setDecoderPath(cdnPrefix() + '/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
             group = model.scene.children[0] as THREE.Group,

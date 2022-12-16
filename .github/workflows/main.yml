@@ -58,4 +58,7 @@ jobs:
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm install
-    - run: export NODE_OPTIONS="--max_old_space_size=4096" && export NODE_ENV="production" && npm run build
+    - run: |
+      export NODE_OPTIONS="--max_old_space_size=4096"
+      export NEXT_PUBLIC_NODE_ENV="production"
+      npm run build
