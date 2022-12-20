@@ -41,6 +41,7 @@ const Cinema = () => {
                     if (!isActive) {
                         closeAllModals()
                         document.body.style.cursor = null
+                        document.body.style.overflowY = null
                     }
                 },
                 onLeaveBack:()=>{

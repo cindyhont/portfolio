@@ -406,7 +406,7 @@ const
                 if (!modalOn.current && windowVisible.current && inRange.current) invalidate()
             },
             onPointerMove = () => {
-                if (!mobile && windowVisible.current && inRange.current && !modalOn.current) document.body.style.cursor = 'pointer'
+                if (!mobile && windowVisible.current && inRange.current && !modalOn.current && !(transitioning.current || slideRef.current < 0 || slideRef.current >= works.length)) document.body.style.cursor = 'pointer'
                 else document.body.style.cursor = null
             },
             onPointerLeave = () => document.body.style.cursor = null
