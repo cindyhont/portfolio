@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
@@ -299,7 +299,7 @@ const
         )
     },
     ParticleAnimation = () => (
-        <div style={{height:'100%',width:'100%'}}>
+        <div style={{height:'calc(100 * var(--vh))',width:'100vw'}}>
             <Canvas dpr={0.5}>
                 <Scene />
                 <EffectComposer>

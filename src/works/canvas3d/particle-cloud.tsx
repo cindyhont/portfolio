@@ -510,7 +510,7 @@ const
         },[])
 
         return (
-            <div style={{height:'100%',width:'100%'}}>
+            <div style={{height:'calc(100 * var(--vh))',width:'100vw'}}>
                 <Canvas dpr={2} frameloop='demand'>
                     <Scene />
                 </Canvas>
