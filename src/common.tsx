@@ -22,6 +22,8 @@ const
 
         document.getElementById('desktop-menu').style.display = null
 
+        document.body.style.cursor = null
+
         document.getElementById('cinema-container').dispatchEvent(new CustomEvent('modal',{detail:false}))
     },
     AboutSceneTabSVG = () => (

@@ -404,7 +404,12 @@ const
             modalStatusOnChange = (e:any) => {
                 modalOn.current = e.detail as boolean
                 if (!modalOn.current && windowVisible.current && inRange.current) invalidate()
-            }
+            },
+            onPointerMove = () => {
+                if (!mobile && windowVisible.current && inRange.current && !modalOn.current) document.body.style.cursor = 'pointer'
+                else document.body.style.cursor = null
+            },
+            onPointerLeave = () => document.body.style.cursor = null
 
         useEffect(()=>{
             const container = document.getElementById('cinema-container')
@@ -468,6 +473,8 @@ const
             <mesh 
                 args={[screenGeometry,screenMaterial]} 
                 onClick={onClick}
+                onPointerMove={onPointerMove}
+                onPointerLeave={onPointerLeave}
             />
             <mesh args={[frontDesertGeometry,frontDesertMaterial]} />
             <mesh args={[backDesertGeometry,backDesertMaterial]} />

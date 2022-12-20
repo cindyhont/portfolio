@@ -4,6 +4,7 @@ import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
 import { IndexContext } from "../../context";
 import Background from "./bg";
 import Modals from "./modals";
+import { closeAllModals } from "../../common";
 
 const Cinema = () => {
     gsap.registerPlugin(ScrollTrigger);
@@ -36,6 +37,7 @@ const Cinema = () => {
                 start:`top 0%`,
                 end:`bottom 0%`,
                 scrub:true,
+                onRefresh:()=>closeAllModals(),
                 onLeaveBack:()=>{
                     document.body.style.cursor = null
                 },
