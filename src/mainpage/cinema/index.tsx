@@ -37,7 +37,12 @@ const Cinema = () => {
                 start:`top 0%`,
                 end:`bottom 0%`,
                 scrub:true,
-                onRefresh:()=>closeAllModals(),
+                onRefresh:({isActive})=>{
+                    if (!isActive) {
+                        closeAllModals()
+                        document.body.style.cursor = null
+                    }
+                },
                 onLeaveBack:()=>{
                     document.body.style.cursor = null
                 },
