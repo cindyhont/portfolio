@@ -69,9 +69,8 @@ const
             <div id='about-me' ref={aboutMeRef}>
                 <h1 className="about-me-sections title">ABOUT ME</h1>
                 <p className="about-me-sections content">
-                    I am a self-taught developer, 
-                    born and raised in Hong Kong, 
-                    used to work as a product manager and marketer for over 5 years 
+                    I am a self-taught developer 
+                    who used to work as a product manager and marketer for over 5 years 
                     in the fashion accessories sector - which means: 
                     I value both functionality and commercial value.
                 </p>
