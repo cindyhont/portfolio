@@ -54,7 +54,7 @@ const
     ParticleCloud,
     FullScreenAbout,
     ExternalLink,
-    FpsCounter,
+    FpsCounter
   },
   PageTemplate = ({data}:{data:any}) => (
     <>
