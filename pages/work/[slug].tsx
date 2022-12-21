@@ -59,7 +59,8 @@ const
   PageTemplate = ({data}:{data:any}) => (
     <>
     <Head>
-      <title>{`${data.title} - Cindy Ho`}</title>
+      <title>{`${data.title} - Portfolio - Cindy Ho`}</title>
+      <link rel="canonical" href={`https://cindyhodev.com/work/${data.slug}`} />
     </Head>
     <MDXRemote {...data.content} components={components} />
     </>
