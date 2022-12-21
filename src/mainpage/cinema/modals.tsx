@@ -95,7 +95,7 @@ const
                             {!!backend && <a href={backend} className='modal-link'>BACK END</a>}
                         </div>
                         <div 
-                            style={{padding:'0 min(5vw,25px)',textAlign:'left'}} 
+                            className='modal-content'
                             dangerouslySetInnerHTML={{
                                 __html:excerpt
                             }}
