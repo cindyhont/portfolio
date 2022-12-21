@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Head from 'next/head';
 import fs from 'fs'
 import { join } from 'path'
@@ -42,7 +42,8 @@ export const getStaticProps:GetStaticProps = async({params}) => {
     props:{
       data:{
         ...data,
-        content:mdxSource
+        slug:params.slug,
+        content:mdxSource,
       }
     }
   }
