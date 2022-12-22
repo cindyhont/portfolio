@@ -9,11 +9,12 @@ import { GetStaticProps } from 'next'
 import { IindexItem } from "../src/interfaces";
 import { IndexContext } from "../src/context";
 import Diamonds from "../src/mainpage/diamonds";
-import { closeAllModals } from "../src/common";
 import Bottle from "../src/mainpage/bottle";
 import FlockOnSphere from "../src/mainpage/flockonsphere";
 import FpsCounter from "../src/mainpage/fps-counter";
 import Cinema from "../src/mainpage/cinema";
+import Loader from "../src/mainpage/loader";
+import MenuButtons from "../src/mainpage/menu-buttons";
 
 export const getStaticProps:GetStaticProps = async () => {
     const 
@@ -45,103 +46,13 @@ const Index = ({works}:{works:IindexItem[]}) => {
     const 
         progressRef = useRef<HTMLDivElement>(),
         mobileCheckbox = useRef<HTMLInputElement>(),
-        containerRef = useRef<HTMLDivElement>(),
-        pathRef = useRef<SVGPathElement>(),
-        loaderRef = useRef<HTMLDivElement>(),
-        toTop = () => {
-            if (window.scrollY < window.innerHeight) return
-            closeAllModals()
-            mobileCheckbox.current.checked = false
-            window.scrollTo(0,window.innerHeight)
-            window.scrollTo({top:0,behavior:'smooth'})
-        },
-        toSlides = () => {
-            const 
-                container = document.getElementById('cinema-container'),
-                {top,height} = container.getClientRects()[0],
-                flockContainer = document.getElementById('flock-container')
-            
-            if (top < 0 && top > -height) return
-            container.scrollIntoView()
-            window.scrollBy({top:flockContainer.offsetHeight * 1.1,behavior:'smooth'})
-            mobileCheckbox.current.checked = false
-        },
-        toDiamonds = () => {
-            const 
-                container = document.getElementById('diamonds-container'),
-                {top,height} = container.getClientRects()[0]
-            if (top < 0 && top > -height) return
-
-            closeAllModals()
-            mobileCheckbox.current.checked = false
-
-            container.scrollIntoView()
-            window.scrollBy({top:window.innerHeight * 2,behavior:'smooth'})
-        },
-        toContact = () => {
-            const 
-                container = document.getElementById('bottle-container'),
-                {top} = container.getClientRects()[0]
-
-            if (top < 0) return
-
-            closeAllModals()
-            mobileCheckbox.current.checked = false
-            container.scrollIntoView()
-            container.scrollIntoView({block:'end',behavior:'smooth'})
-        },
         onResize = () => mobileCheckbox.current.checked = false,
         bgOnClick = (e:any) => {
             if (e.target.id==='mobile-menu-container') mobileCheckbox.current.checked = false
-        },
-        canvasLoadCount = useRef(0),
-        totalCanvas = useRef(4).current,
-        loaderCenter = useRef({x:75,y:75}).current,
-        loaderRadius = useRef(50).current,
-        loaderBackStart = useRef(0),
-        loadBack = (e:number) => {
-            if (!!loaderBackStart.current){
-                const 
-                    endAngle = 0.25,
-                    backAngle = 360 - (e - loaderBackStart.current) * 0.2,
-                    startAngle = endAngle - backAngle / 360,
-                    x1 = loaderCenter.x + Math.cos(startAngle * 360 * Math.PI / 180) * loaderRadius,
-                    y1 = loaderCenter.y - Math.sin(startAngle * 360 * Math.PI / 180) * loaderRadius,
-                    x2 = loaderCenter.x + Math.cos(endAngle * 360 * Math.PI / 180) * loaderRadius,
-                    y2 = loaderCenter.y - Math.sin(endAngle * 360 * Math.PI / 180) * loaderRadius
-
-                pathRef.current.setAttribute('d',`M${x1},${y1} A${loaderRadius},${loaderRadius} 0 ${backAngle > 180 ? 1 : 0} 0 ${x2},${y2}`)
-
-                if (backAngle > 0) window.requestAnimationFrame(loadBack)
-                else {
-                    loaderRef.current.style.display = 'none'
-                    containerRef.current.classList.add('loaded')
-                }
-            } else {
-                loaderBackStart.current = e
-                window.requestAnimationFrame(loadBack)
-            }
-        },
-        loading = () => {
-            const
-                startAngle = 0.25,
-                endAngle = Math.min(canvasLoadCount.current / totalCanvas + startAngle,1.24),
-                x1 = loaderCenter.x + Math.cos(startAngle * 360 * Math.PI / 180) * loaderRadius,
-                y1 = loaderCenter.y - Math.sin(startAngle * 360 * Math.PI / 180) * loaderRadius,
-                x2 = loaderCenter.x + Math.cos(endAngle * 360 * Math.PI / 180) * loaderRadius,
-                y2 = loaderCenter.y - Math.sin(endAngle * 360 * Math.PI / 180) * loaderRadius
-            pathRef.current.setAttribute('d',`M${x1},${y1} A${loaderRadius},${loaderRadius} 0 ${(endAngle - startAngle) * totalCanvas > totalCanvas * 0.5 ? 1 : 0} 0 ${x2},${y2}`)
-
-            if (canvasLoadCount.current === totalCanvas) window.requestAnimationFrame(loadBack)
-        },
-        canvasLoaded = () => {
-            canvasLoadCount.current ++
-            loading()
         }
 
     useEffect(()=>{
         window.addEventListener('resize',onResize)
-        containerRef.current.addEventListener('canvasLoaded',canvasLoaded)
 
         progressRef.current.style.width = '0%'
 
@@ -249,7 +160,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 }
             `}}></script>
         </Head>
-        <div id='home' ref={containerRef}>
+        <div id='home'>
             <FlockOnSphere />
             <IndexContext.Provider value={{works}}>
                 <Cinema />
@@ -259,42 +170,17 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <FpsCounter />
             <div id='desktop-menu'>
                 <div ref={progressRef} id='progress' />
-                <div id='desktop-menu-btns'>
-                    <button onClick={toTop}>Home</button>
-                    <button onClick={toSlides}>Work</button>
-                    <button onClick={toDiamonds}>About</button>
-                    <button onClick={toContact}>Contact</button>
-                </div>
+                <MenuButtons id='desktop-menu-btns' />
             </div>
             <input type='checkbox' id='mobile-menu-checkbox' ref={mobileCheckbox} hidden />
             <div id='mobile-menu-container' onClick={bgOnClick}>
-                <div id='mobile-menu'>
-                    <button onClick={toTop}>Home</button>
-                    <button onClick={toSlides}>Work</button>
-                    <button onClick={toDiamonds}>About</button>
-                    <button onClick={toContact}>Contact</button>
-                </div>
+                <MenuButtons id='mobile-menu' />
             </div>
             <label htmlFor="mobile-menu-checkbox">
                 {Array.from(Array(3).keys(),(i)=>(<div key={i} />))}
             </label>
         </div>
-        <div id='loader' ref={loaderRef}>
-            <svg height='100' width='100' viewBox="0 0 150 150" style={{position:'fixed',top:'calc(50vh - 50px)',left:'calc(50vw - 50px)'}}>
-                <filter id='shadow' colorInterpolationFilters="sRGB">
-                    <feDropShadow dx="0" dy="0" stdDeviation="3" floodOpacity="1" floodColor='white' />
-                    <feDropShadow dx="0" dy="0" stdDeviation="1" floodOpacity="1" floodColor='white' />
-                </filter>
-                <path 
-                    ref={pathRef} 
-                    stroke='#ffffff' 
-                    fill='none' 
-                    strokeWidth={3} 
-                    strokeLinecap='round' 
-                    style={{filter:'url(#shadow)'}} 
-                />
-            </svg>
-        </div>
+        <Loader />
         </>
     )
 }

@@ -81,6 +81,9 @@ const
                     it happened more than once that none of the packages/plugins available could meet my needs. 
                     I ended up writing my own version.
                 </p>
+                <p className="about-me-sections content">
+                    I am open to new opportunities in the UK and remote.
+                </p>
                 <h2 className="about-me-sections title">Skills</h2>
                 <div style={{display: 'flex',flexWrap:'wrap',marginBottom:'15px'}} className='about-me-sections content'>
                     {skills.map((skill,i)=>(

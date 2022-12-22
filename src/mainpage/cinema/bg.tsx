@@ -116,8 +116,10 @@ const
                     const float glitchRowB = 150.;
 
                     void main(){
-                        if (noShow) gl_FragColor = vec4(0.);
+                        if (noShow) discard;
                         else if (turningOnOff) {
+                            // like tv on and off
+
                             vec2 onOffUv = abs(vUv - 0.5);
                             if (transitionProgress < 0.5) {
                                 if (onOffUv.x > transitionProgress || onOffUv.y > 0.002) gl_FragColor = vec4(0.);
@@ -131,6 +133,8 @@ const
                                 }
                             }
                         } else if (transitioning) {
+                            // glitch effect
+
                             float strength = smoothstep(0.,1.,1. - pow(abs(0.5 - transitionProgress) * 2.,100.)) * 0.2;
                             
                             float rowIDa = floor(vUv.y * glitchRowA) / glitchRowA;
@@ -490,19 +494,25 @@ const
 
         useEffect(()=>{
             const 
-            blob = new Blob([document.querySelector('#perlin-noise-worker').textContent], { type: "text/javascript" }),
-            worker = new Worker(window.URL.createObjectURL(blob))
-            worker.postMessage(pnSpec)
-            worker.addEventListener('message',e=>{
-                setFrontNoise(e.data.frontNoise as Uint8Array)
-                setDesertNoise(e.data.desertNoise as Uint8Array)
-            })
+                blob = new Blob([document.querySelector('#perlin-noise-worker').textContent], { type: "text/javascript" }),
+                worker = new Worker(window.URL.createObjectURL(blob))
+                worker.postMessage(pnSpec)
+                worker.addEventListener('message',e=>{
+                    setFrontNoise(e.data.frontNoise as Uint8Array)
+                    setDesertNoise(e.data.desertNoise as Uint8Array)
+                })
         },[])
 
         return (
             <div style={{position:'fixed',height:'100vh',width:'100vw',bottom:'0px',left:'0px'}}>
                 <Context.Consumer>{({devicePixelRatio})=>
-                    <Canvas camera={{far:10000}} dpr={devicePixelRatio} frameloop='demand' gl={{antialias:true}} onCreated={canvasIsLoaded}>
+                    <Canvas 
+                        camera={{far:10000}} 
+                        dpr={devicePixelRatio} 
+                        frameloop='demand' 
+                        gl={{antialias:true}} 
+                        onCreated={canvasIsLoaded}
+                    >
                         <Scene {...{frontNoise,desertNoise,tSize:pnSpec.px}} />
                     </Canvas>
                 }</Context.Consumer>
