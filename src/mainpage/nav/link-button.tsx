@@ -34,13 +34,15 @@ const LinkButton = (
                     || bottom <= innerHeight && bottom >= innerHeight * 0.5
 
             if (!overlap) {
+                cancelAnimationFrame(request.current)
                 fromTop.current = -1
                 document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
+                request.current = requestAnimationFrame(onScroll)
                 window.scrollBy({
                     top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
                     behavior:'smooth'
                 })
-                request.current = requestAnimationFrame(onScroll)
+                
                 /*
                 if (mobile){
                     window.scrollBy({
