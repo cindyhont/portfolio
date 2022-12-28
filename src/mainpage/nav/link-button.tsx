@@ -38,11 +38,11 @@ const LinkButton = (
                 cancelAnimationFrame(request.current)
                 fromTop.current = -1
                 document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
-                request.current = requestAnimationFrame(onScroll)
                 window.scrollBy({
                     top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
                     behavior:'smooth'
                 })
+                setTimeout(()=>request.current = requestAnimationFrame(onScroll),100)
                 
                 /*
                 if (mobile){
