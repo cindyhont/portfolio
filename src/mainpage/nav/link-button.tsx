@@ -15,10 +15,11 @@ const LinkButton = (
         fromTop = useRef(0),
         request = useRef(0),
         onScroll = () => {
-            if (fromTop.current !== window.scrollY) request.current = requestAnimationFrame(onScroll)
-            else document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false}))
-
-            fromTop.current = window.scrollY
+            if (fromTop.current === window.scrollY) document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false}))
+            else {
+                fromTop.current = window.scrollY
+                request.current = requestAnimationFrame(onScroll)
+            }
         },
         onClick = () => {
             (document.getElementById('menu-checkbox') as HTMLInputElement).checked = false
