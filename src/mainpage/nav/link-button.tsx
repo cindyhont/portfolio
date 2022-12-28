@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { addLetterSpacing } from "../../common";
 import { Ilinkbutton } from "./buttons";
 import gsap from 'gsap'
 import {ScrollToPlugin} from 'gsap/dist/ScrollToPlugin'
-import { Context } from "../../context";
 
 const LinkButton = (
     {
@@ -13,7 +12,14 @@ const LinkButton = (
     gsap.registerPlugin(ScrollToPlugin)
     const 
         ref = useRef<HTMLDivElement>(),
-        {mobile} = useContext(Context),
+        fromTop = useRef(0),
+        request = useRef(0),
+        onScroll = () => {
+            if (fromTop.current !== window.scrollY) request.current = requestAnimationFrame(onScroll)
+            else document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false}))
+
+            fromTop.current = window.scrollY
+        },
         onClick = () => {
             (document.getElementById('menu-checkbox') as HTMLInputElement).checked = false
             document.body.style.overflowY = null
@@ -28,6 +34,14 @@ const LinkButton = (
                     || bottom <= innerHeight && bottom >= innerHeight * 0.5
 
             if (!overlap) {
+                fromTop.current = -1
+                document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
+                window.scrollBy({
+                    top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
+                    behavior:'smooth'
+                })
+                request.current = requestAnimationFrame(onScroll)
+                /*
                 if (mobile){
                     window.scrollBy({
                         top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
