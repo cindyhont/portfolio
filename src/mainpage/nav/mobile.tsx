@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import navButtons from "./buttons";
 import GithubButton from "./github-button";
 import LinkButton from "./link-button";
@@ -9,7 +9,10 @@ const MobileNav = () => {
         checkbox = useRef<HTMLInputElement>(),
         container = useRef<HTMLDivElement>(),
         labelRef = useRef<HTMLLabelElement>(),
-        backdropOnClick = () => checkbox.current.checked = false,
+        backdropOnClick = () => {
+            checkbox.current.checked = false
+            document.body.style.overflowY = null
+        },
         onScroll = () => {
             const 
                 {innerHeight} = window,
@@ -51,6 +54,9 @@ const MobileNav = () => {
 
             if (!!timeout.current) clearTimeout(timeout.current)
             timeout.current = setTimeout(setScrollEventListener,100)
+        },
+        checkboxOnChange = (e:ChangeEvent<HTMLInputElement>) => {
+            document.body.style.overflowY = e.target.checked ? 'hidden' : null
         }
 
     useEffect(()=>{
@@ -61,7 +67,7 @@ const MobileNav = () => {
         
     return (
         <div id='mobile-nav'>
-            <input ref={checkbox} type='checkbox' id='menu-checkbox' hidden />
+            <input ref={checkbox} onChange={checkboxOnChange} type='checkbox' id='menu-checkbox' hidden />
             <div className="menu-backdrop" onClick={backdropOnClick} />
             <div className="menu-container" ref={container}>
                 {navButtons.map(e=><LinkButton key={e.title} {...e} />)}

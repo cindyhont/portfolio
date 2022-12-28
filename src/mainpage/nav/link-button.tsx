@@ -14,6 +14,8 @@ const LinkButton = (
         ref = useRef<HTMLDivElement>(),
         onClick = () => {
             (document.getElementById('menu-checkbox') as HTMLInputElement).checked = false
+            document.body.style.overflowY = null
+
             const 
                 elem = document.getElementById(title.toLowerCase()),
                 {top,bottom} = elem.getBoundingClientRect(),

@@ -195,11 +195,11 @@ label[for='menu-checkbox']{
 .dark label[for='menu-checkbox']{
     background-color: #444;
 
-    $outer: 2px 2px 2px #282828, -3px -3px 3px #555;
-    box-shadow: $outer, inset -2px -2px 2px #222, inset 1px 1px 1px #555;
+    $outer: 2px 2px 2px #282828, -2px -2px 2px #555;
+    box-shadow: $outer, inset -1px -1px 1px #222, inset 1px 1px 1px #555;
 
     &:active {
-        box-shadow: $outer, inset -4px -4px 4px #555, inset 2px 2px 2px #222;
+        box-shadow: $outer, inset -2px -2px 2px #555, inset 2px 2px 2px #222;
     }
 }
 
@@ -501,7 +501,7 @@ $name-shadow-dark: $name-shadow-displacement-a
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100vh;
+    height: calc(var(--vh) * 100);
 
     h1, p {
         margin:0px;
@@ -510,7 +510,7 @@ $name-shadow-dark: $name-shadow-displacement-a
 
     h1 {
         color:$background-color;
-        font-family: 'Arial Black';
+        font-family: 'Arial Black', 'Verdana-Bold ', 'AvenirNext-Bold', 'Arial-BoldMT', 'Helvetica-Bold', sans-serif;
         font-size: $name-font-size;
         transition: color $mode-transition-time, text-shadow $mode-transition-time;
         text-shadow: $name-shadow;
@@ -1103,7 +1103,7 @@ $name-shadow-dark: $name-shadow-displacement-a
     flex-direction: column;
     justify-content: center;
     width:100vw;
-    height:100vh;
+    height:calc(var(--vh) * 100);
     background-color: rgba(0,0,0,0.5);
 
     & > div {

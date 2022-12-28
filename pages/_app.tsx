@@ -9,7 +9,7 @@ const App = ({ Component, pageProps }) => {
         [mobile,setMobile] = useState(false),
         [isSafari,setIsSafari] = useState(false),
         onResize = () => {
-            document.body.style.setProperty('--vh', window.innerHeight/100 + 'px');
+            document.getElementsByTagName('html')[0].style.setProperty('--vh', window.innerHeight/100 + 'px');
         }
 
     useEffect(()=>{
@@ -17,7 +17,6 @@ const App = ({ Component, pageProps }) => {
         setMobile(window.matchMedia("(pointer: coarse)").matches)
         const userAgent = navigator.userAgent.toLowerCase()
         setIsSafari(userAgent.search('safari') !== -1 && userAgent.search('chrome')===-1)
-        onResize()
         
         window.addEventListener('resize',onResize)
         return () => window.removeEventListener('resize',onResize)
@@ -32,6 +31,8 @@ const App = ({ Component, pageProps }) => {
                 prevDark = localStorage.getItem('dark'),
                 systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches,
                 htmlTag = document.getElementsByTagName('html')[0]
+
+            htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
 
             if (!!prevDark) {
                 dark = prevDark === 'true'
