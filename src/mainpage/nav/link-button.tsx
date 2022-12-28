@@ -29,7 +29,7 @@ const LinkButton = (
 
             if (!overlap) {
                 if (mobile){
-                    window.scrollTo({
+                    window.scrollBy({
                         top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
                         behavior:'smooth'
                     })
