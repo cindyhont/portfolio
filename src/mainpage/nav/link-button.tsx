@@ -26,7 +26,22 @@ const LinkButton = (
                     || bottom <= innerHeight && bottom >= innerHeight * 0.5
 
             if (!overlap) {
-                if (window.matchMedia('(min-width:600px)').matches) {
+                const desktopNavBar = document.getElementById('desktop-nav')
+                gsap.to(window,{
+                    duration:1,
+                    scrollTo:{
+                        y: `#${elem.id}`,
+                        offsetY:window.matchMedia('(min-width:600px)').matches ? 50 : 0,
+                        autoKill:true,
+                    },
+                    onStart:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:true})),
+                    onComplete:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:false}))
+                })
+
+                /*
+                if (window.matchMedia('(max-width:599px)').matches || mobile) {
+                    elem.scrollIntoView({behavior:'smooth'})
+                } else {
                     const desktopNavBar = document.getElementById('desktop-nav')
                     gsap.to(window,{
                         duration:1,
@@ -37,7 +52,8 @@ const LinkButton = (
                         onStart:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:true})),
                         onComplete:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:false}))
                     })
-                } else elem.scrollIntoView({behavior:'smooth'})
+                }
+                */
             }
         }
 
