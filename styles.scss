@@ -501,7 +501,7 @@ $name-shadow-dark: $name-shadow-displacement-a
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: calc(var(--vh) * 100);
+    height: 100vh;//calc(var(--vh) * 100);
 
     h1, p {
         margin:0px;
@@ -1051,14 +1051,16 @@ $name-shadow-dark: $name-shadow-displacement-a
 
         $outer: 0.3rem 0.3rem 0.5rem rgba(195, 193, 198, 0.9), -0.2rem -0.2rem 0.4rem #fff;
         $all: inset 0.2rem 0.2rem 0.5rem rgba(195, 193, 198, 0.9), inset -0.2rem -0.2rem 0.5rem #fff, $outer;
-        box-shadow: $outer;
+        -webkit-appearance: none;
         -webkit-box-shadow: $outer;
+        box-shadow: $outer;
 
         &:focus-visible{
             outline:none;
         }
 
         &:focus{
+            -webkit-box-shadow: $all;
             box-shadow: $all;
         }
         transition: background-color $mode-transition-time, box-shadow $mode-transition-time;
@@ -1073,14 +1075,15 @@ $name-shadow-dark: $name-shadow-displacement-a
         $outer: 0.3rem 0.3rem 0.5rem #222, -0.2rem -0.2rem 0.4rem #444;
         $all: inset 0.2rem 0.2rem 0.5rem #222, inset -0.2rem -0.2rem 0.5rem #444, $outer;
 
-        box-shadow: $outer;
         -webkit-box-shadow: $outer;
+        box-shadow: $outer;
 
         &:focus-visible{
             outline:none;
         }
 
         &:focus{
+            -webkit-box-shadow: $all;
             box-shadow: $all;
         }
     }
@@ -1105,7 +1108,7 @@ $name-shadow-dark: $name-shadow-displacement-a
     flex-direction: column;
     justify-content: center;
     width:100vw;
-    height:calc(var(--vh) * 100);
+    height:100vh;//calc(var(--vh) * 100);
     background-color: rgba(0,0,0,0.5);
 
     & > div {
