@@ -42,7 +42,7 @@ const LinkButton = (
                     top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
                     behavior:'smooth'
                 })
-                setTimeout(()=>request.current = requestAnimationFrame(onScroll),100)
+                setTimeout(()=>request.current = requestAnimationFrame(onScroll),200)
                 
                 /*
                 if (mobile){
