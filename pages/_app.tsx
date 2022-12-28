@@ -25,7 +25,7 @@ const App = ({ Component, pageProps }) => {
 
     return (
         <>
-        <Script strategy='beforeInteractive' dangerouslySetInnerHTML={{__html:`
+        <Script strategy='beforeInteractive' id='theme-script' dangerouslySetInnerHTML={{__html:`
             // preload and set theme color to avoid 'flashing'
             let dark = false;
             const 
