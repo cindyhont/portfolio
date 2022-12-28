@@ -505,11 +505,18 @@ $name-shadow-dark: $name-shadow-displacement-a
         display: flex;
         flex-direction: column;
         justify-content: center;
-        height: calc(var(--vh) * 100);
+        height: 100vh;
         width:100%;
         position: absolute;
         top: 0;
         left: 0;
+
+        @media (hover:none) and (orientation:landscape){
+            height: var(--landscape-height);
+        }
+        @media (hover:none) and (orientation:portrait){
+            height: var(--portrait-height);
+        }
     }
 
     h1, p {
