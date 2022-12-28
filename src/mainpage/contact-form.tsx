@@ -1,19 +1,27 @@
-import React, { FormEvent, useRef, useState } from 'react';
-import gsap from 'gsap';
-import {ScrollTrigger} from 'gsap/dist/ScrollTrigger';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import { addLetterSpacing } from '../common';
 
-const Form = () => {
-    gsap.registerPlugin(ScrollTrigger);
+const ContactForm = () => {
     const 
         nameRef = useRef<HTMLInputElement>(),
         emailRef = useRef<HTMLInputElement>(),
         phoneRef = useRef<HTMLInputElement>(),
         messageRef = useRef<HTMLTextAreaElement>(),
-        submitBtn = useRef<HTMLInputElement>(),
+        submitBtn = useRef<HTMLButtonElement>(),
+        submitBtnP = useRef<HTMLDivElement>(),
+        clearSubmitBtnText = () => {
+            while (submitBtnP.current.lastChild){
+                submitBtnP.current.removeChild(submitBtnP.current.lastChild)
+            }
+        },
+        replaceSubmitButtonText = (text:string) => {
+            clearSubmitBtnText()
+            addLetterSpacing(text,submitBtnP.current)
+        },
         [adminMsg,setAdminMsg] = useState(''),
         dismissMsg = () => setAdminMsg(''),
         restore = () => {
-            submitBtn.current.value = 'Submit';
+            replaceSubmitButtonText('Submit');
             submitBtn.current.disabled = false;
             nameRef.current.disabled = false;
             emailRef.current.disabled = false;
@@ -31,7 +39,7 @@ const Form = () => {
                 return; // redirect to cloudflare block page (zero trust) when cloudflare page is set up
             }
 
-            submitBtn.current.value = 'sending ...'
+            replaceSubmitButtonText('sending');
             submitBtn.current.disabled = true
             nameRef.current.disabled = true
             emailRef.current.disabled = true
@@ -55,8 +63,6 @@ const Form = () => {
                     }),
                     json = await res.json()
 
-                console.log('j:',json)
-
                 if (json.success) {
                     restore();
                     clearForm();
@@ -73,45 +79,53 @@ const Form = () => {
         }
         // onInvalidEmail = (e:FormEvent) => e.target?.setCustomValidity('Please enter a valid email address.')
 
+    useEffect(()=>{
+        replaceSubmitButtonText('Submit')
+    },[])
+
     return (
-        <form onSubmit={onSubmit}>
-            <h1>Contact</h1>
-            <input 
-                className='input-text' 
-                ref={nameRef} 
-                type="text" 
-                required={true} 
-                minLength={2} 
-                maxLength={128}
-                placeholder='Your name'
-                onInput={dismissMsg}
-            />
-            <input 
-                className='input-text'
-                ref={emailRef} 
-                type="email" 
-                required={true} 
-                minLength={5} 
-                maxLength={128} 
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                // onInvalid={onInvalidEmail}
-                placeholder='Your email address'
-                onInput={dismissMsg}
-            />
-            <input className='phone' ref={phoneRef} type="text" style={{display:'none'}} />
-            <textarea 
-                ref={messageRef} 
-                required={true} 
-                minLength={2} 
-                maxLength={5000} 
-                placeholder='Message' 
-                rows={6} 
-                onInput={dismissMsg}
-            ></textarea>
-            <input type="submit" value="Submit" id='form-submit' ref={submitBtn} />
-            <p id='admin-msg'>{adminMsg}</p>
-        </form>
+        <div id='contact' className="section">
+            <h2>Contact</h2>
+            <form onSubmit={onSubmit}>
+                <input 
+                    className='input-text' 
+                    ref={nameRef} 
+                    type="text" 
+                    required={true} 
+                    minLength={2} 
+                    maxLength={128}
+                    placeholder='Your name'
+                    onInput={dismissMsg}
+                />
+                <input 
+                    className='input-text'
+                    ref={emailRef} 
+                    type="email" 
+                    required={true} 
+                    minLength={5} 
+                    maxLength={128} 
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    // onInvalid={onInvalidEmail}
+                    placeholder='Your email address'
+                    onInput={dismissMsg}
+                />
+                <input className='phone' ref={phoneRef} type="text" style={{display:'none'}} />
+                <textarea 
+                    ref={messageRef} 
+                    required={true} 
+                    minLength={2} 
+                    maxLength={5000} 
+                    placeholder='Message' 
+                    rows={6} 
+                    onInput={dismissMsg}
+                ></textarea>
+                <button type="submit" id='form-submit' ref={submitBtn}>
+                    <div ref={submitBtnP} />
+                </button>
+                <p id='admin-msg'>{adminMsg}</p>
+            </form>
+        </div>
     )
 };
 
-export default Form;
+export default ContactForm;

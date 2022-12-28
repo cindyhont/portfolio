@@ -79,12 +79,26 @@ const
             )
         }</Context.Consumer>
     ),
+    addLetterSpacing = (title:string,elem:HTMLElement) => {
+        const len = title.length
+
+        for (let i=0; i<len; i++){
+            const char = document.createElement('span')
+            char.innerText = title[i]
+            elem.appendChild(char)
+            if (i === len-1) break;
+            const gap = document.createElement('div')
+            gap.classList.add('letter-space')
+            elem.appendChild(gap)
+        }
+    },
     canvasIsLoaded = () => document.getElementById('home').dispatchEvent(new CustomEvent('canvasLoaded',{detail:true})),
-    cdnPrefix = () => `${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://cdn.cindyhodev.com' : ''}`
+    cdnPrefix = () => ''//`${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://cdn.cindyhodev.com' : ''}`
 
 export {
     closeAllModals,
     AboutSceneTab,
     canvasIsLoaded,
-    cdnPrefix
+    cdnPrefix,
+    addLetterSpacing,
 }

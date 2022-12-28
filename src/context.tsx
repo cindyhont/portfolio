@@ -15,9 +15,11 @@ const
         works:IindexItem[]
     }>({
         works:[]
-    })
+    }),
+    NoiseContext = createContext<{perlinNoise:Float32Array}>({perlinNoise:new Float32Array()})
 
 export {
     Context,
     IndexContext,
+    NoiseContext,
 };

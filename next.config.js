@@ -16,5 +16,5 @@ const withMDX = require('@next/mdx')({
     images: {
       unoptimized: true,
     },
-    ...(process.env.NEXT_PUBLIC_NODE_ENV === 'production' && {assetPrefix:'https://cdn.cindyhodev.com'})
+    ...(process.env.NEXT_PUBLIC_NODE_ENV === 'production' && {assetPrefix:'https://cdn.cindyhodev.com'}),
   })

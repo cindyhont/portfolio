@@ -1,6 +1,7 @@
 import '../styles.scss'
 import React, { useEffect, useState } from 'react'
 import {Context} from '../src/context'
+import Script from 'next/script'
 
 const App = ({ Component, pageProps }) => {
     const 
@@ -23,9 +24,29 @@ const App = ({ Component, pageProps }) => {
     },[])
 
     return (
+        <>
+        <Script strategy='beforeInteractive' dangerouslySetInnerHTML={{__html:`
+            // preload and set theme color to avoid 'flashing'
+            let dark = false;
+            const 
+                prevDark = localStorage.getItem('dark'),
+                systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches,
+                htmlTag = document.getElementsByTagName('html')[0]
+
+            if (!!prevDark) {
+                dark = prevDark === 'true'
+                if (dark === systemDark) localStorage.removeItem('dark')
+            }
+            else dark = systemDark
+            
+            if (dark) htmlTag.classList.add('dark')
+                
+            if (window.location.pathname === '/') htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
+        `}} />
         <Context.Provider value={{devicePixelRatio,mobile,isSafari}}>
             <Component {...pageProps} />
         </Context.Provider>
+        </>
     )
 }
 
