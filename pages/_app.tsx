@@ -9,7 +9,25 @@ const App = ({ Component, pageProps }) => {
         [mobile,setMobile] = useState(false),
         [isSafari,setIsSafari] = useState(false),
         onResize = () => {
-            document.getElementsByTagName('html')[0].style.setProperty('--vh', window.innerHeight/100 + 'px');
+            const htmlTag = document.getElementsByTagName('html')[0]
+            htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
+            const cssTexts = htmlTag.style.cssText.split(';')
+            cssTexts.forEach(e=>{
+                const 
+                    trimmed = e.trim(),
+                    [key,value] = trimmed.split(':')
+                if (key==='--landscape-height'){
+                    const 
+                        prev = +value.replace('px',''),
+                        curr = Math.min(window.innerHeight,window.innerWidth)
+                    if (curr < prev) htmlTag.style.setProperty('--landscape-height', curr + 'px');
+                } else if (key==='--portrait-height') {
+                    const 
+                        prev = +value.replace('px',''),
+                        curr = Math.max(window.innerHeight,window.innerWidth)
+                    if (curr < prev) htmlTag.style.setProperty('--portrait-height', curr + 'px');
+                } 
+            })
         }
 
     useEffect(()=>{
