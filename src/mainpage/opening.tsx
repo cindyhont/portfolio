@@ -39,8 +39,10 @@ const Opening = () => {
 
     return (
         <div id='home' className="section">
-            <h1 ref={nameRef}>Cindy Ho</h1>
-            <p ref={titleRef} />
+            <div>
+                <h1 ref={nameRef}>Cindy Ho</h1>
+                <p ref={titleRef} />
+            </div>
         </div>
     )
 }

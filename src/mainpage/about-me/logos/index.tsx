@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Docker from "./docker";
 import Golang from "./golang";
 import GSAP from "./gsap";
@@ -17,23 +17,26 @@ import CSS from "./css";
 import Javascript from "./javascript";
 
 const Logos = () => {
-    const handleAnim = (entries:IntersectionObserverEntry[],observer:IntersectionObserver) => {
-        const targets = entries.filter(e=>e.isIntersecting).map(entry=>{
-            observer.unobserve(entry.target)
-            return entry.target
-        })
-        targets.forEach((target,i)=>{
-            setTimeout(()=>(target.firstChild.firstChild as HTMLElement).classList.add('show'),i * 200)
-        })
-    }
+    const 
+        container = useRef<HTMLDivElement>(),
+        handleAnim = (entries:IntersectionObserverEntry[],observer:IntersectionObserver) => {
+            const targets = entries.filter(e=>e.isIntersecting).map(entry=>{
+                observer.unobserve(entry.target)
+                return entry.target
+            })
+            targets.forEach((target,i)=>{
+                setTimeout(()=>(target.firstChild.firstChild as HTMLElement).classList.add('show'),i * 200)
+            })
+        }
 
     useEffect(()=>{
+        container.current.querySelectorAll('[class^="path"]').forEach(e=>e.setAttribute('pathLength','50000'))
         const observer = new IntersectionObserver(handleAnim,{root:null,rootMargin:'0px',threshold:0.3})
         document.querySelectorAll('.about-me-skill').forEach(e=>observer.observe(e))
     },[])
 
     return (
-        <div id='about-me-skills'>
+        <div id='about-me-skills' ref={container}>
             <HTML />
             <CSS />
             <Javascript />

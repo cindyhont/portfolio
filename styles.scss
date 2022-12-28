@@ -497,11 +497,20 @@ $name-shadow-dark: $name-shadow-displacement-a
 }
 
 #home{
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;//calc(var(--vh) * 100);
+    height: 100vh;
+    position: relative;
+
+    & > div {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: calc(var(--vh) * 100);
+        width:100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
     h1, p {
         margin:0px;
@@ -802,11 +811,6 @@ $name-shadow-dark: $name-shadow-displacement-a
     margin-right: -20px;
 }
 
-@mixin svg-anim-dasharray($count) {
-    stroke-dasharray: $count;
-    stroke-dashoffset: $count;
-}
-
 .about-me-skill{
     $size:60px;
     $padding:5px;
@@ -845,32 +849,30 @@ $name-shadow-dark: $name-shadow-displacement-a
         path, rect, polygon {
             stroke:#777;
             fill: none;
+            $dash-count: 50000;
+            stroke-dasharray: $dash-count;
+            stroke-dashoffset: $dash-count;
             transition: stroke $mode-transition-time, stroke-dashoffset 1s;
         }
 
         &.html path {
             stroke-width: 15px;
-            @include svg-anim-dasharray(1700);
         }
 
         &.css path {
             stroke-width: 15px;
-            @include svg-anim-dasharray(1750);
         }
 
         &.javascript path {
             stroke-width: 15px;
-            @include svg-anim-dasharray(1800);
         }
 
         &.typescript {
             transform: scale(0.9);
             .path1{
-                @include svg-anim-dasharray(2100);
                 stroke-width: 30px;
             }
             .path2{
-                @include svg-anim-dasharray(1000);
                 stroke-width: 15px;
             }
         }
@@ -881,66 +883,40 @@ $name-shadow-dark: $name-shadow-displacement-a
                 stroke-width: 120px;
                 transform: scale(0.13) translate(-10px,0);
             }
-            .path1{
-                @include svg-anim-dasharray(13000);
-            }
-            .path2{
-                @include svg-anim-dasharray(18000);
-            }
         }
 
         &.react .path1 {
             stroke-width: 10px;
-            @include svg-anim-dasharray(1750);
         }
 
         &.nextjs {
             .path1{
                 stroke-width: 10px;
-                @include svg-anim-dasharray(1350);
             }
         }
 
         &.redux {
             path {
                 stroke-width: 3px;
-                @include svg-anim-dasharray(220);
             }
         }
 
         &.go {
             [class^='path']{
                 stroke-width: 3px;
-                @include svg-anim-dasharray(100);
             }
             .path4,.path5{
                 stroke-width: 5px;
-            }
-            .path4{
-                @include svg-anim-dasharray(500);
-            }
-            .path5{
-                @include svg-anim-dasharray(250);
             }
         }
 
         &.gsap .path1 {
             stroke-width: 5px;
-            @include svg-anim-dasharray(750);
         }
 
         &.threejs {
             path {
                 stroke-width: 5px;
-            }
-            [class^='path']{
-                @include svg-anim-dasharray(150);
-            }
-            .path1 {
-                @include svg-anim-dasharray(550);
-            }
-            .path2 {
-                @include svg-anim-dasharray(280);
             }
         }
 
@@ -948,59 +924,27 @@ $name-shadow-dark: $name-shadow-displacement-a
             path, polygon {
                 stroke-width: 20px;
             }
-            .path1 {
-                @include svg-anim-dasharray(1150);
-            }
-            .path2 {
-                @include svg-anim-dasharray(650);
-            }
-            .path3 {
-                @include svg-anim-dasharray(3100);
-            }
-            .path4 {
-                @include svg-anim-dasharray(1600);
-            }
-            .path5 {
-                @include svg-anim-dasharray(650);
-            }
-            .path6 {
-                @include svg-anim-dasharray(600);
-            }
         }
 
         &.rabbitmq path {
             stroke-width: 2px;
-            @include svg-anim-dasharray(185);
         }
 
         &.nginx{
             path{
                 stroke-width: 2px;
             }
-            .path1 {
-                @include svg-anim-dasharray(180);
-            }
-            .path2 {
-                @include svg-anim-dasharray(150);
-            }
         }
 
         &.postgresql {
             path{
                 stroke-width: 12px;
-                @include svg-anim-dasharray(1650);
             }
         }
 
         &.docker {
             rect, path {
                 stroke-width: 10px;
-            }
-            rect {
-                @include svg-anim-dasharray(185);
-            }
-            path {
-                @include svg-anim-dasharray(1250);
             }
         }
 

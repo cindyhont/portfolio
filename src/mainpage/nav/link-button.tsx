@@ -1,15 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { addLetterSpacing } from "../../common";
 import { Ilinkbutton } from "./buttons";
-import gsap from 'gsap'
-import {ScrollToPlugin} from 'gsap/dist/ScrollToPlugin'
 
 const LinkButton = (
     {
         title,
     }:Ilinkbutton
 ) => {
-    gsap.registerPlugin(ScrollToPlugin)
     const 
         ref = useRef<HTMLDivElement>(),
         fromTop = useRef(0),
@@ -43,43 +40,6 @@ const LinkButton = (
                     behavior:'smooth'
                 })
                 setTimeout(()=>request.current = requestAnimationFrame(onScroll),300)
-                
-                /*
-                if (mobile){
-                    window.scrollBy({
-                        top:window.matchMedia('(min-width:600px)').matches ? top - 50 : top,
-                        behavior:'smooth'
-                    })
-                } else {
-                    const desktopNavBar = document.getElementById('desktop-nav')
-                    gsap.to(window,{
-                        duration:1,
-                        scrollTo:{
-                            y: `#${elem.id}`,
-                            offsetY:window.matchMedia('(min-width:600px)').matches ? 50 : 0,
-                            autoKill:true,
-                        },
-                        onStart:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:true})),
-                        onComplete:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:false}))
-                    })
-                }
-
-                /*
-                if (window.matchMedia('(max-width:599px)').matches || mobile) {
-                    elem.scrollIntoView({behavior:'smooth'})
-                } else {
-                    const desktopNavBar = document.getElementById('desktop-nav')
-                    gsap.to(window,{
-                        duration:1,
-                        scrollTo:{
-                            y: elem.offsetTop - 50,
-                            autoKill:true,
-                        },
-                        onStart:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:true})),
-                        onComplete:()=>desktopNavBar.dispatchEvent(new CustomEvent('lock',{detail:false}))
-                    })
-                }
-                */
             }
         }
 
