@@ -8,6 +8,7 @@ const App = ({ Component, pageProps }) => {
         [devicePixelRatio,setDevicePixelRatio] = useState(2),
         [mobile,setMobile] = useState(false),
         [isSafari,setIsSafari] = useState(false),
+        [webgl,setWebgl] = useState(false),
         onResize = () => {
             const htmlTag = document.getElementsByTagName('html')[0]
             htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
@@ -28,9 +29,17 @@ const App = ({ Component, pageProps }) => {
                     if (curr < prev) htmlTag.style.setProperty('--portrait-height', curr + 'px');
                 } 
             })
+        },
+        detectWebGL = () => {
+            const 
+                canvas = document.createElement("canvas"),
+                gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+                
+            setWebgl(gl instanceof WebGLRenderingContext)
         }
 
     useEffect(()=>{
+        detectWebGL()
         setDevicePixelRatio(Math.min(Math.floor(window.devicePixelRatio),2))
         setMobile(window.matchMedia("(pointer: coarse)").matches)
         const userAgent = navigator.userAgent.toLowerCase()
@@ -64,7 +73,7 @@ const App = ({ Component, pageProps }) => {
                 
             if (window.location.pathname === '/') htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
         `}} />
-        <Context.Provider value={{devicePixelRatio,mobile,isSafari}}>
+        <Context.Provider value={{devicePixelRatio,mobile,isSafari,webgl}}>
             <Component {...pageProps} />
         </Context.Provider>
         </>

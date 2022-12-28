@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useContext, useEffect, useMemo, useRef } from "react";
 import * as THREE from 'three'
 import { cdnPrefix } from "../../common";
 import { Context } from "../../context";
@@ -173,6 +173,7 @@ const
     Slider = ({imgPaths,bgColor,id}:{imgPaths:string[];bgColor:string;id:string;}) => {
         const 
             ref = useRef<HTMLDivElement>(),
+            {webgl,devicePixelRatio} = useContext(Context),
             onClick = (e:number) => {
                 ref.current.dispatchEvent(new CustomEvent('swipe',{detail:e}))
 
@@ -180,26 +181,38 @@ const
                 document.getElementById('works')?.dispatchEvent(new CustomEvent('restart',{detail:id}))
             },
             prevOnClick = () => onClick(-1),
-            nextOnClick = () => onClick(1)
+            nextOnClick = () => onClick(1),
+            imgIdx = useRef(0),
+            onSwipe = (e:CustomEvent) => {
+                imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
+                ref.current.style.backgroundImage = `url(/${imgPaths[imgIdx.current]})`
+            }
+
+        useEffect(()=>{
+            if (webgl) ref.current.style.backgroundImage = null
+            else {
+                ref.current.style.backgroundImage = `url(/${imgPaths[imgIdx.current]})`
+                ref.current.addEventListener('swipe',onSwipe)
+            }
+            return () => ref.current.removeEventListener('swipe',onSwipe)
+        },[webgl])
 
         return (
-            <Context.Consumer>{({devicePixelRatio})=>
-                <div id={id} ref={ref} className='slide-cropped-image' data-webgl={true} style={{backgroundColor:bgColor}}>
-                    <Canvas dpr={devicePixelRatio} frameloop='demand'>
-                        <Scene imgPaths={imgPaths} id={id} />
-                    </Canvas>
-                    <button className="prev" aria-label='Previous Slide' onClick={prevOnClick}>
-                        <svg viewBox="-3 -3 21 36" width='15' height='30'>
-                            <polyline points="15,0 0,15 15,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
-                        </svg>
-                    </button>
-                    <button className="next" aria-label='Next Slide' onClick={nextOnClick}>
-                        <svg viewBox="-3 -3 21 36" width='15' height='30'>
-                            <polyline points="0,0 15,15 0,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
-                        </svg>
-                    </button>
-                </div>
-            }</Context.Consumer>
+            <div id={id} ref={ref} className='slide-cropped-image' data-webgl={true} style={{backgroundColor:bgColor}}>
+                {webgl && <Canvas dpr={devicePixelRatio} frameloop='demand'>
+                    <Scene imgPaths={imgPaths} id={id} />
+                </Canvas>}
+                <button className="prev" aria-label='Previous Slide' onClick={prevOnClick}>
+                    <svg viewBox="-3 -3 21 36" width='15' height='30'>
+                        <polyline points="15,0 0,15 15,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
+                    </svg>
+                </button>
+                <button className="next" aria-label='Next Slide' onClick={nextOnClick}>
+                    <svg viewBox="-3 -3 21 36" width='15' height='30'>
+                        <polyline points="0,0 15,15 0,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
+                    </svg>
+                </button>
+            </div>
         )
     }
 

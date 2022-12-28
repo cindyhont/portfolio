@@ -6,10 +6,12 @@ const
         devicePixelRatio:number;
         mobile:boolean;
         isSafari:boolean;
+        webgl:boolean;
     }>({
         devicePixelRatio:2,
         mobile:false,
         isSafari:false,
+        webgl:false,
     }),
     IndexContext = createContext<{
         works:IindexItem[]
