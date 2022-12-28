@@ -1052,6 +1052,7 @@ $name-shadow-dark: $name-shadow-displacement-a
         $outer: 0.3rem 0.3rem 0.5rem rgba(195, 193, 198, 0.9), -0.2rem -0.2rem 0.4rem #fff;
         $all: inset 0.2rem 0.2rem 0.5rem rgba(195, 193, 198, 0.9), inset -0.2rem -0.2rem 0.5rem #fff, $outer;
         box-shadow: $outer;
+        -webkit-box-shadow: $outer;
 
         &:focus-visible{
             outline:none;
@@ -1073,6 +1074,7 @@ $name-shadow-dark: $name-shadow-displacement-a
         $all: inset 0.2rem 0.2rem 0.5rem #222, inset -0.2rem -0.2rem 0.5rem #444, $outer;
 
         box-shadow: $outer;
+        -webkit-box-shadow: $outer;
 
         &:focus-visible{
             outline:none;
