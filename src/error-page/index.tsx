@@ -1,6 +1,6 @@
 import React from "react"
 import Link from 'next/link'
-import styles from './ErrorPage.module.scss'
+import styles from './Errorpage.module.scss'
 
 const ErrorPage = ({errorCode}:{errorCode:number}) => (
     <main className={styles.errorpage}>
