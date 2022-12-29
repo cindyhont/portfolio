@@ -4,7 +4,7 @@ import LinkButton from "./link-button";
 import Slider from "./slider";
 import YoutubePlayer from "./youtube";
 import styles from './styles/IndividualWork.module.scss'
-import headerImgStyles from './styles/headerImg.module.scss'
+import headerImgStyles from './styles/HeaderImg.module.scss'
 
 const Work = (
     {

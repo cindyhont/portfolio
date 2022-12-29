@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useMemo, useRef } from "react";
 import * as THREE from 'three'
 import { cdnPrefix } from "../../common";
 import { Context } from "../../context";
-import styles from './styles/headerImg.module.scss'
+import styles from './styles/HeaderImg.module.scss'
 
 const 
     Scene = ({imgPaths,id}:{imgPaths:string[];id:string}) => {

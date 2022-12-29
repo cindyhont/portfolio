@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './styles/headerImg.module.scss'
+import styles from './styles/HeaderImg.module.scss'
 
 const YoutubePlayer = ({url,title}:{url:string;title:string;}) => (
     <iframe 
