@@ -1,13 +1,15 @@
 .main-page {
     background-color: var(--background-color);
-    color: var(--text-color);
     letter-spacing: 0.03rem;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: 300;
     transition: background-color $mode-transition-time, color $mode-transition-time;
 
-    a {
+    p, a {
         color: var(--text-color);
+    }
+
+    a {
         font-weight: 400;
         text-decoration: none;
         transition: color $mode-transition-time;
