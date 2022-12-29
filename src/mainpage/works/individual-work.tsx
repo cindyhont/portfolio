@@ -47,7 +47,7 @@ const Work = (
         >
             {!!youtube && <YoutubePlayer {...{url:youtube,title}} />}
             {!youtube && !!slideImg && <Slider imgPaths={slideImg} bgColor='#000' id={id} />}
-            {!youtube && !slideImg && !!img && <div className='slide-cropped-image' style={{backgroundImage:`url(${cdnPrefix()}/${img})`}}/>}
+            {!youtube && !slideImg && !!img && <div className='slide-cropped-image' style={{backgroundImage:`url(${cdnPrefix()}/${img})`,backgroundColor:'#000'}}/>}
             <h3>{title}</h3>
             <div className='work-link-container'>
                 <LinkButton link={live || `/work/${slug}/`} title='LIVE' />

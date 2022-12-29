@@ -147,7 +147,7 @@ $text-color-pale-dark:#777;
     }
 }
 
-/* mobile nav */
+// mobile nav
 
 @keyframes reveal-mobile-nav-label {
     from { opacity: 0; }
@@ -397,51 +397,6 @@ $title-font-size: min(20px, 5vw, 8vh);
 html:not(.dark) #moon, .dark #sun {
     display:none;
 }
-
-
-/*
-.section-bg {
-    width:50%;
-    height:50%;
-    position: absolute;
-
-    &:nth-child(1){
-        top:0;
-        left:0;
-    }
-    &:nth-child(2){
-        top:0;
-        right:0;
-    }
-    &:nth-child(3){
-        bottom:0;
-        left:0;
-    }
-    &:nth-child(4){
-        bottom:0;
-        right:0;
-    }
-}
-
-#main-page > div {
-    position: relative;
-
-    &:nth-child(2n+1) {
-        .section-bg:nth-child(4){
-            border-bottom-right-radius: 100px;
-            box-shadow: 10px 10px 10px #ccc;
-        }
-    }
-
-    &:nth-child(2n){
-        padding:50px 0;
-        .section-bg:nth-child(1){
-            border-top-left-radius: 100px;
-            box-shadow: inset 10px 10px 10px #ccc;
-        }
-    }
-}
-*/
 
 $name-shadow: $name-shadow-displacement-a 
     $name-shadow-displacement-a 

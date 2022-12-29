@@ -93,7 +93,7 @@ const
         }
     },
     canvasIsLoaded = () => document.getElementById('home').dispatchEvent(new CustomEvent('canvasLoaded',{detail:true})),
-    cdnPrefix = () => ''//`${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://cdn.cindyhodev.com' : ''}`
+    cdnPrefix = () => `${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://cdn.cindyhodev.com' : ''}`
 
 export {
     closeAllModals,

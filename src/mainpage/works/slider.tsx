@@ -185,13 +185,13 @@ const
             imgIdx = useRef(0),
             onSwipe = (e:CustomEvent) => {
                 imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
-                ref.current.style.backgroundImage = `url(/${imgPaths[imgIdx.current]})`
+                ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
             }
 
         useEffect(()=>{
             if (webgl) ref.current.style.backgroundImage = null
             else {
-                ref.current.style.backgroundImage = `url(/${imgPaths[imgIdx.current]})`
+                ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
                 ref.current.addEventListener('swipe',onSwipe)
             }
             return () => ref.current.removeEventListener('swipe',onSwipe)

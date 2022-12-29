@@ -76,7 +76,7 @@ const MobileNav = () => {
                     <ThemeButton />
                 </div>
             </div>
-            <label htmlFor="menu-checkbox" ref={labelRef}>
+            <label htmlFor="menu-checkbox" ref={labelRef} className='label-menu-checkbox'>
                 {Array.from(Array(3).keys(),(i)=>(<div key={i} />))}
             </label>
         </div>
