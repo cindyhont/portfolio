@@ -58,6 +58,7 @@ const DesktopNavBar = () => {
                         currentRight = +underline.current.style.right.replace('px','').trim()
 
                     if (left + 20 !== currentLeft || innerWidth - right + 20 !== innerWidth - currentRight){
+                        underline.current.style.backgroundColor = null
                         callback(left + 20,innerWidth - right + 20)
                     }
                     break
@@ -91,7 +92,7 @@ const DesktopNavBar = () => {
     return (
         <div id='desktop-nav' className={styles['desktop-nav']} ref={container}>
             {navButtons.map(e=><LinkButton key={e.title} {...{...e,letterSpaceClassName:styles['letter-space']}} />)}
-            <div className={styles.underline} ref={underline} />
+            <div className={styles.underline} ref={underline} style={{backgroundColor:'var(--background-color)'}} />
             <GithubButton className={styles['github-button']} />
             <ThemeButton className={styles['theme-button']} />
         </div>
