@@ -5,6 +5,10 @@
     font-weight: 300;
     transition: background-color $mode-transition-time, color $mode-transition-time;
 
+    h1 {
+        color: var(--background-color);
+    }
+
     p, a {
         color: var(--text-color);
     }
