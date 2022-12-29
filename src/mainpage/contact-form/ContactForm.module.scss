@@ -1,0 +1,48 @@
+.contact {
+    padding: 15px;
+    width: min(500px, 80vw);
+    margin:0 auto;
+
+    input, textarea, .admin-msg {
+        width: calc(100% - 1.6rem);
+    }
+
+    input, textarea {
+        margin-bottom: 15px;
+        background-color: var(--background-color);
+        font-size: 1rem;
+        color:var(--contact-input-text-color);
+        font-family: Helvetica, Arial, sans-serif;
+        padding: 0.8rem;
+        letter-spacing: 0.05rem;
+        border-radius: 0.5rem;
+        border:none;
+
+        $outer: 0.3rem 0.3rem 0.5rem var(--contact-input-shadow-dark), -0.2rem -0.2rem 0.4rem var(--contact-input-shadow-light);
+        $all: inset 0.2rem 0.2rem 0.5rem var(--contact-input-shadow-dark), inset -0.2rem -0.2rem 0.5rem var(--contact-input-shadow-light), $outer;
+        -webkit-appearance: none;
+        -webkit-box-shadow: $outer;
+        box-shadow: $outer;
+
+        &:focus-visible{
+            outline:none;
+        }
+
+        &:focus{
+            -webkit-box-shadow: $all;
+            box-shadow: $all;
+        }
+        transition: background-color $mode-transition-time, box-shadow $mode-transition-time;
+    }
+}
+
+.phone {
+    display:none;
+}
+
+.button {
+    @include button;
+    background-color: var(--background-color);
+}
+
+@include letter-space;

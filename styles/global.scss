@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    overscroll-behavior: none;
+}
+
+html[data-theme='light']{
+    --background-color:#eee;
+    --text-color:#555;
+    --text-color-pale:#777;
+
+    --sun-display:block;
+    --moon-display:none;
+
+    --desktop-nav-shadow:#ddd;
+    --desktop-nav-url:#777;
+    --desktop-nav-url-hover:#222;
+
+    --mobile-nav-button-bg:#e3e3e3;
+    --mobile-nav-button-shadow-outer:2px 2px 2px #ccc, -2px -2px 2px #fff;
+    --mobile-nav-button-shadow:var(--mobile-nav-button-shadow-outer),inset -1px -1px 1px #ccc, inset 2px 2px 2px #fff;
+    --mobile-nav-button-shadow-active:var(--mobile-nav-button-shadow-outer),inset -4px -4px 4px #fff, inset 4px 4px 4px #ccc;
+
+    --mobile-sidebar-text-color:#777;
+    --mobile-sidebar-section-match-color:#555;
+
+    --title-shadow-light:#fff;
+    --title-shadow-dark:rgba(0,0,0,0.3);
+    --title-cursor-border-color:#ddd;
+
+    --work-box-shadow-outer:10px 10px 20px 0 #ccc, -10px -10px 10px 0 #fff;
+    --work-box-shadow-all:var(--work-box-shadow-outer),inset 10px 10px 20px 0 #ddd, inset -10px -10px 10px 0 #fff;
+    --work-title-text-color:rgba(0,0,0,0.2);
+    --work-title-shadow:0px 1px 1px var(--background-color), 0 0 0 var(--text-color-pale);
+
+    --button-shadow-light:#fff;
+    --button-shadow-dark:rgba(195, 193, 198, 0.9);
+    --button-text-color:#777;
+    --button-underline-color:#777;
+
+    --about-me-logo-stroke-color:#777;
+    --about-me-logo-shadow-light:#fff;
+    --about-me-logo-shadow-dark:#ccc;
+
+    --contact-input-shadow-light:#fff;
+    --contact-input-shadow-dark:rgba(195, 193, 198, 0.9);
+    --contact-input-text-color:#777;
+}
+
+html[data-theme='dark']{
+    --background-color:#333;
+    --text-color:#aaa;
+    --text-color-pale:#777;
+
+    --sun-display:none;
+    --moon-display:block;
+
+    --desktop-nav-shadow:#282828;
+    --desktop-nav-url:#aaa;
+    --desktop-nav-url-hover:#eee;
+
+    --mobile-nav-button-bg:#444;
+    --mobile-nav-button-shadow-outer:2px 2px 2px #282828, -2px -2px 2px #555;
+    --mobile-nav-button-shadow:var(--mobile-nav-button-shadow-outer),inset -1px -1px 1px #222, inset 1px 1px 1px #555;
+    --mobile-nav-button-shadow-active:var(--mobile-nav-button-shadow-outer),inset -2px -2px 2px #555, inset 2px 2px 2px #222;
+
+    --mobile-sidebar-text-color:#999;
+    --mobile-sidebar-section-match-color:#ccc;
+
+    --title-shadow-light:rgba(255,255,255,0.2);
+    --title-shadow-dark:rgba(0,0,0,0.7);
+    --title-cursor-border-color:#777;
+
+    --work-box-shadow-outer:10px 10px 20px 0 #222, -10px -10px 10px 0 #444;
+    --work-box-shadow-all:var(--work-box-shadow-outer),inset 10px 10px 20px 0 #222, inset -10px -10px 10px 0 #444;
+    --work-title-text-color:rgba(255,255,255,0.4);
+    --work-title-shadow:1px 1px 1px #000;
+
+    --button-shadow-light:#444;
+    --button-shadow-dark:rgba(0,0,0, 0.5);
+    --button-text-color:#aaa;
+    --button-underline-color:#aaa;
+
+    --about-me-logo-stroke-color:#999;
+    --about-me-logo-shadow-light:#444;
+    --about-me-logo-shadow-dark:#222;
+
+    --contact-input-shadow-light:#444;
+    --contact-input-shadow-dark:#222;
+    --contact-input-text-color:#ccc;
+}

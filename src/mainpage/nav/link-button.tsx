@@ -1,11 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import { addLetterSpacing } from "../../common";
-import { Ilinkbutton } from "./buttons";
 
 const LinkButton = (
     {
         title,
-    }:Ilinkbutton
+        letterSpaceClassName,
+        extraClassNames,
+    }:{
+        title:string;
+        letterSpaceClassName:string;
+        extraClassNames?:string;
+    }
 ) => {
     const 
         ref = useRef<HTMLDivElement>(),
@@ -44,11 +49,11 @@ const LinkButton = (
         }
 
     useEffect(()=>{
-        addLetterSpacing(title,ref.current)
+        addLetterSpacing(title,ref.current,letterSpaceClassName)
     },[])
 
     return (
-        <button className={title.toLowerCase()} aria-label={title} onClick={onClick}>
+        <button className={`${title.toLowerCase()} ${extraClassNames || ''}`} aria-label={title} onClick={onClick}>
             <div ref={ref} />
         </button>
     )

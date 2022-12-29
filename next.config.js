@@ -1,4 +1,6 @@
-const withMDX = require('@next/mdx')({
+const 
+  path = require('path'),
+  withMDX = require('@next/mdx')({
     extension: /\.mdx?$/,
     options: {
       // If you use remark-gfm, you'll need to use next.config.mjs
@@ -15,6 +17,10 @@ const withMDX = require('@next/mdx')({
     pageExtensions: ['tsx','ts','js','mdx'],
     images: {
       unoptimized: true,
+    },
+    sassOptions: {
+      includePaths: [path.join(__dirname, 'styles')],
+      prependData: `@import "-vars.scss";`,
     },
     ...(process.env.NEXT_PUBLIC_NODE_ENV === 'production' && {assetPrefix:'https://cdn.cindyhodev.com'}),
   })

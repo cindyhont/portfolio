@@ -15,6 +15,7 @@ import WebGL from "./webgl";
 import HTML from "./html";
 import CSS from "./css";
 import Javascript from "./javascript";
+import styles from '../styles/AboutMe.module.scss'
 
 const Logos = () => {
     const 
@@ -25,18 +26,18 @@ const Logos = () => {
                 return entry.target
             })
             targets.forEach((target,i)=>{
-                setTimeout(()=>(target.firstChild.firstChild as HTMLElement).classList.add('show'),i * 200)
+                setTimeout(()=>(target.firstChild.firstChild as HTMLElement).classList.add(styles.show),i * 200)
             })
         }
 
     useEffect(()=>{
-        container.current.querySelectorAll('[class^="path"]').forEach(e=>e.setAttribute('pathLength','50000'))
+        container.current.querySelectorAll('rect, polygon, path').forEach(e=>e.setAttribute('pathLength','50000'))
         const observer = new IntersectionObserver(handleAnim,{root:null,rootMargin:'0px',threshold:0.3})
-        document.querySelectorAll('.about-me-skill').forEach(e=>observer.observe(e))
+        document.querySelectorAll(`.${styles['about-me-skill']}`).forEach(e=>observer.observe(e))
     },[])
 
     return (
-        <div id='about-me-skills' ref={container}>
+        <div className={styles['about-me-skills']} ref={container}>
             <HTML />
             <CSS />
             <Javascript />

@@ -1,7 +1,6 @@
-import '../styles.scss'
+import '../styles/global.scss'
 import React, { useEffect, useState } from 'react'
 import {Context} from '../src/context'
-import Script from 'next/script'
 
 const App = ({ Component, pageProps }) => {
     const 
@@ -50,33 +49,9 @@ const App = ({ Component, pageProps }) => {
     },[])
 
     return (
-        <>
-        <Script strategy='beforeInteractive' id='theme-script' dangerouslySetInnerHTML={{__html:`
-            // preload and set theme color to avoid 'flashing'
-            let dark = false;
-            const 
-                prevDark = localStorage.getItem('dark'),
-                systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-                htmlTag = document.getElementsByTagName('html')[0]
-
-            htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
-            htmlTag.style.setProperty('--landscape-height', Math.min(window.innerHeight,window.innerWidth) + 'px');
-            htmlTag.style.setProperty('--portrait-height', Math.max(window.innerHeight,window.innerWidth) + 'px');
-
-            if (!!prevDark) {
-                dark = prevDark === 'true'
-                if (dark === systemDark) localStorage.removeItem('dark')
-            }
-            else dark = systemDark
-            
-            if (dark) htmlTag.classList.add('dark')
-                
-            if (window.location.pathname === '/') htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
-        `}} />
         <Context.Provider value={{devicePixelRatio,mobile,isSafari,webgl}}>
             <Component {...pageProps} />
         </Context.Provider>
-        </>
     )
 }
 

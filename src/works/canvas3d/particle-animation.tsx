@@ -1,10 +1,11 @@
 import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
+import styles from './Canvas.module.scss'
 
 class SkinnedMeshSurfaceSampler{
     randomFunction:()=>number;
@@ -299,7 +300,7 @@ const
         )
     },
     ParticleAnimation = () => (
-        <div style={{height:'calc(100 * var(--vh))',width:'100vw'}}>
+        <div className={styles.canvas}>
             <Canvas dpr={0.5}>
                 <Scene />
                 <EffectComposer>

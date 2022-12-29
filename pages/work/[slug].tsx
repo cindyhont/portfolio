@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import Head from 'next/head';
 import fs from 'fs'
 import { join } from 'path'
@@ -10,7 +10,7 @@ import ParticleAnimation from "../../src/works/canvas3d/particle-animation"
 import ParticleCloud from "../../src/works/canvas3d/particle-cloud"
 import ExternalLink from "../../src/works/components/external-link";
 import FullScreenAbout from "../../src/works/full-screen-about";
-import FpsCounter from "../../src/mainpage/fps-counter";
+import FpsCounter from "../../src/works/fps-counter";
 
 const 
   root = join (process.cwd (), 'src', 'works', 'mdx'),

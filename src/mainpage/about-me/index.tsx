@@ -1,8 +1,9 @@
 import React from "react";
 import Logos from "./logos";
+import styles from './styles/AboutMe.module.scss'
 
 const AboutMe = () => (
-    <div id='about' className="section">
+    <div id='about' className={`section ${styles.about}`}>
         <h2>ABOUT ME</h2>
         <p>
             I am a self-taught developer 
@@ -20,7 +21,7 @@ const AboutMe = () => (
         <p>
             I am open to new opportunities in the UK and remote.
         </p>
-        <h2 className="about-me-sections title">Skills</h2>
+        <h2>Skills</h2>
         <Logos />
     </div>
 )

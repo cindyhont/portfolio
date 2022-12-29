@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './styles/headerImg.module.scss'
 
 const YoutubePlayer = ({url,title}:{url:string;title:string;}) => (
     <iframe 
@@ -7,7 +8,7 @@ const YoutubePlayer = ({url,title}:{url:string;title:string;}) => (
         frameBorder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowFullScreen
-        className='slide-cropped-image'
+        className={styles['slide-cropped-image']}
     />
 )
 

@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
-import { addLetterSpacing } from '../common';
+import { addLetterSpacing } from '../../common';
+import styles from './ContactForm.module.scss'
 
 const ContactForm = () => {
     const 
@@ -16,7 +17,7 @@ const ContactForm = () => {
         },
         replaceSubmitButtonText = (text:string) => {
             clearSubmitBtnText()
-            addLetterSpacing(text,submitBtnP.current)
+            addLetterSpacing(text,submitBtnP.current,styles['letter-space'])
         },
         [adminMsg,setAdminMsg] = useState(''),
         dismissMsg = () => setAdminMsg(''),
@@ -84,11 +85,10 @@ const ContactForm = () => {
     },[])
 
     return (
-        <div id='contact' className="section">
+        <div id='contact' className={`section ${styles.contact}`}>
             <h2>Contact</h2>
             <form onSubmit={onSubmit}>
                 <input 
-                    className='input-text' 
                     ref={nameRef} 
                     type="text" 
                     required={true} 
@@ -98,7 +98,6 @@ const ContactForm = () => {
                     onInput={dismissMsg}
                 />
                 <input 
-                    className='input-text'
                     ref={emailRef} 
                     type="email" 
                     required={true} 
@@ -109,7 +108,7 @@ const ContactForm = () => {
                     placeholder='Your email address'
                     onInput={dismissMsg}
                 />
-                <input className='phone' ref={phoneRef} type="text" style={{display:'none'}} />
+                <input className={styles.phone} ref={phoneRef} type="text" />
                 <textarea 
                     ref={messageRef} 
                     required={true} 
@@ -119,10 +118,10 @@ const ContactForm = () => {
                     rows={6} 
                     onInput={dismissMsg}
                 ></textarea>
-                <button type="submit" id='form-submit' ref={submitBtn}>
+                <button type="submit" id='form-submit' ref={submitBtn} className={styles.button}>
                     <div ref={submitBtnP} />
                 </button>
-                <p id='admin-msg'>{adminMsg}</p>
+                <p className={styles['admin-msg']}>{adminMsg}</p>
             </form>
         </div>
     )

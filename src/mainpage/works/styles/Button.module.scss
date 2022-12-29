@@ -1,0 +1,7 @@
+@include letter-space;
+
+.button {
+    @include button;
+    margin-right:1rem;
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,108 @@
+@keyframes reveal{
+    0%{transform: translate(0,100%) rotate3d(0, 1, 0, 30deg);}
+    100%{transform: translate(0,0) rotate3d(0, 1, 0, 30deg);}
+}
+
+@keyframes revealreflection{
+    0%{transform: translate(0,-100%) rotate3d(1, 0, -0.27, 180deg);}
+    100%{transform: translate(0,0) rotate3d(1, 0, -0.27, 180deg);}
+}
+
+.errorpage{
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    #link-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    a{
+        text-decoration: none;
+        width: fit-content;
+        opacity: 0.9;
+        &:hover{
+            opacity: 1;
+        }
+    }
+    h1,h2{
+        text-align: center;
+        font-family:serif;
+        overflow: hidden;
+        margin:0;
+        line-height:1;
+    }
+    h1{
+        $side-color: #444;
+        font-size: 150px;
+        color:#666;
+        span{
+            animation-duration: 1s;
+            animation-delay: 0.3s;
+            line-height: 110px;
+            height:105px;
+            text-shadow: 
+                -1px 0 1px $side-color,
+                -2px 0 1px $side-color,
+                -3px 0 1px $side-color,
+                -4px 0 1px $side-color,
+                -5px 0 1px $side-color,
+                -6px 0 1px $side-color,
+                -7px 0 1px $side-color,
+                -8px 0 1px $side-color,
+                -9px 0 1px $side-color;
+        }
+        &.bottom span{
+            opacity: 0.5;
+        }
+    }
+    h2{
+        $side-color: #ddd;
+        font-size: 50px;
+        color:#fff;
+        span{
+            animation-duration: 0.7s;
+            animation-delay: 1.5s;
+            line-height: 41px;
+            height: 38px;
+            text-shadow: 
+                -1px -0.5px 1px $side-color,
+                -2px -1px 1px $side-color,
+                -3px -1.5px 1px $side-color,
+                -4px -2px 1px $side-color;
+        }
+        &.bottom > span{
+            opacity: 0.25;
+        }
+        &:nth-of-type(1){
+            margin-top:30px;
+        }
+    }
+
+    span{
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+        display: block;
+    }
+}
+
+.top span{
+    transform: translate(0,100%) rotate3d(0, 1, 0, 30deg) ;
+    animation-name: reveal;
+}
+.bottom span{
+    transform: translate(0,-100%) rotate3d(1, 0, -0.27, 180deg);
+    animation-name: revealreflection;
+}
+
+@media screen and (max-height: 349px){
+    .bottom{
+        height:0px;
+    }
+}

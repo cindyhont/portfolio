@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useRef } from 'react'
+import styles from './FpsCounter.module.scss'
 
 const FpsCounter = memo(()=>{
     const 
@@ -21,7 +22,7 @@ const FpsCounter = memo(()=>{
     },[])
 
     return (
-        <div id='fps-counter'><p>FPS: <span ref={spanRef} /></p></div>
+        <div className={styles['fps-counter']}><p>FPS: <span ref={spanRef} /></p></div>
     )
 })
 FpsCounter.displayName = 'FpsCounter'

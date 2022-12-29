@@ -3,6 +3,7 @@ import navButtons from "./buttons";
 import GithubButton from "./github-button";
 import LinkButton from "./link-button";
 import ThemeButton from "./theme-button";
+import styles from './styles/MobileNav.module.scss'
 
 const MobileNav = () => {
     const 
@@ -30,8 +31,8 @@ const MobileNav = () => {
                         || bottom <= innerHeight && bottom >= innerHeight * 0.5
 
                 if (elem.id === 'contact'){
-                    if (bottom < innerHeight + 10) labelRef.current.classList.add('away')
-                    else labelRef.current.classList.remove('away')
+                    if (bottom < innerHeight + 10) labelRef.current.classList.add(styles.away)
+                    else labelRef.current.classList.remove(styles.away)
                     done ++
                 } 
 
@@ -66,17 +67,17 @@ const MobileNav = () => {
     },[])
         
     return (
-        <div id='mobile-nav'>
-            <input ref={checkbox} onChange={checkboxOnChange} type='checkbox' id='menu-checkbox' hidden />
-            <div className="menu-backdrop" onClick={backdropOnClick} />
-            <div className="menu-container" ref={container}>
-                {navButtons.map(e=><LinkButton key={e.title} {...e} />)}
-                <div className="icon-buttons">
+        <div className={styles['mobile-nav']}>
+            <input ref={checkbox} onChange={checkboxOnChange} type='checkbox' id='menu-checkbox' className={styles['menu-checkbox']} hidden />
+            <div className={styles["menu-backdrop"]} onClick={backdropOnClick} />
+            <div className={styles["menu-container"]} ref={container}>
+                {navButtons.map(e=><LinkButton key={e.title} {...{...e,letterSpaceClassName:styles['letter-space'],extraClassNames:styles[e.title.toLowerCase()]}} />)}
+                <div className={styles["icon-buttons"]}>
                     <GithubButton />
-                    <ThemeButton />
+                    <ThemeButton className={styles['theme-button']} />
                 </div>
             </div>
-            <label htmlFor="menu-checkbox" ref={labelRef} className='label-menu-checkbox'>
+            <label htmlFor="menu-checkbox" ref={labelRef} className={styles['label-menu-checkbox']}>
                 {Array.from(Array(3).keys(),(i)=>(<div key={i} />))}
             </label>
         </div>

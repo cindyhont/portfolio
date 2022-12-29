@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useMemo, useRef } from "react";
 import * as THREE from 'three'
 import { cdnPrefix } from "../../common";
 import { Context } from "../../context";
+import styles from './styles/headerImg.module.scss'
 
 const 
     Scene = ({imgPaths,id}:{imgPaths:string[];id:string}) => {
@@ -170,7 +171,7 @@ const
             <mesh args={[geometry,material]} />
         )
     },
-    Slider = ({imgPaths,bgColor,id}:{imgPaths:string[];bgColor:string;id:string;}) => {
+    Slider = ({imgPaths,backgroundColor,id}:{imgPaths:string[];backgroundColor:string;id:string;}) => {
         const 
             ref = useRef<HTMLDivElement>(),
             {webgl,devicePixelRatio} = useContext(Context),
@@ -198,16 +199,16 @@ const
         },[webgl])
 
         return (
-            <div id={id} ref={ref} className='slide-cropped-image' data-webgl={true} style={{backgroundColor:bgColor}}>
+            <div id={id} ref={ref} className={styles['slide-cropped-image']} data-webgl={true} style={{backgroundColor}}>
                 {webgl && <Canvas dpr={devicePixelRatio} frameloop='demand'>
                     <Scene imgPaths={imgPaths} id={id} />
                 </Canvas>}
-                <button className="prev" aria-label='Previous Slide' onClick={prevOnClick}>
+                <button className={styles['prev']} aria-label='Previous Slide' onClick={prevOnClick}>
                     <svg viewBox="-3 -3 21 36" width='15' height='30'>
                         <polyline points="15,0 0,15 15,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
                     </svg>
                 </button>
-                <button className="next" aria-label='Next Slide' onClick={nextOnClick}>
+                <button className={styles['next']} aria-label='Next Slide' onClick={nextOnClick}>
                     <svg viewBox="-3 -3 21 36" width='15' height='30'>
                         <polyline points="0,0 15,15 0,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
                     </svg>

@@ -1,0 +1,56 @@
+.slide-cropped-image{
+    height:min(300px, max(45vw, 80vh));
+    width:100%;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:contain;
+    margin:0px auto;
+    display:block;
+    border-radius: 8px;
+    position: relative;
+
+    canvas {
+        border-radius: 8px;
+    }
+
+    button {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        top: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        
+        @media (hover:hover){
+            opacity: 0;
+            &:hover{
+                opacity: 1;
+            }
+        }
+
+        &.prev{
+            left: 0px;
+            svg{
+                margin-left:5px;
+                margin-right:auto;
+            }
+        }
+        &.next{
+            right: 0px;
+            svg{
+                margin-right:5px;
+                margin-left:auto;
+            }
+        }
+
+        &:active {
+            svg {
+                filter:url(#slider-button-glow-onclick)
+            }
+        }
+    }
+}

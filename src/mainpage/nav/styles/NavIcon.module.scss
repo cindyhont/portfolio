@@ -1,0 +1,15 @@
+.nav-side-button-template{
+    position: fixed;
+    path {
+        fill:var(--desktop-nav-url);
+        transition:fill $mode-transition-time;
+    }
+}
+
+.sun {
+    display:var(--sun-display);
+}
+
+.moon {
+    display:var(--moon-display);
+}

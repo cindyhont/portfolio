@@ -10,4 +10,5 @@ export interface IindexItem {
     frontend?:string;
     backend?:string;
     slug:string;
+    backgroundColor:string;
 }

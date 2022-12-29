@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import styles from './Opening.module.scss'
 
 const Opening = () => {
     const
@@ -20,11 +21,11 @@ const Opening = () => {
                     span = document.createElement('span')
                 span.innerText = chars[i]
                 span.style.animationDelay = `${1.5 + i * 0.15}s`
-                if (hideSpace) span.classList.add('space')
+                if (hideSpace) span.classList.add(styles.space)
                 titleRef.current.appendChild(span)
                 const hr = document.createElement('hr')
                 hr.style.animationDelay = `${1.5 + i * 0.15}s`
-                if (hideSpace) hr.classList.add('space')
+                if (hideSpace) hr.classList.add(styles.space)
                 titleRef.current.appendChild(hr);
             }
         },
@@ -38,7 +39,7 @@ const Opening = () => {
     },[])
 
     return (
-        <div id='home' className="section">
+        <div id='home' className={`section ${styles.home}`}>
             <div>
                 <h1 ref={nameRef}>Cindy Ho</h1>
                 <p ref={titleRef} />

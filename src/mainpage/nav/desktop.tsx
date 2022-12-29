@@ -4,6 +4,8 @@ import navButtons from './buttons'
 import GithubButton from './github-button'
 import LinkButton from './link-button'
 import ThemeButton from './theme-button'
+import styles from './styles/DesktopNav.module.scss'
+// import homeStyles from '../../../styles/Home.module.scss'
 
 const DesktopNavBar = () => {
     const 
@@ -35,8 +37,8 @@ const DesktopNavBar = () => {
                 if (Math.sign(distance) !== Math.sign(distanceScrolled.current)) distanceScrolled.current = 0
                 distanceScrolled.current += distance
     
-                if (distanceScrolled.current > 100) container.current.classList.add('hide')
-                else if (distanceScrolled.current < -100) container.current.classList.remove('hide')
+                if (distanceScrolled.current > 100) container.current.classList.add(styles.hide)
+                else if (distanceScrolled.current < -100) container.current.classList.remove(styles.hide)
             }
             prevScrollY.current = scrollY
 
@@ -87,11 +89,11 @@ const DesktopNavBar = () => {
     },[])
 
     return (
-        <div id='desktop-nav' ref={container}>
-            {navButtons.map(e=><LinkButton key={e.title} {...e} />)}
-            <div className='underline' ref={underline} />
-            <GithubButton />
-            <ThemeButton />
+        <div id='desktop-nav' className={styles['desktop-nav']} ref={container}>
+            {navButtons.map(e=><LinkButton key={e.title} {...{...e,letterSpaceClassName:styles['letter-space']}} />)}
+            <div className={styles.underline} ref={underline} />
+            <GithubButton className={styles['github-button']} />
+            <ThemeButton className={styles['theme-button']} />
         </div>
     )
 }

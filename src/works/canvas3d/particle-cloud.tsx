@@ -5,6 +5,8 @@ import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import { Context } from '../../context';
+import styles from './Canvas.module.scss'
 
 const 
     particlesConfig = {
@@ -510,10 +512,12 @@ const
         },[])
 
         return (
-            <div style={{height:'calc(100 * var(--vh))',width:'100vw'}}>
-                <Canvas dpr={2} frameloop='demand'>
-                    <Scene />
-                </Canvas>
+            <div className={styles.canvas}>
+                <Context.Consumer>{({devicePixelRatio})=>
+                    <Canvas dpr={devicePixelRatio} frameloop='demand'>
+                        <Scene />
+                    </Canvas>
+                }</Context.Consumer>
             </div>
         )
     }

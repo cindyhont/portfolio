@@ -1,0 +1,66 @@
+$mode-transition-time: 0.5s;
+
+@mixin letter-space {
+    .letter-space {
+        display: inline-flex;
+        width: 0.15rem;
+        transition: width $mode-transition-time;
+    }
+}
+
+@mixin button {
+    border:none;
+    border-radius: 0.5rem;
+    height: 2.5rem;
+    min-width: 7rem;
+    box-shadow: 
+        inset 0.1rem 0.1rem 0.2rem var(--button-shadow-light), 
+        inset -0.1rem -0.1rem 0.2rem var(--button-shadow-dark), 
+        0.1rem 0.1rem 0.2rem var(--button-shadow-dark), 
+        -0.1rem -0.1rem 0.2rem var(--button-shadow-light);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+
+    font-size: 0.8rem;
+    color:var(--button-text-color) !important;
+
+    transition: color $mode-transition-time, box-shadow $mode-transition-time, background-color $mode-transition-time;
+
+    & > div {
+        width:fit-content;
+        margin:0 auto;
+        position: relative;
+        text-decoration: none;
+    
+        &::before{
+            content:"";
+            position: absolute;
+            bottom:0;
+            height:1px;
+            background-color: var(--button-underline-color);
+            transform: translateY(1px);
+            left:50%;
+            width:0%;
+            transition: all 0.2s;
+        }
+    }
+
+    @media (hover: hover){
+        &:hover:not(:disabled) {
+            & > div::before {
+                left:0%;
+                width:100%;
+            }
+        }
+    }
+
+    &:active:not(:disabled) {
+        box-shadow: inset 0.1rem 0.1rem 0.2rem var(--button-shadow-dark), inset -0.1rem -0.1rem 0.2rem var(--button-shadow-light);
+    }
+    &:hover {
+        text-decoration: none !important;
+    }
+}

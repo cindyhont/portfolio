@@ -1,0 +1,151 @@
+.about{
+    padding: 15px;
+    width: min(500px, 80vw);
+    margin:0 auto;
+}
+
+.about-me-skills{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: -20px;
+}
+
+$size:60px;
+$padding:5px;
+
+.about-me-skill{
+    width:$size;
+    margin-right:20px;
+    margin-bottom: 20px;
+
+    svg {
+        width:100%;
+        height:100%;
+
+        path, rect, polygon {
+            stroke:var(--about-me-logo-stroke-color);
+            fill: none;
+            $dash-count: 50000;
+            stroke-dasharray: $dash-count;
+            stroke-dashoffset: $dash-count;
+            transition: stroke $mode-transition-time, stroke-dashoffset 1s;
+        }
+    }
+}
+
+.about-me-skill-logo{
+    height:calc($size - $padding * 2);
+    padding:$padding;
+    transition: box-shadow $mode-transition-time;
+
+    border-radius: 7px;
+    $about-me-skill-logo-shadow-offset:5px;
+    $about-me-skill-logo-shadow-offset-neg:calc($about-me-skill-logo-shadow-offset * -1);
+    $about-me-skill-logo-shadow-size:5px;
+    box-shadow: 
+        $about-me-skill-logo-shadow-offset 
+        $about-me-skill-logo-shadow-offset 
+        $about-me-skill-logo-shadow-size 
+        var(--about-me-logo-shadow-dark), 
+        $about-me-skill-logo-shadow-offset-neg 
+        $about-me-skill-logo-shadow-offset-neg 
+        $about-me-skill-logo-shadow-size 
+        var(--about-me-logo-shadow-light);
+}
+
+.about-me-skill-caption{
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+}
+
+.html path {
+    stroke-width: 15px;
+}
+
+.css path {
+    stroke-width: 15px;
+}
+
+.javascript path {
+    stroke-width: 15px;
+}
+
+.typescript {
+    transform: scale(0.9);
+    rect{
+        stroke-width: 30px;
+    }
+    path{
+        stroke-width: 15px;
+    }
+}
+
+.sass {
+    transform: rotateX(180deg);
+    path {
+        stroke-width: 120px;
+        transform: scale(0.13) translate(-10px,0);
+    }
+}
+
+.react path {
+    stroke-width: 10px;
+}
+
+.nextjs path {
+    stroke-width: 10px;
+}
+
+.redux path {
+    stroke-width: 3px;
+}
+
+.go {
+    & > path{
+        stroke-width: 3px;
+    }
+    & > g > path {
+        stroke-width: 5px;
+    }
+}
+
+.gsap path {
+    stroke-width: 5px;
+}
+
+.threejs path {
+    stroke-width: 5px;
+}
+
+.webgl {
+    path, polygon {
+        stroke-width: 20px;
+    }
+}
+
+.rabbitmq path {
+    stroke-width: 2px;
+}
+
+.nginx path{
+    stroke-width: 2px;
+}
+
+.postgresql path{
+    stroke-width: 12px;
+}
+
+.docker {
+    rect, path {
+        stroke-width: 10px;
+    }
+}
+
+.show {
+    path, rect, polygon {
+        stroke-dashoffset: 0 !important;
+    }
+}

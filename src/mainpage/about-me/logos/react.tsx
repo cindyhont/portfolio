@@ -1,10 +1,11 @@
 import React from "react";
 import Logo from "../logo-container";
+import styles from '../styles/AboutMe.module.scss'
 
 const ReactLogo = () => (
     <Logo title="React">
-        <svg className="react" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 516 516">
-            <path className="path1" d={`
+        <svg className={styles.react} xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 516 516">
+            <path d={`
                 M418.2 177.2c-5.4-1.8-10.8-3.5-16.2-5.1.9-3.7 1.7-7.4 2.5-11.1 12.3-59.6 4.2-107.5-23.1-123.3-26.3-15.1-69.2.6-112.6 
                 38.4-4.3 3.7-8.5 7.6-12.5 11.5-2.7-2.6-5.5-5.2-8.3-7.7-45.5-40.4-91.1-57.4-118.4-41.5-26.2 15.2-34 60.3-23 
                 116.7 1.1 5.6 2.3 11.1 3.7 16.7-6.4 1.8-12.7 3.8-18.6 5.9C38.3 196.2 0 225.4 0 255.6c0 31.2 40.8 62.5 

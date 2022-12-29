@@ -1,0 +1,43 @@
+.work-container {
+    border-radius: 12px;
+    
+    padding: 15px;
+    width: min(500px, 80vw);
+    margin: 20px auto;
+    transition: all $mode-transition-time;
+
+    h3 {
+        font-family: Georgia;
+        font-weight: 900;
+        font-size: min(2.5rem,11vw);
+        margin: 1rem 0;
+        color: var(--work-title-text-color);
+        text-shadow: var(--work-title-shadow);
+        transition: all $mode-transition-time;
+    }
+
+    @media (hover:hover){
+        box-shadow: var(--work-box-shadow-outer);
+        &:hover {
+            box-shadow: var(--work-box-shadow-all);
+        }
+    }
+    @media (hover:none){
+        box-shadow: var(--work-box-shadow-all);
+    }
+}
+
+.work-link-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.work-content {
+    & > :first-child{
+        margin-top: 0;
+    }
+    & > :last-child{
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,50 @@
+.full-screen-about-checkbox-icon {
+    cursor: pointer;
+    position:fixed;
+    top:10vh;
+    left:10vw;
+}
+
+.full-screen-about-container {
+    color:#fff;
+    display:none;
+    position:absolute;
+    top:0px;
+    left:0px;
+    flex-direction: column;
+    justify-content: center;
+    width:100%;
+    height:calc(var(--vh) * 100);
+
+    a {
+        color: #fff;
+    }
+
+    & > div {
+        background-color:#555;
+        margin:auto;
+        padding:3vh 3vw;
+        max-width:min(80vw,500px);
+        font-size: 1.1rem;
+        position: relative;
+    }
+}
+
+.full-screen-about-checkbox-backdrop {
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+}
+
+.full-screen-about-checkbox:checked ~ .full-screen-about-container {
+    display:flex;
+}
+
+.full-screen-about-checkbox-close {
+    position:fixed;
+    top:20px;
+    right:20px;
+    cursor:pointer;
+}

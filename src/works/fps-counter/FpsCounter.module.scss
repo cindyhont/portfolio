@@ -1,0 +1,16 @@
+.fps-counter {
+    position: fixed;
+    margin: 0px;
+    padding: 0px;
+    right: 8px;
+    bottom: 8px;
+    font-family: Helvetica, sans-serif;
+    font-weight: 100;
+    font-size: 0.9rem;
+    color:#aaa;
+    mix-blend-mode: difference;
+    
+    & > p {
+        margin:0;
+    }
+}
