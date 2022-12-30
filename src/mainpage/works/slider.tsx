@@ -188,25 +188,25 @@ const
             imgIdx = useRef(0),
             onSwipe = (e:CustomEvent) => {
                 imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
-                img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
+                if (!!imgFormat) img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
             }
 
 
         useEffect(()=>{
             if (webgl) container.current.style.backgroundImage = null
-            else if (webgl===false && imgFormat !== '') {
+            else if (webgl===false && !!imgFormat) {
                 img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
                 container.current.addEventListener('swipe',onSwipe)
             }
             return () => container.current.removeEventListener('swipe',onSwipe)
-        },[webgl,imgFormat !== ''])
+        },[webgl,imgFormat])
 
         return (
             <div id={id} ref={container} className={styles['slide-cropped-image']} data-webgl={true} style={{backgroundColor}}>
                 {webgl && <Canvas dpr={devicePixelRatio} frameloop='demand'>
                     <Scene imgPaths={imgPaths} id={id} />
                 </Canvas>}
-                {webgl===false && <img ref={img} className={styles['raw-image']} />}
+                {webgl===false && !!imgFormat && <img ref={img} className={styles['raw-image']} />}
                 <button className={styles['prev']} aria-label='Previous Slide' onClick={prevOnClick}>
                     <svg viewBox="-3 -3 21 36" width='15' height='30'>
                         <polyline points="15,0 0,15 15,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
