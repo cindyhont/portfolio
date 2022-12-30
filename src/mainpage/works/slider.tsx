@@ -187,12 +187,17 @@ const
             onSwipe = (e:CustomEvent) => {
                 imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
                 ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
-            }
+            },
+            timeout = useRef<NodeJS.Timeout>(),
+            loadFirstImg = () => ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
+
 
         useEffect(()=>{
-            if (webgl) ref.current.style.backgroundImage = null
-            else {
-                ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
+            if (webgl) {
+                clearTimeout(timeout.current)
+                ref.current.style.backgroundImage = null
+            } else {
+                timeout.current = setTimeout(loadFirstImg,200)
                 ref.current.addEventListener('swipe',onSwipe)
             }
             return () => ref.current.removeEventListener('swipe',onSwipe)
