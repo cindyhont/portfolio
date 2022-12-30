@@ -39,27 +39,10 @@ export const getStaticProps:GetStaticProps = async () => {
 }
 
 const Index = ({works}:{works:IindexItem[]}) => {
-    const 
-        containerRef = useRef<HTMLDivElement>(),
-        arrangeLayout = () => {
-            const 
-                children = containerRef.current.children as HTMLCollectionOf<HTMLDivElement>,
-                count = children.length,
-                sectionBgDiv = document.createElement('div')
-
-            sectionBgDiv.classList.add('section-bg')
-
-            for (let i=0; i<count; i++){
-                const section = children.item(i)
-                for (let j=0; j<4; j++){
-                    const clonedDiv = sectionBgDiv.cloneNode()
-                    section.insertBefore(clonedDiv,section.firstChild)
-                }
-            }
-        }
+    const containerRef = useRef<HTMLDivElement>()
 
     useEffect(()=>{
-        // arrangeLayout()
+        containerRef.current.style.display = null
     },[])
 
     return (
@@ -86,7 +69,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <div className={styles['main-page']} ref={containerRef}>
+        <div className={styles['main-page']} ref={containerRef} style={{display:'none'}}>
             <Navigation />
             <Opening />
             

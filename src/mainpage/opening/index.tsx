@@ -33,7 +33,6 @@ const Opening = () => {
 
     useEffect(()=>{
         addTitle()
-        nameRef.current.style.display = null
         setTimeout(()=>nameRef.current.style.animation = 'none',1500)
         window.addEventListener('scroll',onScroll)
         return () => window.removeEventListener('scroll',onScroll)
@@ -42,7 +41,7 @@ const Opening = () => {
     return (
         <div id='home' className={`section ${styles.home}`}>
             <div>
-                <h1 ref={nameRef} style={{display:'none'}}>Cindy Ho</h1>
+                <h1 ref={nameRef}>Cindy Ho</h1>
                 <p ref={titleRef} />
             </div>
         </div>
