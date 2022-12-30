@@ -84,7 +84,7 @@ $title-font-size: min(20px, 5vw, 8vh);
     }
     p {
         font-weight: 300;
-        color: var(--text-color-pale);
+        color: var(--text-color-pale) !important;
         font-size: $title-font-size;
         margin: 0 5vw;
         transition: color $mode-transition-time;
