@@ -1,5 +1,4 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import Image from "next/image";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
 import * as THREE from 'three'
 import { cdnPrefix, convertImgFileName } from "../../common";
@@ -186,16 +185,26 @@ const
             prevOnClick = () => onClick(-1),
             nextOnClick = () => onClick(1),
             imgIdx = useRef(0),
+            preloadImage = (idx:number) => {
+                if (!imgFormat) return
+                const image = new Image()
+                image.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[idx],imgFormat)}`
+                image.onload = () => {}
+            },
+            loadImage = () => {
+                if (!!imgFormat) img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
+                preloadImage((imgPaths.length + imgIdx.current - 1) % imgPaths.length)
+                preloadImage((imgIdx.current + 1) % imgPaths.length)
+            },
             onSwipe = (e:CustomEvent) => {
                 imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
-                if (!!imgFormat) img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
+                loadImage()
             }
 
 
         useEffect(()=>{
-            if (webgl) container.current.style.backgroundImage = null
-            else if (webgl===false && !!imgFormat) {
-                img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
+            if (webgl===false && !!imgFormat) {
+                loadImage()
                 container.current.addEventListener('swipe',onSwipe)
             }
             return () => container.current.removeEventListener('swipe',onSwipe)
