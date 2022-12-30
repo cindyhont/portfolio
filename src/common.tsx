@@ -12,9 +12,17 @@ const
             elem.appendChild(gap)
         }
     },
-    cdnPrefix = () => `${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://cdn.cindyhodev.com' : ''}`
+    cdnPrefix = () => `${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://cdn.cindyhodev.com' : ''}`,
+    convertImgFileName = (fileName:string,format:'avif'|'webp'|'none') => {
+        const fileNameSplit = fileName.split('.')
+        if (fileNameSplit.length < 2) return fileName
+
+        else if (['avif','webp'].includes(format)) return [...fileNameSplit.slice(0,fileNameSplit.length-1),format].join('.')
+        else return fileName
+    }
 
 export {
     cdnPrefix,
     addLetterSpacing,
+    convertImgFileName,
 }

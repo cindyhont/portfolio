@@ -16,7 +16,14 @@ const
     // Append the default value with md extensions
     pageExtensions: ['tsx','ts','js','mdx'],
     images: {
+      formats: ['image/avif', 'image/webp'],
       unoptimized: true,
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: '**.cindyhodev.com',
+        },
+      ],
     },
     sassOptions: {
       includePaths: [path.join(__dirname, 'styles')],

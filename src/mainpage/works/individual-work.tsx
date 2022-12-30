@@ -1,10 +1,12 @@
-import React, { useId } from "react";
-import { cdnPrefix } from "../../common";
+import React, { useContext, useId } from "react";
+import { cdnPrefix, convertImgFileName } from "../../common";
 import LinkButton from "./link-button";
 import Slider from "./slider";
 import YoutubePlayer from "./youtube";
 import styles from './styles/IndividualWork.module.scss'
 import headerImgStyles from './styles/HeaderImg.module.scss'
+import Image from "next/image";
+import { Context } from "../../context";
 
 const Work = (
     {
@@ -38,7 +40,10 @@ const Work = (
         backgroundColor:string;
     }
 ) => {
-    const id = useId()
+    const 
+        id = useId(),
+        {imgFormat} = useContext(Context)
+
     return (
         <div 
             className={styles["work-container"]}
@@ -51,7 +56,13 @@ const Work = (
         >
             {!!youtube && <YoutubePlayer {...{url:youtube,title}} />}
             {!youtube && !!slideImg && <Slider imgPaths={slideImg} backgroundColor={backgroundColor} id={id} />}
-            {!youtube && !slideImg && !!img && <div className={headerImgStyles['slide-cropped-image']} style={{backgroundImage:`url(${cdnPrefix()}/${img})`,backgroundColor}}/>}
+            {!youtube && !slideImg && !!img && imgFormat !== '' && <div className={headerImgStyles['slide-cropped-image']} style={{backgroundColor}}>
+                <Image 
+                    src={`${cdnPrefix()}/${convertImgFileName(img,imgFormat)}`} 
+                    alt={title} fill={true} 
+                    className={headerImgStyles['next-image']} 
+                />
+            </div>}
             <h3>{title}</h3>
             <div className={styles['work-link-container']}>
                 <LinkButton link={live || `/work/${slug}/`} title='LIVE' />

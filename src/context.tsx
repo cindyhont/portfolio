@@ -5,13 +5,13 @@ const
     Context = createContext<{
         devicePixelRatio:number;
         mobile:boolean;
-        isSafari:boolean;
         webgl:boolean;
+        imgFormat:'avif'|'webp'|'none'|'';
     }>({
         devicePixelRatio:2,
         mobile:false,
-        isSafari:false,
         webgl:false,
+        imgFormat:'',
     }),
     IndexContext = createContext<{
         works:IindexItem[]

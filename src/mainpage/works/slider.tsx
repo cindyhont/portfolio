@@ -1,7 +1,8 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import Image from "next/image";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
 import * as THREE from 'three'
-import { cdnPrefix } from "../../common";
+import { cdnPrefix, convertImgFileName } from "../../common";
 import { Context } from "../../context";
 import styles from './styles/HeaderImg.module.scss'
 
@@ -173,10 +174,11 @@ const
     },
     Slider = ({imgPaths,backgroundColor,id}:{imgPaths:string[];backgroundColor:string;id:string;}) => {
         const 
-            ref = useRef<HTMLDivElement>(),
-            {webgl,devicePixelRatio} = useContext(Context),
+            img = useRef<HTMLImageElement>(),
+            container = useRef<HTMLDivElement>(),
+            {webgl,devicePixelRatio,imgFormat} = useContext(Context),
             onClick = (e:number) => {
-                ref.current.dispatchEvent(new CustomEvent('swipe',{detail:e}))
+                container.current.dispatchEvent(new CustomEvent('swipe',{detail:e}))
 
                 // restart the auto loop if button is clicked, so that the next move doesn't come too soon after the first move
                 document.getElementById('works')?.dispatchEvent(new CustomEvent('restart',{detail:id}))
@@ -186,28 +188,25 @@ const
             imgIdx = useRef(0),
             onSwipe = (e:CustomEvent) => {
                 imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
-                ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
-            },
-            timeout = useRef<NodeJS.Timeout>(),
-            loadFirstImg = () => ref.current.style.backgroundImage = `url(${cdnPrefix()}/${imgPaths[imgIdx.current]})`
+                img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
+            }
 
 
         useEffect(()=>{
-            if (webgl) {
-                clearTimeout(timeout.current)
-                ref.current.style.backgroundImage = null
-            } else {
-                timeout.current = setTimeout(loadFirstImg,200)
-                ref.current.addEventListener('swipe',onSwipe)
+            if (webgl) container.current.style.backgroundImage = null
+            else if (webgl===false && imgFormat !== '') {
+                img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
+                container.current.addEventListener('swipe',onSwipe)
             }
-            return () => ref.current.removeEventListener('swipe',onSwipe)
-        },[webgl])
+            return () => container.current.removeEventListener('swipe',onSwipe)
+        },[webgl,imgFormat !== ''])
 
         return (
-            <div id={id} ref={ref} className={styles['slide-cropped-image']} data-webgl={true} style={{backgroundColor}}>
+            <div id={id} ref={container} className={styles['slide-cropped-image']} data-webgl={true} style={{backgroundColor}}>
                 {webgl && <Canvas dpr={devicePixelRatio} frameloop='demand'>
                     <Scene imgPaths={imgPaths} id={id} />
                 </Canvas>}
+                {webgl===false && <img ref={img} className={styles['raw-image']} />}
                 <button className={styles['prev']} aria-label='Previous Slide' onClick={prevOnClick}>
                     <svg viewBox="-3 -3 21 36" width='15' height='30'>
                         <polyline points="15,0 0,15 15,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
