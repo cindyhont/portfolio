@@ -41,7 +41,7 @@ const Opening = () => {
     return (
         <div id='home' className={`section ${styles.home}`}>
             <div>
-                <h1 ref={nameRef}>Cindy Ho</h1>
+                <h1 ref={nameRef} style={{color:'var(--background-color)'}}>Cindy Ho</h1>
                 <p ref={titleRef} />
             </div>
         </div>
