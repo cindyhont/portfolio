@@ -18,28 +18,40 @@ const ScrollParallaxContainer = (
         waves = useRef<SVGSVGElement>(),
         inViewport = useRef(false),
         prevTop = useRef(0),
+        isInViewport = () => {
+            shadow.current.style.height = `${content.current.offsetHeight}px`
+            shadow.current.style.display = 'block'
+            content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
+            content.current.classList.add(styles.lock)
+            inViewport.current = true
+        },
+        isNotInViewport = () => {
+            shadow.current.style.display = 'none'
+            content.current.classList.remove(styles.lock)
+            inViewport.current = false
+        },
         onScroll = () => {
             const 
                 {top} = waves.current.getBoundingClientRect(),
                 {innerHeight} = window
-
-            if (!prevTop.current) prevTop.current = top
             
-            if (!inViewport.current && top - (prevTop.current - top) < innerHeight){
-                inViewport.current = true
-                shadow.current.style.height = `${content.current.offsetHeight}px`
-                shadow.current.style.display = 'block'
-                content.current.classList.add(styles.lock)
-            } else if (inViewport.current && top + (top - prevTop.current) > innerHeight){
-                inViewport.current = false
-                shadow.current.style.display = 'none'
-                content.current.classList.remove(styles.lock)
-            }
+            if (!inViewport.current && top - (prevTop.current - top) < innerHeight) isInViewport()
+            else if (inViewport.current && top + (top - prevTop.current) > innerHeight) isNotInViewport()
+
+            prevTop.current = top
+        },
+        immediateOnResize = () => {
+            const 
+                {top} = waves.current.getBoundingClientRect(),
+                {innerHeight} = window
+
+            if (top < innerHeight) isInViewport()
+            else isNotInViewport()
 
             prevTop.current = top
         }
 
-    useOnScrollAfterResize(onScroll,onScroll,'')
+    useOnScrollAfterResize(onScroll,immediateOnResize,'')
 
     return (
         <>

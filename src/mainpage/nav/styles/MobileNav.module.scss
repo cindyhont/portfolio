@@ -9,7 +9,8 @@
     flex-direction: column;
     justify-content: space-around;
     cursor: pointer;
-    bottom: min(80px,10vh);
+    // bottom: min(80px,10vh);
+    top:max(calc(100vh - 160px),calc(75vh - 25px));
     right: min(30px,10vw);
     background-color: var(--mobile-nav-button-bg);
     animation: reveal-mobile-nav-label 1.5s ease-out;
@@ -108,6 +109,14 @@
     margin:0 auto;
     display: flex;
     flex-direction: row;
+}
+
+// firefox only
+@-moz-document url-prefix(){
+    .icon-buttons svg{
+        fill:var(--desktop-nav-url);
+        transition:fill $mode-transition-time;
+    }
 }
 
 @include letter-space;

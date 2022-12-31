@@ -112,7 +112,7 @@
     animation-name: revealreflection;
 }
 
-// for mozilla only
+// firefox only
 @-moz-document url-prefix(){
     .top span{
         transform: translate(0, 115%) rotate3d(0, 1, 0, 30deg);

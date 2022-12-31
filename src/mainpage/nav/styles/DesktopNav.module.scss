@@ -66,6 +66,14 @@
     right:50px;
 }
 
+// firefox only
+@-moz-document url-prefix(){
+    .theme-button svg, .github-button svg{
+        fill:var(--desktop-nav-url);
+        transition:fill $mode-transition-time;
+    }
+}
+
 @include letter-space;
 
 @media screen and (max-width:599px) {

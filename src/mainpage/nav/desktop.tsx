@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import navButtons from './buttons'
 import GithubButton from './github-button'
 import LinkButton from './link-button'
