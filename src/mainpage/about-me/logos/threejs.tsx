@@ -4,15 +4,10 @@ import styles from '../styles/AboutMe.module.scss'
 
 const ThreeJS = () => (
     <Logo title="Three.js">
-        <svg className={styles.threejs} version="1.1" viewBox="0 0 226.77 226.77" xmlns="http://www.w3.org/2000/svg">
-            <g transform="translate(8.964 4.2527)">
-                <path d="m63.02 200.61-43.213-174.94 173.23 49.874z"/>
-                <path d="m106.39 50.612 21.591 87.496-86.567-24.945z"/>
-                <path d="m84.91 125.03-10.724-43.465 43.008 12.346z"/>
-                <path d="m63.458 38.153 10.724 43.465-43.008-12.346z"/>
-                <path d="m149.47 62.93 10.724 43.465-43.008-12.346z"/>
-                <path d="m84.915 125.06 10.724 43.465-43.008-12.346z"/>
-            </g>
+        <svg className={styles.threejs} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227 227">
+            <path d="M72 205 29 30l173 50z"/>
+            <path d="m115 55 22 87-87-25z"/>
+            <path d="M94 129 83 86l43 12zM72 42l11 44-43-12zM158 67l11 44-43-13zM94 129l11 44-43-13z"/>
         </svg>
     </Logo>
 )

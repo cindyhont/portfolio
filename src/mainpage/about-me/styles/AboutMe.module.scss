@@ -81,20 +81,19 @@ $padding:5px;
 
 .typescript {
     transform: scale(0.9);
-    rect{
-        stroke-width: 30px;
-    }
     path{
-        stroke-width: 15px;
+        &:first-child {
+            stroke-width: 30px;
+        }
+        &:last-child {
+            stroke-width: 20px;
+        }
     }
 }
 
-.sass {
-    transform: rotateX(180deg);
-    path {
-        stroke-width: 120px;
-        transform: scale(0.13) translate(-10px,0);
-    }
+.sass path {
+    stroke-width: 7px;
+    transform: scale(0.18) translate(12px, 14px);
 }
 
 .react path {
@@ -109,13 +108,8 @@ $padding:5px;
     stroke-width: 3px;
 }
 
-.go {
-    & > path{
-        stroke-width: 3px;
-    }
-    & > g > path {
-        stroke-width: 5px;
-    }
+.go path {
+    stroke-width: 6px;
 }
 
 .gsap path {
@@ -144,10 +138,8 @@ $padding:5px;
     stroke-width: 12px;
 }
 
-.docker {
-    rect, path {
-        stroke-width: 10px;
-    }
+.docker path {
+    stroke-width: 15px;
 }
 
 .show {

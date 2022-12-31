@@ -5,7 +5,7 @@ import styles from '../styles/AboutMe.module.scss'
 const HTML = () => (
     <Logo title='HTML5'>
         <svg className={styles.html} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-            <path d="M0 32l34.9 395.8L191.5 480l157.6-52.2L384 32H0zm308.2 127.9H124.4l4.1 49.4h175.6l-13.6 148.4-97.9 27v.3h-1.1l-98.7-27.3-6-75.8h47.7L138 320l53.5 14.5 53.7-14.5 6-62.2H84.3L71.5 112.2h241.1l-4.4 47.7z"/>
+            <path d="m0 32 35 396 157 52 157-52 35-396H0zm308 128H124l5 49h175l-13 149-98 27h-2l-98-27-6-76h48l3 38 54 15 53-15 6-62H84L72 112h241l-5 48z"/>
         </svg>
     </Logo>
 )
