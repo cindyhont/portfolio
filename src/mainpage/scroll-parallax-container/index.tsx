@@ -16,6 +16,7 @@ const ScrollParallaxContainer = (
         content = useRef<HTMLDivElement>(),
         contentWrapper = useRef<HTMLDivElement>(),
         shadow = useRef<HTMLDivElement>(),
+        benchmark = useRef<HTMLDivElement>(),
         waves = useRef<SVGSVGElement>(),
         inViewport = useRef(false),
         prevTop = useRef(0),
@@ -36,14 +37,15 @@ const ScrollParallaxContainer = (
         onScroll = () => {
             const 
                 {top} = waves.current.getBoundingClientRect(),
-                {innerHeight,outerHeight,screenY} = window
+                {innerHeight} = window
             
             if (window.matchMedia('(hover:hover)').matches){
                 if (!inViewport.current && top - (prevTop.current - top) < innerHeight) isInViewport()
                 else if (inViewport.current && top + (top - prevTop.current) > innerHeight) isNotInViewport()
             } else {
-                if (!inViewport.current && top - (prevTop.current - top) < outerHeight - screenY) isInViewport()
-                else if (inViewport.current && top + (top - prevTop.current) > outerHeight - screenY) isNotInViewport()
+                const benchmarkBottom = benchmark.current.getBoundingClientRect().bottom
+                if (!inViewport.current && top - (prevTop.current - top) < benchmarkBottom) isInViewport()
+                else if (inViewport.current && top + (top - prevTop.current) > benchmarkBottom) isNotInViewport()
             }
 
             prevTop.current = top
@@ -67,6 +69,7 @@ const ScrollParallaxContainer = (
                 <div ref={content} className={styles.content}>{children}</div>
             </div>
             <div ref={shadow} style={{top:'0px',visibility:'hidden'}} />
+            <div ref={benchmark} style={{position:'fixed',top:'0px',left:'0px',width:'1px',height:'100vh',visibility:'hidden'}} />
             <Waves ref={waves} paths={wavePaths} />
         </>
     )

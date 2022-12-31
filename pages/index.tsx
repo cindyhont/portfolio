@@ -12,6 +12,7 @@ import ContactForm from "../src/mainpage/contact-form";
 import Navigation from "../src/mainpage/nav";
 import Head from "next/head";
 import styles from '../styles/Home.module.scss'
+import ViewportReport from "../src/mainpage/viewport-report";
 
 export const getStaticProps:GetStaticProps = async () => {
     const 
@@ -77,6 +78,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
             </IndexContext.Provider>
             <AboutMe />
             <ContactForm />
+            <ViewportReport />
         </div>
         </>
     )
