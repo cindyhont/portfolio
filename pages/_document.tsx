@@ -14,6 +14,7 @@ const Document = () => {
                         htmlTag = document.getElementsByTagName('html')[0]
 
                     htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
+                    htmlTag.style.setProperty('--current-actual-height', window.innerHeight + 'px');
                     htmlTag.style.setProperty('--landscape-height', Math.min(window.innerHeight,window.innerWidth) + 'px');
                     htmlTag.style.setProperty('--portrait-height', Math.max(window.innerHeight,window.innerWidth) + 'px');
 

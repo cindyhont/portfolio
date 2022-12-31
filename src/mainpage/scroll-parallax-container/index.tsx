@@ -23,7 +23,7 @@ const ScrollParallaxContainer = (
             // shadow.current.style.display = 'block'
             // content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
 
-            content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
+            content.current.style.top = `calc(var(--current-actual-height) - ${content.current.offsetHeight}px)`
             shadow.current.style.height = `${content.current.offsetHeight}px`
 
             content.current.classList.add(styles.lock)
@@ -33,7 +33,7 @@ const ScrollParallaxContainer = (
         isNotInViewport = () => {
             // shadow.current.style.display = 'none'
 
-            content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
+            content.current.style.top = `calc(var(--current-actual-height) - ${content.current.offsetHeight}px)`
             shadow.current.style.height = `${content.current.offsetHeight}px`
 
             shadow.current.style.position = 'absolute'

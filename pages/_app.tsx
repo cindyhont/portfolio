@@ -11,6 +11,7 @@ const App = ({ Component, pageProps }) => {
         onResize = () => {
             const htmlTag = document.getElementsByTagName('html')[0]
             htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
+            htmlTag.style.setProperty('--current-actual-height', window.innerHeight + 'px');
             const cssTexts = htmlTag.style.cssText.split(';')
             cssTexts.forEach(e=>{
                 const 
