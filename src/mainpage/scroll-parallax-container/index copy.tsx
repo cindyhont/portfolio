@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useOnScrollAfterResize } from "../../common";
 import Waves from "../waves";
 import styles from './ScrollParallaxContainer.module.scss'
@@ -19,24 +19,14 @@ const ScrollParallaxContainer = (
         inViewport = useRef(false),
         prevTop = useRef(0),
         isInViewport = () => {
-            // shadow.current.style.height = `${content.current.offsetHeight}px`
-            // shadow.current.style.display = 'block'
-            // content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
-
-            content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
             shadow.current.style.height = `${content.current.offsetHeight}px`
-
+            shadow.current.style.display = 'block'
+            content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
             content.current.classList.add(styles.lock)
-            shadow.current.style.position = null
             inViewport.current = true
         },
         isNotInViewport = () => {
-            // shadow.current.style.display = 'none'
-
-            content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
-            shadow.current.style.height = `${content.current.offsetHeight}px`
-
-            shadow.current.style.position = 'absolute'
+            shadow.current.style.display = 'none'
             content.current.classList.remove(styles.lock)
             inViewport.current = false
         },
@@ -66,7 +56,7 @@ const ScrollParallaxContainer = (
     return (
         <>
             <div ref={content} className={styles.content}>{children}</div>
-            <div ref={shadow} style={{top:'0px',visibility:'hidden'}} />
+            <div ref={shadow} />
             <Waves ref={waves} paths={wavePaths} />
         </>
     )
