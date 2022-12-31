@@ -51,6 +51,7 @@ const MobileNav = () => {
                     <ThemeButton className={styles['theme-button']} />
                 </div>
             </div>
+            {/* in mobile chrome, icon in label doesn't animate when the checkbox status changes */}
             <div className={styles['label-menu-icon']}>
                 {Array.from(Array(3).keys(),(i)=>(<div key={i} />))}
             </div>
