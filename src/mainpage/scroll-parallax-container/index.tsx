@@ -14,39 +14,37 @@ const ScrollParallaxContainer = (
 ) => {
     const
         content = useRef<HTMLDivElement>(),
+        contentWrapper = useRef<HTMLDivElement>(),
         shadow = useRef<HTMLDivElement>(),
         waves = useRef<SVGSVGElement>(),
         inViewport = useRef(false),
         prevTop = useRef(0),
         isInViewport = () => {
-            // shadow.current.style.height = `${content.current.offsetHeight}px`
-            // shadow.current.style.display = 'block'
-            // content.current.style.top = `calc(100vh - ${content.current.offsetHeight}px)`
-
-            content.current.style.top = `calc(var(--current-actual-height) - ${content.current.offsetHeight}px)`
             shadow.current.style.height = `${content.current.offsetHeight}px`
 
-            content.current.classList.add(styles.lock)
+            contentWrapper.current.classList.add(styles.lock)
             shadow.current.style.position = null
             inViewport.current = true
         },
         isNotInViewport = () => {
-            // shadow.current.style.display = 'none'
-
-            content.current.style.top = `calc(var(--current-actual-height) - ${content.current.offsetHeight}px)`
             shadow.current.style.height = `${content.current.offsetHeight}px`
 
+            contentWrapper.current.classList.remove(styles.lock)
             shadow.current.style.position = 'absolute'
-            content.current.classList.remove(styles.lock)
             inViewport.current = false
         },
         onScroll = () => {
             const 
                 {top} = waves.current.getBoundingClientRect(),
-                {innerHeight} = window
+                {innerHeight,outerHeight,screenY} = window
             
-            if (!inViewport.current && top - (prevTop.current - top) < innerHeight) isInViewport()
-            else if (inViewport.current && top + (top - prevTop.current) > innerHeight) isNotInViewport()
+            if (window.matchMedia('(hover:hover)').matches){
+                if (!inViewport.current && top - (prevTop.current - top) < innerHeight) isInViewport()
+                else if (inViewport.current && top + (top - prevTop.current) > innerHeight) isNotInViewport()
+            } else {
+                if (!inViewport.current && top - (prevTop.current - top) < outerHeight - screenY) isInViewport()
+                else if (inViewport.current && top + (top - prevTop.current) > outerHeight - screenY) isNotInViewport()
+            }
 
             prevTop.current = top
         },
@@ -65,7 +63,9 @@ const ScrollParallaxContainer = (
 
     return (
         <>
-            <div ref={content} className={styles.content}>{children}</div>
+            <div ref={contentWrapper}>
+                <div ref={content} className={styles.content}>{children}</div>
+            </div>
             <div ref={shadow} style={{top:'0px',visibility:'hidden'}} />
             <Waves ref={waves} paths={wavePaths} />
         </>
