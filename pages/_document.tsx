@@ -26,7 +26,10 @@ const Document = () => {
                     if (dark) htmlTag.dataset.theme = 'dark'
                     else htmlTag.dataset.theme = 'light'
                         
-                    if (window.location.pathname === '/') htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
+                    if (window.location.pathname === '/') {
+                        htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
+                        htmlTag.style.transition = 'background-color 0.5s'
+                    }
                 `}} />
                 <link rel="icon" type="image/png" sizes="192x192" href="https://cdn.cindyhodev.com/favicon/android-chrome-192x192.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="https://cdn.cindyhodev.com/favicon/android-chrome-512x512.png" />

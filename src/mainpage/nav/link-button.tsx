@@ -16,6 +16,8 @@ const LinkButton = (
     // I write this script so that I can control the time of scrolling 
     // and especially when I can unlock the header nav bar
 
+    // GSAP's ScrollToPlugin works fine in desktop but not in mobile, thus can't use
+
     const 
         ref = useRef<HTMLDivElement>(),
         scrollDistance = useRef(0),

@@ -8,6 +8,8 @@ const ThemeButton = ({className}:{className?:string}) => {
             const htmlTag = document.getElementsByTagName('html')[0]
             if (dark) htmlTag.dataset.theme = 'dark'
             else htmlTag.dataset.theme = 'light'
+
+            htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
         },
         systemThemeUpdate = (e:MediaQueryListEvent) => {
             const storageValueStr = localStorage.getItem('dark')
