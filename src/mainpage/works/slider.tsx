@@ -159,7 +159,7 @@ const
 
         useEffect(()=>{
             const parent = document.getElementById(id)
-            parent.addEventListener('swipe',buttonOnClick)
+            parent.addEventListener('swipe',buttonOnClick,{passive:true})
             return () => parent.removeEventListener('swipe',buttonOnClick)
         },[])
 
@@ -205,7 +205,7 @@ const
         useEffect(()=>{
             if (webgl===false && !!imgFormat) {
                 loadImage()
-                container.current.addEventListener('swipe',onSwipe)
+                container.current.addEventListener('swipe',onSwipe,{passive:true})
             }
             return () => container.current.removeEventListener('swipe',onSwipe)
         },[webgl,imgFormat])

@@ -28,7 +28,7 @@ const
             [loaded,setLoaded] = useState(false),
             setScrollEventListener = () => {
                 window.removeEventListener('scroll',onScroll)
-                if (!mediaQuery || !!mediaQuery && window.matchMedia(mediaQuery).matches) window.addEventListener('scroll',onScroll)
+                if (!mediaQuery || !!mediaQuery && window.matchMedia(mediaQuery).matches) window.addEventListener('scroll',onScroll,{passive:true})
             },
             onResize = () => {
                 if (loaded && (!mediaQuery || !!mediaQuery && window.matchMedia(mediaQuery).matches)) immediateOnResize()
@@ -38,7 +38,7 @@ const
 
         useEffect(()=>{
             onResize()
-            window.addEventListener('resize',onResize)
+            window.addEventListener('resize',onResize,{passive:true})
             return () => window.removeEventListener('resize',onResize)
         },[loaded])
 

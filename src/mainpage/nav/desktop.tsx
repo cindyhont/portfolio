@@ -116,7 +116,7 @@ const
             timeout = useRef<NodeJS.Timeout>(),
             setScrollEventListener = () => {
                 window.removeEventListener('scroll',onScroll)
-                if (window.matchMedia('(min-width:600px)').matches) window.addEventListener('scroll',onScroll)
+                if (window.matchMedia('(min-width:600px)').matches) window.addEventListener('scroll',onScroll,{passive:true})
             },
             onResize = () => {
                 if (window.matchMedia('(min-width:600px)').matches) onScroll()
@@ -127,8 +127,8 @@ const
 
         useEffect(()=>{
             onResize()
-            window.addEventListener('resize',onResize)
-            container.current.addEventListener('lock',lockNavBar)
+            window.addEventListener('resize',onResize,{passive:true})
+            container.current.addEventListener('lock',lockNavBar,{passive:true})
             return () => {
                 window.removeEventListener('resize',onResize)
                 container.current.removeEventListener('lock',lockNavBar)

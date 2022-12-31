@@ -385,10 +385,10 @@ const
         controls.noPan = true
 
         useEffect(()=>{
-            window.addEventListener('keyup',keyOnPress)
-            window.addEventListener('resize',windowIsVisible)
-            window.addEventListener('focus',windowIsVisible)
-            window.addEventListener('blur',windowIsHidden)
+            window.addEventListener('keyup',keyOnPress,{passive:true})
+            window.addEventListener('resize',windowIsVisible,{passive:true})
+            window.addEventListener('focus',windowIsVisible,{passive:true})
+            window.addEventListener('blur',windowIsHidden,{passive:true})
 
             return () => {
                 window.removeEventListener('keyup',keyOnPress)

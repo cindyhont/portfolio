@@ -35,7 +35,7 @@ const Opening = () => {
     useEffect(()=>{
         addTitle()
         setTimeout(()=>nameRef.current.style.animation = 'none',1500)
-        window.addEventListener('scroll',onScroll)
+        window.addEventListener('scroll',onScroll,{passive:true})
         return () => window.removeEventListener('scroll',onScroll)
     },[])
 

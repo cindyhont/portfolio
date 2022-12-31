@@ -31,7 +31,7 @@ const ThemeButton = ({className}:{className?:string}) => {
 
     useEffect(()=>{
         if (!localStorage.getItem('dark')) updateIcon(window.matchMedia('(prefers-color-scheme: dark)').matches,false)
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',systemThemeUpdate)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',systemThemeUpdate,{passive:true})
         return () => window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change',systemThemeUpdate)
     },[])
 

@@ -5,7 +5,6 @@ import {Context} from '../src/context'
 const App = ({ Component, pageProps }) => {
     const 
         [devicePixelRatio,setDevicePixelRatio] = useState(2),
-        [mobile,setMobile] = useState(false),
         [webgl,setWebgl] = useState<boolean>(null),
         [imgFormat,setImgFormat] = useState<'avif'|'webp'|'none'|''>(''),
         onResize = () => {
@@ -54,18 +53,16 @@ const App = ({ Component, pageProps }) => {
         }
 
     useEffect(()=>{
-        console.log(window)
         detectWebGL()
         findImageSupport()
         setDevicePixelRatio(Math.min(Math.floor(window.devicePixelRatio),2))
-        setMobile(window.matchMedia("(pointer: coarse)").matches)
         
-        window.addEventListener('resize',onResize)
+        window.addEventListener('resize',onResize,{passive:true})
         return () => window.removeEventListener('resize',onResize)
     },[])
 
     return (
-        <Context.Provider value={{devicePixelRatio,mobile,webgl,imgFormat}}>
+        <Context.Provider value={{devicePixelRatio,webgl,imgFormat}}>
             <Component {...pageProps} />
         </Context.Provider>
     )

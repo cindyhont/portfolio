@@ -26,7 +26,7 @@ const FullScreenAbout = ({children}:{children:JSX.Element}) => {
         }
 
     useEffect(()=>{
-        window.addEventListener('keyup',keyEscOnPress)
+        window.addEventListener('keyup',keyEscOnPress,{passive:true})
         return () => window.removeEventListener('keyup',keyEscOnPress)
     },[])
 

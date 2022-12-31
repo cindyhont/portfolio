@@ -379,8 +379,8 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 
 				scope.domElement.setPointerCapture( event.pointerId );
 
-				scope.domElement.addEventListener( 'pointermove', onPointerMove );
-				scope.domElement.addEventListener( 'pointerup', onPointerUp );
+				scope.domElement.addEventListener( 'pointermove', onPointerMove,{passive:true} );
+				scope.domElement.addEventListener( 'pointerup', onPointerUp,{passive:true} );
 
 			}
 
@@ -483,7 +483,7 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 
 			_keyState = STATE.NONE;
 
-			window.addEventListener( 'keydown', keydown );
+			window.addEventListener( 'keydown', keydown,{passive:true} );
 
 		}
 
@@ -761,15 +761,15 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 
 		};
 
-		this.domElement.addEventListener( 'contextmenu', contextmenu );
+		this.domElement.addEventListener( 'contextmenu', contextmenu,{passive:true} );
 
-		this.domElement.addEventListener( 'pointerdown', onPointerDown );
-		this.domElement.addEventListener( 'pointercancel', onPointerCancel );
+		this.domElement.addEventListener( 'pointerdown', onPointerDown,{passive:true} );
+		this.domElement.addEventListener( 'pointercancel', onPointerCancel,{passive:true} );
 		this.domElement.addEventListener( 'wheel', onMouseWheel, { passive: false } );
 
 
-		window.addEventListener( 'keydown', keydown );
-		window.addEventListener( 'keyup', keyup );
+		window.addEventListener( 'keydown', keydown,{passive:true} );
+		window.addEventListener( 'keyup', keyup,{passive:true} );
 
 		this.handleResize();
 
