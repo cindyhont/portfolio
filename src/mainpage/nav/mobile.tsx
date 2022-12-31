@@ -10,7 +10,6 @@ const MobileNav = () => {
     const 
         checkbox = useRef<HTMLInputElement>(),
         container = useRef<HTMLDivElement>(),
-        labelRef = useRef<HTMLLabelElement>(),
         backdropOnClick = () => {
             checkbox.current.checked = false
             document.body.style.overflowY = null
@@ -52,9 +51,10 @@ const MobileNav = () => {
                     <ThemeButton className={styles['theme-button']} />
                 </div>
             </div>
-            <label htmlFor="menu-checkbox" ref={labelRef} className={styles['label-menu-checkbox']}>
+            <div className={styles['label-menu-icon']}>
                 {Array.from(Array(3).keys(),(i)=>(<div key={i} />))}
-            </label>
+            </div>
+            <label htmlFor="menu-checkbox" className={styles['label-menu-checkbox']} />
         </div>
     )
 }

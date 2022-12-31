@@ -1,25 +1,10 @@
-.label-menu-checkbox{
+.label-menu-icon {
     z-index: 3;
     display:flex;
-    height:20px;
-    width:20px;
-    padding:15px;
-    border-radius: 50%;
-    position:fixed;
     flex-direction: column;
     justify-content: space-around;
-    cursor: pointer;
-    top:min(calc(100vh - 160px),calc(80vh - 25px));
-    right: min(30px,10vw);
     background-color: var(--mobile-nav-button-bg);
-    animation: reveal-mobile-nav-label 1.5s ease-out;
-
-    box-shadow: var(--mobile-nav-button-shadow);
-    transition: background-color $mode-transition-time, box-shadow $mode-transition-time;
-
-    &:active {
-        box-shadow: var(--mobile-nav-button-shadow-active);
-    }
+    transition: background-color $mode-transition-time;
 
     & > div{
         display:block;
@@ -32,7 +17,29 @@
     }
 }
 
-.menu-checkbox:checked ~ label{
+.label-menu-checkbox{
+    z-index: 4;
+    background-color: transparent;
+    cursor: pointer;
+    box-shadow: var(--mobile-nav-button-shadow);
+    transition: box-shadow $mode-transition-time;
+
+    &:active {
+        box-shadow: var(--mobile-nav-button-shadow-active);
+    }
+}
+
+.label-menu-icon, .label-menu-checkbox {
+    height:20px;
+    width:20px;
+    padding:15px;
+    border-radius: 50%;
+    position:fixed;
+    top:min(calc(100vh - 160px),calc(80vh - 25px));
+    right: min(30px,10vw);
+}
+
+.menu-checkbox:checked ~ .label-menu-icon{
     & > div:first-child{
         transform: scaleX(141%) translateY(220%) rotate(55deg);
     }
