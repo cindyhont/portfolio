@@ -1,4 +1,10 @@
-.about{
+.about-me-container {
+    background-color: var(--background-color);
+    position: inherit;
+    transition: background-color $mode-transition-time;
+}
+
+.about-me-content{
     padding: 15px;
     width: min(500px, 80vw);
     margin:0 auto;

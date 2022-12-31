@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react"
+
 const 
     addLetterSpacing = (title:string,elem:HTMLElement,className:string) => {
         const len = title.length
@@ -19,10 +21,33 @@ const
 
         else if (['avif','webp'].includes(format)) return [...fileNameSplit.slice(0,fileNameSplit.length-1),format].join('.')
         else return fileName
+    },
+    useOnScrollAfterResize = (onScroll:()=>void,immediateOnResize:()=>void,mediaQuery:string) => {
+        const 
+            timeout = useRef<NodeJS.Timeout>(),
+            [loaded,setLoaded] = useState(false),
+            setScrollEventListener = () => {
+                window.removeEventListener('scroll',onScroll)
+                if (!mediaQuery || !!mediaQuery && window.matchMedia(mediaQuery).matches) window.addEventListener('scroll',onScroll)
+            },
+            onResize = () => {
+                if (loaded && (!mediaQuery || !!mediaQuery && window.matchMedia(mediaQuery).matches)) immediateOnResize()
+                if (!!timeout.current) clearTimeout(timeout.current)
+                timeout.current = setTimeout(setScrollEventListener,100)
+            }
+
+        useEffect(()=>{
+            onResize()
+            window.addEventListener('resize',onResize)
+            return () => window.removeEventListener('resize',onResize)
+        },[loaded])
+
+        useEffect(()=>setLoaded(true),[])
     }
 
 export {
     cdnPrefix,
     addLetterSpacing,
     convertImgFileName,
+    useOnScrollAfterResize,
 }

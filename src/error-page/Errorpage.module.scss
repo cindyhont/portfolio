@@ -3,9 +3,19 @@
     100%{transform: translate(0,0) rotate3d(0, 1, 0, 30deg);}
 }
 
+@keyframes moz-reveal{
+    0%{transform: translate(0,110%) rotate3d(0, 1, 0, 30deg);}
+    100%{transform: translate(0,10%) rotate3d(0, 1, 0, 30deg);}
+}
+
 @keyframes revealreflection{
     0%{transform: translate(0,-100%) rotate3d(1, 0, -0.27, 180deg);}
     100%{transform: translate(0,0) rotate3d(1, 0, -0.27, 180deg);}
+}
+
+@keyframes moz-revealreflection{
+    0%{transform: translate(0,-110%) rotate3d(1, 0, -0.27, 180deg);}
+    100%{transform: translate(0,-10%) rotate3d(1, 0, -0.27, 180deg);}
 }
 
 .errorpage{
@@ -93,12 +103,25 @@
 }
 
 .top span{
-    transform: translate(0,100%) rotate3d(0, 1, 0, 30deg) ;
+    transform: translate(0,100%) rotate3d(0, 1, 0, 30deg);
     animation-name: reveal;
 }
+
 .bottom span{
     transform: translate(0,-100%) rotate3d(1, 0, -0.27, 180deg);
     animation-name: revealreflection;
+}
+
+// for mozilla only
+@-moz-document url-prefix(){
+    .top span{
+        transform: translate(0, 115%) rotate3d(0, 1, 0, 30deg);
+        animation-name: moz-reveal;
+    }
+    .bottom span{
+        transform: translate(0,-110%) rotate3d(1, 0, -0.27, 180deg);
+        animation-name: moz-revealreflection;
+    }
 }
 
 @media screen and (max-height: 349px){

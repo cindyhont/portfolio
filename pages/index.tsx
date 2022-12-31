@@ -69,10 +69,9 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <div className={styles['main-page']} ref={containerRef} style={{display:'none'}}>
+        <div id='main-page' className={styles['main-page']} ref={containerRef} style={{display:'none'}}>
             <Navigation />
             <Opening />
-            
             <IndexContext.Provider value={{works}}>
                 <Works />
             </IndexContext.Provider>

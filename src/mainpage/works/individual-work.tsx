@@ -20,8 +20,6 @@ const Work = (
         backend,
         excerpt,
         youtube,
-        first,
-        last,
         backgroundColor,
     }:{
         title:string;
@@ -35,8 +33,6 @@ const Work = (
         frontend?:string;
         backend?:string;
         slug:string;
-        first:boolean;
-        last:boolean;
         backgroundColor:string;
     }
 ) => {
@@ -47,12 +43,8 @@ const Work = (
     return (
         <div 
             className={styles["work-container"]}
-            style={{
-                ...(first && {marginTop:'0'}),
-                ...(last && {marginBottom:'0'}),
-            }}
-            {...(!!slideImg && {'data-haswebgl':true})}
-            data-canvasid={id}
+            {...(!!slideImg && {'data-hasslides':true})}
+            data-sliderid={id}
         >
             {!!youtube && <YoutubePlayer {...{url:youtube,title}} />}
             {!youtube && !!slideImg && <Slider imgPaths={slideImg} backgroundColor={backgroundColor} id={id} />}

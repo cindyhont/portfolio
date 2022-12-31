@@ -5,6 +5,8 @@
     font-weight: 300;
     transition: background-color $mode-transition-time, color $mode-transition-time;
     color: var(--text-color);
+    overflow-x: hidden;
+    position: relative;
 
     a {
         color: var(--text-color);

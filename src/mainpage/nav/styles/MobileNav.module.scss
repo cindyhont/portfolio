@@ -15,11 +15,7 @@
     animation: reveal-mobile-nav-label 1.5s ease-out;
 
     box-shadow: var(--mobile-nav-button-shadow);
-    transition: background-color $mode-transition-time, box-shadow $mode-transition-time, bottom $mode-transition-time;
-
-    &.away{
-        bottom: 25px;
-    }
+    transition: background-color $mode-transition-time, box-shadow $mode-transition-time;
 
     &:active {
         box-shadow: var(--mobile-nav-button-shadow-active);

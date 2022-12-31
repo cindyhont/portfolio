@@ -44,6 +44,8 @@ html[data-theme='light']{
     --contact-input-shadow-light:#fff;
     --contact-input-shadow-dark:rgba(195, 193, 198, 0.9);
     --contact-input-text-color:#777;
+
+    --waves-shadow-color:#000;
 }
 
 html[data-theme='dark']{
@@ -87,4 +89,6 @@ html[data-theme='dark']{
     --contact-input-shadow-light:#444;
     --contact-input-shadow-dark:#222;
     --contact-input-text-color:#ccc;
+
+    --waves-shadow-color:#fff;
 }

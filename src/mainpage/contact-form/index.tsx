@@ -86,43 +86,45 @@ const ContactForm = () => {
 
     return (
         <div id='contact' className={`section ${styles.contact}`}>
-            <h2>Contact</h2>
-            <form onSubmit={onSubmit}>
-                <input 
-                    ref={nameRef} 
-                    type="text" 
-                    required={true} 
-                    minLength={2} 
-                    maxLength={128}
-                    placeholder='Your name'
-                    onInput={dismissMsg}
-                />
-                <input 
-                    ref={emailRef} 
-                    type="email" 
-                    required={true} 
-                    minLength={5} 
-                    maxLength={128} 
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                    // onInvalid={onInvalidEmail}
-                    placeholder='Your email address'
-                    onInput={dismissMsg}
-                />
-                <input className={styles.phone} ref={phoneRef} type="text" />
-                <textarea 
-                    ref={messageRef} 
-                    required={true} 
-                    minLength={2} 
-                    maxLength={5000} 
-                    placeholder='Message' 
-                    rows={6} 
-                    onInput={dismissMsg}
-                ></textarea>
-                <button type="submit" id='form-submit' ref={submitBtn} className={styles.button}>
-                    <div ref={submitBtnP} />
-                </button>
-                <p className={styles['admin-msg']}>{adminMsg}</p>
-            </form>
+            <div>
+                <h2>Contact</h2>
+                <form onSubmit={onSubmit}>
+                    <input 
+                        ref={nameRef} 
+                        type="text" 
+                        required={true} 
+                        minLength={2} 
+                        maxLength={128}
+                        placeholder='Your name'
+                        onInput={dismissMsg}
+                    />
+                    <input 
+                        ref={emailRef} 
+                        type="email" 
+                        required={true} 
+                        minLength={5} 
+                        maxLength={128} 
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        // onInvalid={onInvalidEmail}
+                        placeholder='Your email address'
+                        onInput={dismissMsg}
+                    />
+                    <input className={styles.phone} ref={phoneRef} type="text" />
+                    <textarea 
+                        ref={messageRef} 
+                        required={true} 
+                        minLength={2} 
+                        maxLength={5000} 
+                        placeholder='Message' 
+                        rows={6} 
+                        onInput={dismissMsg}
+                    ></textarea>
+                    <button type="submit" id='form-submit' ref={submitBtn} className={styles.button}>
+                        <div ref={submitBtnP} />
+                    </button>
+                    <p className={styles['admin-msg']}>{adminMsg}</p>
+                </form>
+            </div>
         </div>
     )
 };

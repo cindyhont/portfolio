@@ -1,9 +1,10 @@
-import React, { ChangeEvent, useEffect, useRef } from "react";
+import React, { ChangeEvent, useRef } from "react";
 import navButtons from "./buttons";
 import GithubButton from "./github-button";
 import LinkButton from "./link-button";
 import ThemeButton from "./theme-button";
 import styles from './styles/MobileNav.module.scss'
+import { useOnScrollAfterResize } from "../../common";
 
 const MobileNav = () => {
     const 
@@ -20,8 +21,6 @@ const MobileNav = () => {
                 elements = document.querySelectorAll('.section'),
                 len = elements.length
 
-            let done = 0
-
             for (let i=0; i<len; i++){
                 const 
                     elem = elements[i],
@@ -30,41 +29,17 @@ const MobileNav = () => {
                         || top >= 0 && top <= innerHeight * 0.5
                         || bottom <= innerHeight && bottom >= innerHeight * 0.5
 
-                if (elem.id === 'contact'){
-                    if (bottom < innerHeight + 10) labelRef.current.classList.add(styles.away)
-                    else labelRef.current.classList.remove(styles.away)
-                    done ++
-                } 
-
                 if (overlap) {
                     container.current.dataset.currentSection = elem.id
-                    done ++
+                    break
                 }
-                
-                if (done === 2) break
             }
-        },
-        timeout = useRef<NodeJS.Timeout>(),
-        setScrollEventListener = () => {
-            window.removeEventListener('scroll',onScroll)
-            if (window.matchMedia('(max-width:599px)').matches) window.addEventListener('scroll',onScroll)
-        },
-        onResize = () => {
-            if (window.matchMedia('(max-width:599px)').matches) onScroll()
-            else checkbox.current.checked = false
-
-            if (!!timeout.current) clearTimeout(timeout.current)
-            timeout.current = setTimeout(setScrollEventListener,100)
         },
         checkboxOnChange = (e:ChangeEvent<HTMLInputElement>) => {
             document.body.style.overflowY = e.target.checked ? 'hidden' : null
         }
 
-    useEffect(()=>{
-        onResize()
-        window.addEventListener('resize',onResize)
-        return () => window.removeEventListener('resize',onResize)
-    },[])
+    useOnScrollAfterResize(onScroll,onScroll,'(max-width:599px)')
         
     return (
         <div className={styles['mobile-nav']}>

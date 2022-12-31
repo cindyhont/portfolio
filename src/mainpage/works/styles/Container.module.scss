@@ -1,0 +1,5 @@
+.works-container {
+    position:inherit;
+    background-color: var(--background-color);
+    transition: background-color $mode-transition-time;
+}

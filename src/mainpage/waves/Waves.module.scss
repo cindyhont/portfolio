@@ -1,0 +1,17 @@
+.waves {
+    width:max(100%,500px);
+    position: inherit;
+    transform: translateY(5px);
+
+    path {
+        filter:url(#wave-shadow);
+        fill:var(--background-color);
+        transition: fill $mode-transition-time;
+    }
+}
+
+.shadow {
+    flood-color: var(--waves-shadow-color);
+    flood-opacity: 0.3;
+    transition: flood-color $mode-transition-time;
+}

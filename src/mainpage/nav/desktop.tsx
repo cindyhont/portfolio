@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import navButtons from './buttons'
 import GithubButton from './github-button'
 import LinkButton from './link-button'
 import ThemeButton from './theme-button'
 import styles from './styles/DesktopNav.module.scss'
+import { useOnScrollAfterResize } from '../../common'
 
 const 
     DesktopUnderline = () => {
@@ -81,24 +82,13 @@ const
                 }
             },
             onScrollNoAnim = () => detectNewUnderlinePosition(moveUnderlineNoAnim),
-            onScrollWithAnim = () => detectNewUnderlinePosition(moveUnderlineWithAnim),
-            timeout = useRef<NodeJS.Timeout>(),
-            setScrollEventListener = () => {
-                window.removeEventListener('scroll',onScrollWithAnim)
-                if (window.matchMedia('(min-width:600px)').matches) window.addEventListener('scroll',onScrollWithAnim)
-            },
-            onResize = () => {
-                if (window.matchMedia('(min-width:600px)').matches) onScrollNoAnim()
-                if (!!timeout.current) clearTimeout(timeout.current)
-                timeout.current = setTimeout(setScrollEventListener,100)
-            }
-
+            onScrollWithAnim = () => detectNewUnderlinePosition(moveUnderlineWithAnim)
+        
         useEffect(()=>{
             container.current = document.getElementById('desktop-nav') as HTMLDivElement
-            onResize()
-            window.addEventListener('resize',onResize)
-            return () => window.removeEventListener('resize',onResize)
         },[])
+
+        useOnScrollAfterResize(onScrollWithAnim,onScrollNoAnim,'(min-width:600px)')
 
         return <div className={styles.underline} ref={underline} style={{backgroundColor:'transparent'}} />
     },

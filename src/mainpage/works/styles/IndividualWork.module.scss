@@ -25,6 +25,10 @@
     @media (hover:none){
         box-shadow: var(--work-box-shadow-all);
     }
+
+    &:first-of-type{
+        margin-top: 0px;
+    }
 }
 
 .work-link-container {

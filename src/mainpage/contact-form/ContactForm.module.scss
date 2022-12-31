@@ -1,7 +1,14 @@
 .contact {
-    padding: 15px;
-    width: min(500px, 80vw);
-    margin:0 auto;
+    background-color: var(--background-color);
+    padding-bottom: 20vh;
+    position: inherit;
+    transition: background-color $mode-transition-time;
+
+    & > div {
+        padding: 15px;
+        width: min(500px, 80vw);
+        margin:0 auto;
+    }
 
     input, textarea, .admin-msg {
         width: calc(100% - 1.6rem);
