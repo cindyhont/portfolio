@@ -113,27 +113,15 @@ const
                 }
                 prevScrollY.current = scrollY
             },
-            timeout = useRef<NodeJS.Timeout>(),
-            setScrollEventListener = () => {
-                window.removeEventListener('scroll',onScroll)
-                if (window.matchMedia('(min-width:600px)').matches) window.addEventListener('scroll',onScroll,{passive:true})
-            },
-            onResize = () => {
-                if (window.matchMedia('(min-width:600px)').matches) onScroll()
-                if (!!timeout.current) clearTimeout(timeout.current)
-                timeout.current = setTimeout(setScrollEventListener,100)
-            },
             lockNavBar = (e:CustomEvent) => lock.current = e.detail as boolean
 
+        useOnScrollAfterResize(onScroll,onScroll,'(min-width:600px)')
+        
         useEffect(()=>{
-            onResize()
-            window.addEventListener('resize',onResize,{passive:true})
             container.current.addEventListener('lock',lockNavBar,{passive:true})
-            return () => {
-                window.removeEventListener('resize',onResize)
-                container.current.removeEventListener('lock',lockNavBar)
-            }
+            return () => container.current.removeEventListener('lock',lockNavBar)
         },[])
+        
 
         return (
             <div id='desktop-nav' className={styles['desktop-nav']} ref={container}>
