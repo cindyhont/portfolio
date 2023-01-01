@@ -1,13 +1,11 @@
-import { /*extend,*/ useThree, useFrame } from '@react-three/fiber'
+import { useThree, useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
-import { 
-    PerspectiveCamera,
-    TextureLoader,
-    Texture,
-    Vector2,
-    RawShaderMaterial,
-    PlaneGeometry,
-} from 'three'
+import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera'
+import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry'
+import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial'
+import { Vector2 } from 'three/src/math/Vector2'
+import { Texture } from 'three/src/textures/Texture'
 import { cdnPrefix, useLoadThreejs } from '../../../common'
 import styles from '../styles/IndividualWork.module.scss'
 

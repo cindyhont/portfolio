@@ -6,7 +6,17 @@ import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import styles from './Canvas.module.scss'
 import { useLoadThreejs } from '../../common';
-import { DataTexture, FloatType, Mesh, MeshBasicMaterial, MOUSE, PerspectiveCamera, PlaneGeometry, RawShaderMaterial, RGBAFormat, TorusKnotGeometry, Vector2, Vector3 } from 'three';
+import { Vector3 } from 'three/src/math/Vector3';
+import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry';
+import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
+import { Vector2 } from 'three/src/math/Vector2';
+import { Mesh } from 'three/src/objects/Mesh';
+import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
+import { TorusKnotGeometry } from 'three/src/geometries/TorusKnotGeometry';
+import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
+import { DataTexture } from 'three/src/textures/DataTexture';
+import { FloatType, MOUSE, RGBAFormat } from 'three/src/constants';
+// import { DataTexture, FloatType, Mesh, MeshBasicMaterial, MOUSE, PerspectiveCamera, PlaneGeometry, RawShaderMaterial, RGBAFormat, TorusKnotGeometry, Vector2, Vector3 } from 'three';
 
 const 
     particlesConfig = {

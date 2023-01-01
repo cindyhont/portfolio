@@ -4,8 +4,28 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
 import styles from './Canvas.module.scss'
-import { AnimationMixer, BufferAttribute, BufferGeometry, Camera, Euler, GLSL3, Group, Mesh, OrthographicCamera, Points, RawShaderMaterial, RGBFormat, Scene, ShaderMaterial, SkinnedMesh, Triangle, Vector2, Vector3, Vector4, WebGLRenderer, WebGLRenderTarget } from 'three';
+// import { AnimationMixer, BufferAttribute, BufferGeometry, Camera, Euler, GLSL3, Group, Mesh, OrthographicCamera, Points, RawShaderMaterial, RGBFormat, Scene, ShaderMaterial, SkinnedMesh, Triangle, Vector2, Vector3, Vector4, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { useLoadThreejs } from '../../common';
+import { BufferAttribute } from 'three/src/core/BufferAttribute';
+import { BufferGeometry } from 'three/src/core/BufferGeometry';
+import { Triangle } from 'three/src/math/Triangle';
+import { Vector3 } from 'three/src/math/Vector3';
+import { Vector4 } from 'three/src/math/Vector4';
+import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
+import { Scene } from 'three/src/scenes/Scene';
+import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera';
+import { Vector2 } from 'three/src/math/Vector2';
+import { WebGLRenderTarget } from 'three/src/renderers/WebGLRenderTarget';
+import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
+import { Mesh } from 'three/src/objects/Mesh';
+import { GLSL3, RGBFormat } from 'three/src/constants';
+import { Camera } from 'three/src/cameras/Camera';
+import { ShaderMaterial } from 'three/src/materials/ShaderMaterial';
+import { Group } from 'three/src/objects/Group';
+import { SkinnedMesh } from 'three/src/objects/SkinnedMesh';
+import { Points } from 'three/src/objects/Points';
+import { Euler } from 'three/src/math/Euler';
+import { AnimationMixer } from 'three/src/animation/AnimationMixer';
 
 class SkinnedMeshSurfaceSampler{
     randomFunction:()=>number;
