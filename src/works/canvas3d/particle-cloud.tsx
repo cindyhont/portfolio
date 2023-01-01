@@ -1,4 +1,4 @@
-import { ThreeEvent, useFrame, useThree, extend } from '@react-three/fiber';
+import { ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
@@ -6,12 +6,7 @@ import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import styles from './Canvas.module.scss'
 import { useLoadThreejs } from '../../common';
-import { DataTexture, FloatType, Mesh as _Mesh, Points as _Points, MeshBasicMaterial, MOUSE, PerspectiveCamera, PlaneGeometry, RawShaderMaterial, RGBAFormat, TorusKnotGeometry, Vector2, Vector3 } from 'three';
-
-extend({
-    Mesh:_Mesh,
-    Points:_Points,
-})
+import { DataTexture, FloatType, Mesh, MeshBasicMaterial, MOUSE, PerspectiveCamera, PlaneGeometry, RawShaderMaterial, RGBAFormat, TorusKnotGeometry, Vector2, Vector3 } from 'three';
 
 const 
     particlesConfig = {
@@ -204,7 +199,7 @@ const
                 return (height * input / size.height) / controlPlaneSize
             },
             controlPlaneGeometry = new PlaneGeometry(controlPlaneSize,controlPlaneSize),
-            controlPlaneRef = useRef<_Mesh>(),
+            controlPlaneRef = useRef<Mesh>(),
             joystickCenter = useRef(getJoystickCenter(joystickPadDiameterPx,joystickPadMarginPx)),
             joystickInitial = useRef(new Vector2()),
             joystickCurrPos = useRef(new Vector2()),
@@ -305,7 +300,7 @@ const
                 const 
                     geometry = new TorusKnotGeometry(1,0.3,200,30),
                     material = new MeshBasicMaterial(),
-                    mesh = new _Mesh(geometry,material),
+                    mesh = new Mesh(geometry,material),
                     sampler = new MeshSurfaceSampler(mesh).build(),
                     particleCount = textureSize * textureSize,
                     particlePosArr = new Float32Array(particleCount * 4);

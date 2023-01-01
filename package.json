@@ -19,6 +19,7 @@
     "three": "^0.146.0"
   },
   "devDependencies": {
+    "@react-three/babel": "^0.1.1",
     "@types/node": "18.11.9",
     "@types/three": "^0.144.0",
     "eslint": "8.26.0",

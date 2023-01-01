@@ -1,7 +1,6 @@
-import { extend, useThree, useFrame } from '@react-three/fiber'
+import { /*extend,*/ useThree, useFrame } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { 
-    Mesh as _Mesh, 
     PerspectiveCamera,
     TextureLoader,
     Texture,
@@ -11,10 +10,6 @@ import {
 } from 'three'
 import { cdnPrefix, useLoadThreejs } from '../../../common'
 import styles from '../styles/IndividualWork.module.scss'
-
-extend({
-    Mesh: _Mesh
-})
 
 const 
     Scene = ({imgPaths,id}:{imgPaths:string[];id:string}) => {

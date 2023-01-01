@@ -1,15 +1,11 @@
-import { useFrame, useThree, useLoader, extend } from '@react-three/fiber';
+import { useFrame, useThree, useLoader } from '@react-three/fiber';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
 import styles from './Canvas.module.scss'
-import { AnimationMixer, BufferAttribute, BufferGeometry, Camera, Euler, GLSL3, Group as _Group, Mesh, OrthographicCamera, Points, RawShaderMaterial, RGBFormat, Scene, ShaderMaterial, SkinnedMesh, Triangle, Vector2, Vector3, Vector4, WebGLRenderer, WebGLRenderTarget } from 'three';
+import { AnimationMixer, BufferAttribute, BufferGeometry, Camera, Euler, GLSL3, Group, Mesh, OrthographicCamera, Points, RawShaderMaterial, RGBFormat, Scene, ShaderMaterial, SkinnedMesh, Triangle, Vector2, Vector3, Vector4, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { useLoadThreejs } from '../../common';
-
-extend({
-    Group: _Group,
-})
 
 class SkinnedMeshSurfaceSampler{
     randomFunction:()=>number;
@@ -306,7 +302,7 @@ const
                 dracoLoader.setDecoderPath('/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
-            group = model.scene.children[0] as _Group,
+            group = model.scene.children[0] as Group,
             skinnedMesh = group.children[1] as SkinnedMesh,
             geom = useMemo(()=>{
                 if (!(group.children[1] as Mesh).geometry.index) return (group.children[1] as Mesh).geometry
