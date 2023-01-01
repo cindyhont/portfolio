@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { IndexContext } from "../../context";
-import ScrollParallaxContainer from "../scroll-parallax-container";
+import SeparatorContainer from "../separator";
 import Work from "./individual-work";
 import styles from './styles/Container.module.scss'
 import individualWorkStyles from './styles/IndividualWork.module.scss'
@@ -71,7 +71,7 @@ const
                     {[1,3].map(e=><feDropShadow key={e} stdDeviation={e} dx={0} dy={0} floodColor='#fff' />)}
                 </filter>
             </svg>
-            <ScrollParallaxContainer wavePaths={[
+            <SeparatorContainer wavePaths={[
                 "m0 240 25-15c25-15 75-45 125-60s100-15 150 2c50 16 100 49 150 69s100 28 150 24 100-19 150-35l125-44 25-9V71l-25 17c-25 16-75 49-125 65s-100 14-150 11-100-7-150-19c-50-11-100-29-150-37s-100-7-150-1c-50 5-100 14-125 19l-25 4Z",
                 "m0 298 25-6 125-29c50-11 100-22 150-17 50 4 100 24 150 45s100 43 150 45c50 1 100-18 150-28s100-10 125-10h25V170l-25 9-125 44c-50 16-100 31-150 35s-100-4-150-24-100-53-150-69c-50-17-100-17-150-2S50 208 25 223L0 238Z",
                 "M0 451h900V296h-25c-25 0-75 0-125 10s-100 29-150 28c-50-2-100-24-150-45s-100-41-150-45c-50-5-100 6-150 17L25 290l-25 6Z",
@@ -83,7 +83,7 @@ const
                     ))}
                     </>
                 )}</IndexContext.Consumer>
-            </ScrollParallaxContainer>
+            </SeparatorContainer>
             </>
         </WorksContainer>
     )

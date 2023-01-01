@@ -27,7 +27,7 @@ $mode-transition-time: 0.5s;
     font-size: 0.8rem;
     color:var(--button-text-color) !important;
 
-    transition: color $mode-transition-time, box-shadow $mode-transition-time, background-color $mode-transition-time;
+    transition: color $mode-transition-time, box-shadow $mode-transition-time, background-color $mode-transition-time !important;
 
     & > div {
         width:fit-content;
