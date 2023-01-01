@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { delayInSecond } from "../../common";
 import Waves from "../waves";
 import styles from './Opening.module.scss'
 
@@ -21,11 +22,11 @@ const Opening = () => {
                     hideSpace = spaceIdx===spaceCount && chars[i]===' ',
                     span = document.createElement('span')
                 span.innerText = chars[i]
-                span.style.animationDelay = `${1.5 + i * 0.15}s`
+                span.style.animationDelay = `${1.5 + delayInSecond + i * 0.15}s`
                 if (hideSpace) span.classList.add(styles.space)
                 titleRef.current.appendChild(span)
                 const hr = document.createElement('hr')
-                hr.style.animationDelay = `${1.5 + i * 0.15}s`
+                hr.style.animationDelay = `${1.5 + delayInSecond + i * 0.15}s`
                 if (hideSpace) hr.classList.add(styles.space)
                 titleRef.current.appendChild(hr);
             }
@@ -34,7 +35,7 @@ const Opening = () => {
 
     useEffect(()=>{
         addTitle()
-        setTimeout(()=>nameRef.current.style.animation = 'none',1500)
+        setTimeout(()=>nameRef.current.style.animation = 'none',1500 + delayInSecond * 1000)
         window.addEventListener('scroll',onScroll,{passive:true})
         return () => window.removeEventListener('scroll',onScroll)
     },[])

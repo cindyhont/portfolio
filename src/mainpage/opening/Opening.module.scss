@@ -2,13 +2,17 @@ $name-font-size: min(100px, 15vw, 30vh);
 $name-shadow-displacement-a: min(5px, 0.75vw, 1.5vh);
 $name-shadow-displacement-a-negative: max(-5px, -0.75vw, -1.5vh);
 $name-shadow-displacement-b: min(8px, 1.2vw, 2.4vh);
+$name-shadow-back-a: min(30px, 4.5vw, 9vh);
+$name-shadow-back-b: min(40px, 6vw, 12vh);
 $title-font-size: min(20px, 5vw, 8vh);
 
 @keyframes title-name-reveal {
     from {
+        color: var(--background-color);
         text-shadow: none;
     }
     to {
+        color: var(--title-text-color);
         text-shadow: $name-shadow-displacement-a 
             $name-shadow-displacement-a 
             $name-shadow-displacement-b 
@@ -16,7 +20,9 @@ $title-font-size: min(20px, 5vw, 8vh);
             $name-shadow-displacement-a-negative 
             $name-shadow-displacement-a-negative 
             $name-shadow-displacement-b 
-            var(--title-shadow-light);
+            var(--title-shadow-light),
+            0 0 $name-shadow-back-a var(--title-shadow-back-a),
+            0 0 $name-shadow-back-b var(--title-shadow-back-b);
     }
 }
 
@@ -73,8 +79,9 @@ $title-font-size: min(20px, 5vw, 8vh);
     }
 
     h1 {
-        color:var(--background-color);
-        font-family: 'Arial Black', 'Verdana-Bold ', 'AvenirNext-Bold', 'Arial-BoldMT', 'Helvetica-Bold', sans-serif;
+        color:var(--title-text-color);
+        font-family: 'Arial Black', 'AvenirNext-Bold', 'Arial-BoldMT', 'Helvetica-Bold', sans-serif;
+        font-weight: 900;
         font-size: $name-font-size;
         transition: color $mode-transition-time, text-shadow $mode-transition-time;
         text-shadow: $name-shadow-displacement-a 
@@ -84,12 +91,14 @@ $title-font-size: min(20px, 5vw, 8vh);
             $name-shadow-displacement-a-negative 
             $name-shadow-displacement-a-negative 
             $name-shadow-displacement-b 
-            var(--title-shadow-light);
+            var(--title-shadow-light),
+            0 0 $name-shadow-back-a var(--title-shadow-back-a),
+            0 0 $name-shadow-back-b var(--title-shadow-back-b);
         animation: title-name-reveal 1.5s;
     }
     p {
         font-weight: 300;
-        color: var(--text-color-pale) !important;
+        color: var(--text-color) !important;
         font-size: $title-font-size;
         margin: 0 5vw;
         transition: color $mode-transition-time;

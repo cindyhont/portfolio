@@ -80,7 +80,8 @@ const
             }
             return () => window.removeEventListener('resize',onResize)
         },[loaded])
-    }
+    },
+    delayInSecond = 0.1
 
 export {
     cdnPrefix,
@@ -88,4 +89,5 @@ export {
     convertImgFileName,
     useOnScrollAfterResize,
     useLoadThreejs,
+    delayInSecond,
 }

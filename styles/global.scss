@@ -23,13 +23,16 @@ html[data-theme='light']{
     --mobile-sidebar-text-color:#777;
     --mobile-sidebar-section-match-color:#555;
 
-    --title-shadow-light:#fff;
-    --title-shadow-dark:rgba(0,0,0,0.3);
+    --title-text-color:#fff;
+    --title-shadow-light:rgba(255,255,255,0.5);
+    --title-shadow-dark:rgba(0,0,0,0.5);
+    --title-shadow-back-a:rgba(0,0,0,0.3);
+    --title-shadow-back-b:rgba(0,0,0,0.2);
     --title-cursor-border-color:#ddd;
 
     --work-box-shadow-outer:10px 10px 20px 0 #ccc, -10px -10px 10px 0 #fff;
     --work-box-shadow-all:var(--work-box-shadow-outer),inset 10px 10px 20px 0 #ddd, inset -10px -10px 10px 0 #fff;
-    --work-title-text-color:rgba(0,0,0,0.2);
+    --work-title-text-color:rgba(0,0,0,0.4);
     --work-title-shadow:0px 1px 1px var(--background-color), 0 0 0 var(--text-color-pale);
 
     --button-shadow-light:#fff;
@@ -68,13 +71,16 @@ html[data-theme='dark']{
     --mobile-sidebar-text-color:#999;
     --mobile-sidebar-section-match-color:#ccc;
 
-    --title-shadow-light:rgba(255,255,255,0.2);
+    --title-text-color:#222;
+    --title-shadow-light:rgba(255,255,255,0.3);
     --title-shadow-dark:rgba(0,0,0,0.7);
+    --title-shadow-back-a:rgba(255,255,255,0.7);
+    --title-shadow-back-b:rgba(255,255,255,0.5);
     --title-cursor-border-color:#777;
 
     --work-box-shadow-outer:10px 10px 20px 0 #222, -10px -10px 10px 0 #444;
     --work-box-shadow-all:var(--work-box-shadow-outer),inset 10px 10px 20px 0 #222, inset -10px -10px 10px 0 #444;
-    --work-title-text-color:rgba(255,255,255,0.4);
+    --work-title-text-color:rgba(255,255,255,0.7);
     --work-title-shadow:1px 1px 1px #000;
 
     --button-shadow-light:#444;
