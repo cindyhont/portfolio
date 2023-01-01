@@ -1,12 +1,21 @@
 import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import React, { useEffect, useMemo, useRef } from 'react';
-import * as THREE from 'three';
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { Context } from '../../context';
 import styles from './Canvas.module.scss'
+import { Vector3 } from 'three/src/math/Vector3';
+import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry';
+import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
+import { Vector2 } from 'three/src/math/Vector2';
+import { Mesh } from 'three/src/objects/Mesh';
+import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
+import { TorusKnotGeometry } from 'three/src/geometries/TorusKnotGeometry';
+import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
+import { DataTexture } from 'three/src/textures/DataTexture';
+import { FloatType, MOUSE, RGBAFormat } from 'three/src/constants';
 
 const 
     particlesConfig = {
@@ -22,7 +31,7 @@ const
         position:'Right',
         rotateSpeed:2,
     },
-    tempPos = new THREE.Vector3(),
+    tempPos = new Vector3(),
     vertexShader = `
         precision mediump float;
 
@@ -156,7 +165,7 @@ const
             size = useThree(state=>state.size),
             invalidate = useThree(state => state.invalidate),
             controls = useMemo(()=>new EnhancedTrackballControls(camera,gl.domElement),[camera]),
-            particleGeometry = new THREE.PlaneGeometry(1,1,textureSize - 1, textureSize - 1),
+            particleGeometry = new PlaneGeometry(1,1,textureSize - 1, textureSize - 1),
             joystickPadDiameterPx = useRef(60).current,
             joystickPadMarginPx = useRef(30).current,
             joystickBorderPx = useRef(2).current,
@@ -166,7 +175,7 @@ const
             getJoystickCenter = (diameter:number,margin:number) => {
                 const 
                     camPos = camera.position,
-                    fov = (camera as THREE.PerspectiveCamera).fov,
+                    fov = (camera as PerspectiveCamera).fov,
                     fovInRad = fov * 0.5 * Math.PI / 180,
                     height = Math.tan(fovInRad) * camPos.length() * 2,
                     width = height * aspect,
@@ -187,24 +196,24 @@ const
                         break;
                 }
                     
-                return new THREE.Vector2(joystickCenterX,joystickCenterY)
+                return new Vector2(joystickCenterX,joystickCenterY)
             },
             getJoystickFloat = (input:number) => {
                 const 
-                    fov = (camera as THREE.PerspectiveCamera).fov,
+                    fov = (camera as PerspectiveCamera).fov,
                     fovInRad = fov * 0.5 * Math.PI / 180,
                     height = Math.tan(fovInRad) * camera.position.length() * 2
                 return (height * input / size.height) / controlPlaneSize
             },
-            controlPlaneGeometry = new THREE.PlaneGeometry(controlPlaneSize,controlPlaneSize),
-            controlPlaneRef = useRef<THREE.Mesh>(),
+            controlPlaneGeometry = new PlaneGeometry(controlPlaneSize,controlPlaneSize),
+            controlPlaneRef = useRef<Mesh>(),
             joystickCenter = useRef(getJoystickCenter(joystickPadDiameterPx,joystickPadMarginPx)),
-            joystickInitial = useRef(new THREE.Vector2()),
-            joystickCurrPos = useRef(new THREE.Vector2()),
+            joystickInitial = useRef(new Vector2()),
+            joystickCurrPos = useRef(new Vector2()),
             joystickOnMove = useRef(false),
             rotatingOnMouse = useRef(false),
             joystickStatic = useRef(true),
-            controlPlaneMaterial = new THREE.RawShaderMaterial({
+            controlPlaneMaterial = new RawShaderMaterial({
                 uniforms:{
                     uShowJoystick:{value:true},
                     uJoystickPadDiamater:{value:0},
@@ -219,8 +228,8 @@ const
             }),
             particlesOnPress = useRef(false),
             particlesMoving = useRef(false),
-            particlesPrev = useRef(new THREE.Vector3()),
-            particlesCurr = useRef(new THREE.Vector3()),
+            particlesPrev = useRef(new Vector3()),
+            particlesCurr = useRef(new Vector3()),
             windowVisible = useRef(true),
             windowIsHidden = () => {
                 windowVisible.current = false
@@ -296,9 +305,9 @@ const
             },
             {particlePosArr,initialPosTexture} = useMemo(()=>{
                 const 
-                    geometry = new THREE.TorusKnotGeometry(1,0.3,200,30),
-                    material = new THREE.MeshBasicMaterial(),
-                    mesh = new THREE.Mesh(geometry,material),
+                    geometry = new TorusKnotGeometry(1,0.3,200,30),
+                    material = new MeshBasicMaterial(),
+                    mesh = new Mesh(geometry,material),
                     sampler = new MeshSurfaceSampler(mesh).build(),
                     particleCount = textureSize * textureSize,
                     particlePosArr = new Float32Array(particleCount * 4);
@@ -312,12 +321,12 @@ const
                     particlePosArr[k+3] = i;
                 }
 
-                const initialPosTexture = new THREE.DataTexture(
+                const initialPosTexture = new DataTexture(
                     particlePosArr,
                     textureSize,
                     textureSize,
-                    THREE.RGBAFormat,
-                    THREE.FloatType
+                    RGBAFormat,
+                    FloatType
                 )
                 initialPosTexture.needsUpdate = true
                 
@@ -326,11 +335,11 @@ const
                     initialPosTexture
                 };
             },[]),
-            particleMaterial = new THREE.RawShaderMaterial({
+            particleMaterial = new RawShaderMaterial({
                 uniforms: {
                     initialPosTexture:{value:initialPosTexture},
                     tPosition:{value:null},
-                    cameraPos:{value:new THREE.Vector3()},
+                    cameraPos:{value:new Vector3()},
                     count:{value:particlesConfig.count},
                     psize:{value:particlesConfig.psize},
                     objsize:{value:particlesConfig.objsize}
@@ -357,8 +366,8 @@ const
 
         velocityVariable.material.uniforms.original = {value:initialPosTexture}
         velocityVariable.material.uniforms.moving = {value:false}
-        velocityVariable.material.uniforms.mousePos = {value:new THREE.Vector3()}
-        velocityVariable.material.uniforms.mouseVel = {value:new THREE.Vector3()}
+        velocityVariable.material.uniforms.mousePos = {value:new Vector3()}
+        velocityVariable.material.uniforms.mouseVel = {value:new Vector3()}
         velocityVariable.material.uniforms.dt = {value:0}
         velocityVariable.material.uniforms.count = {value:particlesConfig.count}
 
@@ -377,9 +386,9 @@ const
         }
 
         controls.setMouseButtons(
-            THREE.MOUSE.ROTATE,
-            THREE.MOUSE.DOLLY,
-            THREE.MOUSE.ROTATE,
+            MOUSE.ROTATE,
+            MOUSE.DOLLY,
+            MOUSE.ROTATE,
         )
 
         controls.noPan = true
@@ -416,8 +425,8 @@ const
             controlPlaneMaterial.uniforms.uJoystickPadCenter.value = padCenter
             
             if (joystickOnMove.current) {
-                const currPos = new THREE.Vector2().set(joystickCurrPos.current.x - joystickInitial.current.x,joystickInitial.current.y - joystickCurrPos.current.y)
-                controls.handleRotate(new THREE.Vector2(),currPos.multiplyScalar(0.02 * timeDelta))
+                const currPos = new Vector2().set(joystickCurrPos.current.x - joystickInitial.current.x,joystickInitial.current.y - joystickCurrPos.current.y)
+                controls.handleRotate(new Vector2(),currPos.multiplyScalar(0.02 * timeDelta))
             } else {
                 if (joystickCenter.current.distanceTo(padCenter) > getJoystickFloat(joystickPadDiameterPx - joystickDiameterPx * 0.5)){
                     // if joystick is out of joystick area, for example after screen resize
@@ -450,7 +459,7 @@ const
                 gpuCompute.compute();
                 velocityVariable.material.uniforms.moving.value = particlesMoving.current;
                 velocityVariable.material.uniforms.mousePos.value = particlesCurr.current
-                if (particlesMoving.current) velocityVariable.material.uniforms.mouseVel.value = new THREE.Vector3().subVectors(particlesCurr.current,particlesPrev.current);
+                if (particlesMoving.current) velocityVariable.material.uniforms.mouseVel.value = new Vector3().subVectors(particlesCurr.current,particlesPrev.current);
                 velocityVariable.material.uniforms.dt.value = timeDelta
                 velocityVariable.material.uniforms.count.value = particlesConfig.count
                 velocityVariable.material.uniforms.brushRadius.value = particlesConfig.brushRadius

@@ -1,6 +1,11 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import React, { useContext, useEffect, useMemo, useRef } from "react";
-import * as THREE from 'three'
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
+import { TextureLoader } from "three/src/loaders/TextureLoader";
+import { RawShaderMaterial } from "three/src/materials/RawShaderMaterial";
+import { Vector2 } from "three/src/math/Vector2";
+import { Texture } from "three/src/textures/Texture";
 import { cdnPrefix, convertImgFileName } from "../../common";
 import { Context } from "../../context";
 import styles from './styles/HeaderImg.module.scss'
@@ -11,39 +16,39 @@ const
             geometry = useThree(e=>{
                 const 
                     aspect = e.viewport.aspect,
-                    camera = e.camera as THREE.PerspectiveCamera,
+                    camera = e.camera as PerspectiveCamera,
                     fovInRad = camera.fov * 0.5 * Math.PI / 180,
                     height = Math.tan(fovInRad) * camera.position.z * 2,
                     width = height * aspect
 
-                return new THREE.PlaneGeometry(width,height,1,1)
+                return new PlaneGeometry(width,height,1,1)
             }),
             invalidate = useThree(e=>e.invalidate),
-            textureLoader = useRef(new THREE.TextureLoader()).current,
+            textureLoader = useRef(new TextureLoader()).current,
             waterDuDv = useMemo(()=>textureLoader.load(cdnPrefix() + '/waterdudv.jpg'),[]),
             textureSpecs = useRef<{
-                texture:THREE.Texture;
-                offset:THREE.Vector2;
-                repeat:THREE.Vector2;
+                texture:Texture;
+                offset:Vector2;
+                repeat:Vector2;
             }[]>([]),
             blankTextureSpecs = useRef(Array(2).fill({
-                texture:new THREE.Texture(),
-                offset:new THREE.Vector2(),
-                repeat:new THREE.Vector2(),
+                texture:new Texture(),
+                offset:new Vector2(),
+                repeat:new Vector2(),
             })).current,
             aspect = useThree(e=>e.viewport.aspect),
             getTextureSpecs = async () => {
                 const 
                     getSpec = (e:string) => new Promise<{
-                        texture:THREE.Texture;
-                        offset:THREE.Vector2;
-                        repeat:THREE.Vector2;
+                        texture:Texture;
+                        offset:Vector2;
+                        repeat:Vector2;
                     }>(resolve=>{
                         textureLoader.load(e,texture=>{
                             const 
                                 imageRatio = texture.image.width / texture.image.height,
-                                offset = new THREE.Vector2(),
-                                repeat = new THREE.Vector2()
+                                offset = new Vector2(),
+                                repeat = new Vector2()
 
                             if (imageRatio < aspect){
                                 offset.set((1 - aspect / imageRatio) / 2, 0)
@@ -62,7 +67,7 @@ const
                 textureSpecs.current = await Promise.all(imgPaths.map(e=>getSpec(`${cdnPrefix()}/${e}`)))
                 invalidate()
             },
-            material = new THREE.RawShaderMaterial({
+            material = new RawShaderMaterial({
                 uniforms:{
                     textureSets:{value:blankTextureSpecs},
                     waterDuDv:{value:waterDuDv},

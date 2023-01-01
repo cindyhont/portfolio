@@ -1,36 +1,47 @@
 import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
 import React, { useMemo, useRef } from 'react';
-import * as THREE from 'three';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
 import styles from './Canvas.module.scss'
+import { BufferAttribute } from 'three/src/core/BufferAttribute';
+import { BufferGeometry } from 'three/src/core/BufferGeometry';
+import { Triangle } from 'three/src/math/Triangle';
+import { Vector3 } from 'three/src/math/Vector3';
+import { Vector4 } from 'three/src/math/Vector4';
+import { ShaderMaterial } from 'three/src/materials/ShaderMaterial';
+import { Group } from 'three/src/objects/Group';
+import { SkinnedMesh } from 'three/src/objects/SkinnedMesh';
+import { Mesh } from 'three/src/objects/Mesh';
+import { Points } from 'three/src/objects/Points';
+import { Euler } from 'three/src/math/Euler';
+import { AnimationMixer } from 'three/src/animation/AnimationMixer';
 
 class SkinnedMeshSurfaceSampler{
     randomFunction:()=>number;
-    positionAttribute:THREE.BufferAttribute;
-    skinIndexAttribute:THREE.BufferAttribute;
-    skinWeightAttribute:THREE.BufferAttribute;
-    indice:THREE.BufferAttribute;
+    positionAttribute:BufferAttribute;
+    skinIndexAttribute:BufferAttribute;
+    skinWeightAttribute:BufferAttribute;
+    indice:BufferAttribute;
     distribution:Float32Array;
 
-    constructor(geometry:THREE.BufferGeometry){
+    constructor(geometry:BufferGeometry){
         if ( ! geometry.isBufferGeometry ) throw new Error('geometry missing')
         if ( geometry.attributes.position.itemSize !== 3 ) throw new Error('position error')
         if ( geometry.attributes.skinIndex.itemSize !== 4 ) throw new Error('skin index error')
         if ( geometry.attributes.skinWeight.itemSize !== 4 ) throw new Error('skin weight error')
 
         this.randomFunction = Math.random;
-        this.positionAttribute = geometry.getAttribute( 'position' ) as THREE.BufferAttribute;
-        this.skinIndexAttribute = geometry.getAttribute( 'skinIndex' ) as THREE.BufferAttribute;
-        this.skinWeightAttribute = geometry.getAttribute( 'skinWeight' ) as THREE.BufferAttribute;
+        this.positionAttribute = geometry.getAttribute( 'position' ) as BufferAttribute;
+        this.skinIndexAttribute = geometry.getAttribute( 'skinIndex' ) as BufferAttribute;
+        this.skinWeightAttribute = geometry.getAttribute( 'skinWeight' ) as BufferAttribute;
         this.indice = geometry.getIndex();
 
         const 
             faceWeights = new Float32Array( this.indice.count / 3 ),
-            _face = new THREE.Triangle(),
-            tempV3 = new THREE.Vector3();
+            _face = new Triangle(),
+            tempV3 = new Vector3();
 
         for (let i = 0; i < this.indice.count; i+= 3){
             tempV3.fromBufferAttribute(this.indice,i);
@@ -72,16 +83,16 @@ class SkinnedMeshSurfaceSampler{
 		return index;
 	}
 
-    sample(targetPos:THREE.Vector3,targetSkinIndex:THREE.Vector4,targetSkinWeight:THREE.Vector4){
+    sample(targetPos:Vector3,targetSkinIndex:Vector4,targetSkinWeight:Vector4){
         const 
             cumulativeTotal = this.distribution[ this.distribution.length - 1 ],
             faceIndex = this.binarySearch( this.randomFunction() * cumulativeTotal ),
             faceIdxX3 = faceIndex * 3,
-            v4a = new THREE.Vector4(),
-            v4b = new THREE.Vector4(),
-            v4c = new THREE.Vector4(),
-            _face = new THREE.Triangle(),
-            tempV3 = new THREE.Vector3();
+            v4a = new Vector4(),
+            v4b = new Vector4(),
+            v4c = new Vector4(),
+            _face = new Triangle(),
+            tempV3 = new Vector3();
 
         let u = Math.random();
         let v = Math.random();
@@ -130,9 +141,9 @@ class SkinnedMeshSurfaceSampler{
 const 
     a = Math.PI * 0.4,
     b = Math.PI * 0.5,
-    tempPos = new THREE.Vector3(),
-    tempSkinIndex = new THREE.Vector4(),
-    tempSkinWeight = new THREE.Vector4(),
+    tempPos = new Vector3(),
+    tempSkinIndex = new Vector4(),
+    tempSkinWeight = new Vector4(),
     particleCount = 20000,
 
     Scene = () => {
@@ -142,7 +153,7 @@ const
             glDom = useThree(state=>state.gl.domElement),
             controls = new TrackballControls(camera,glDom),
             angleX = useRef(a),
-            material = new THREE.ShaderMaterial({
+            material = new ShaderMaterial({
                 uniforms:{
                     ca:{value:Math.cos(a)},
                     sa:{value:Math.sin(a)},
@@ -202,10 +213,10 @@ const
                 dracoLoader.setDecoderPath('/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
-            group = model.scene.children[0] as THREE.Group,
-            skinnedMesh = group.children[1] as THREE.SkinnedMesh,
+            group = model.scene.children[0] as Group,
+            skinnedMesh = group.children[1] as SkinnedMesh,
             geom = useMemo(()=>{
-                if (!(group.children[1] as THREE.Mesh).geometry.index) return (group.children[1] as THREE.Mesh).geometry
+                if (!(group.children[1] as Mesh).geometry.index) return (group.children[1] as Mesh).geometry
                 
                 const 
                     sampler = new SkinnedMeshSurfaceSampler(skinnedMesh.geometry),
@@ -214,7 +225,7 @@ const
                     varInitialPos = new Float32Array(particleCount * 3),
                     skinIndice = new Uint8Array(particleCount * 4),
                     skinWeights = new Float32Array(particleCount * 4),
-                    geom = new THREE.BufferGeometry();
+                    geom = new BufferGeometry();
 
 
                 for ( let i = 0; i < particleCount; i++){
@@ -247,15 +258,15 @@ const
                     rotSpeed[i * 2 + 1] = Math.random() * 20 - 10
                 }
                 
-                geom.setAttribute('position',new THREE.BufferAttribute(positions,3))
-                geom.setAttribute('varInitialPos',new THREE.BufferAttribute(varInitialPos,3))
-                geom.setAttribute('rotSpeed',new THREE.BufferAttribute(rotSpeed,2))
-                geom.setAttribute('skinIndex',new THREE.BufferAttribute(skinIndice,4))
-                geom.setAttribute('skinWeight',new THREE.BufferAttribute(skinWeights,4))
+                geom.setAttribute('position',new BufferAttribute(positions,3))
+                geom.setAttribute('varInitialPos',new BufferAttribute(varInitialPos,3))
+                geom.setAttribute('rotSpeed',new BufferAttribute(rotSpeed,2))
+                geom.setAttribute('skinIndex',new BufferAttribute(skinIndice,4))
+                geom.setAttribute('skinWeight',new BufferAttribute(skinWeights,4))
                 
                 return geom
             },[]),
-            points = new THREE.Points(geom,material) as any;
+            points = new Points(geom,material) as any;
 
         points.matrixWorld.copy(skinnedMesh.matrixWorld);
         points.skeleton = skinnedMesh.skeleton;
@@ -274,9 +285,9 @@ const
         }
 
         group.position.set(0,0,0)
-        group.setRotationFromEuler(new THREE.Euler( 0,0,0, 'XYZ' ))
+        group.setRotationFromEuler(new Euler( 0,0,0, 'XYZ' ))
 
-        const mixer = new THREE.AnimationMixer(group)
+        const mixer = new AnimationMixer(group)
         mixer.timeScale = 0.5
 
         mixer.clipAction(model.animations[1]).play()
@@ -286,7 +297,7 @@ const
         
         useFrame((_,delta)=>{
             angleX.current += delta * 0.25;
-            const material = (group.children[1] as THREE.SkinnedMesh).material as THREE.ShaderMaterial
+            const material = (group.children[1] as SkinnedMesh).material as ShaderMaterial
             material.uniforms.cb.value = Math.cos(angleX.current)
             material.uniforms.sb.value = Math.sin(angleX.current)
             material.uniforms.uTime.value +=delta * 0.25

@@ -1,12 +1,17 @@
-import * as THREE from 'three';
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
+import { MOUSE } from "three/src/constants";
+import { EventDispatcher } from "three/src/core/EventDispatcher";
+import { Quaternion } from "three/src/math/Quaternion";
+import { Vector2 } from "three/src/math/Vector2";
+import { Vector3 } from "three/src/math/Vector3";
 
 // copied from TrackballControls in three.js
 const _changeEvent = { type: 'change' };
 const _startEvent = { type: 'start' };
 const _endEvent = { type: 'end' };
 
-class EnhancedTrackballControls extends THREE.EventDispatcher {
-    object:THREE.PerspectiveCamera;
+class EnhancedTrackballControls extends EventDispatcher {
+    object:PerspectiveCamera;
     domElement:HTMLElement
     enabled:boolean;
     screen:{left:number;top:number;width:number;height:number};
@@ -23,14 +28,14 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
     maxDistance:number;
     keys:string[];
     mouseButtons:{LEFT:number;MIDDLE:number;RIGHT:number;}
-    target:THREE.Vector3;
-    target0:THREE.Vector3;
-    position0:THREE.Vector3;
-    up0:THREE.Vector3;
+    target:Vector3;
+    target0:Vector3;
+    position0:Vector3;
+    up0:Vector3;
     zoom0:number;
     handleResize:()=>void;
-    // getMouseOnScreen:(pageX:number,pageY:number)=>THREE.Vector2;
-    // getMouseOnCircle:(pageX:number,pageY:number)=>THREE.Vector2;
+    // getMouseOnScreen:(pageX:number,pageY:number)=>Vector2;
+    // getMouseOnCircle:(pageX:number,pageY:number)=>Vector2;
     rotateCamera:()=>void;
     zoomCamera:()=>void;
     panCamera:()=>void;
@@ -38,7 +43,7 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
     update:()=>void;
     reset:()=>void;
     dispose:()=>void;
-    handleRotate:(prev:THREE.Vector2,curr:THREE.Vector2)=>void;
+    handleRotate:(prev:Vector2,curr:Vector2)=>void;
     setMouseButtons:(left:number,middle:number,right:number)=>void;
     constructor(object,domElement){
         super();
@@ -70,15 +75,15 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 
         this.keys = [ 'KeyA' /*A*/, 'KeyS' /*S*/, 'KeyD' /*D*/ ];
 
-		this.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+		this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
 
 		// internals
 
-		this.target = new THREE.Vector3();
+		this.target = new Vector3();
 
 		const EPS = 0.000001;
 
-		const lastPosition = new THREE.Vector3();
+		const lastPosition = new Vector3();
 		let lastZoom = 1;
 
         let _state = STATE.NONE,
@@ -89,18 +94,18 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 
 			_lastAngle = 0;
 
-		const _eye = new THREE.Vector3(),
+		const _eye = new Vector3(),
 
-			_movePrev = new THREE.Vector2(),
-			_moveCurr = new THREE.Vector2(),
+			_movePrev = new Vector2(),
+			_moveCurr = new Vector2(),
 
-			_lastAxis = new THREE.Vector3(),
+			_lastAxis = new Vector3(),
 
-			_zoomStart = new THREE.Vector2(),
-			_zoomEnd = new THREE.Vector2(),
+			_zoomStart = new Vector2(),
+			_zoomEnd = new Vector2(),
 
-			_panStart = new THREE.Vector2(),
-			_panEnd = new THREE.Vector2(),
+			_panStart = new Vector2(),
+			_panEnd = new Vector2(),
 
 			_pointers = [],
 			_pointerPositions = {};
@@ -123,7 +128,7 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 		};
 
         const getMouseOnScreen = (pageX:number, pageY:number) => {
-            const vector = new THREE.Vector2();
+            const vector = new Vector2();
             vector.set(
                 ( pageX - scope.screen.left ) / scope.screen.width,
                 ( pageY - scope.screen.top ) / scope.screen.height
@@ -133,7 +138,7 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
         }
 
         const getMouseOnCircle = (pageX:number, pageY:number) => {
-            const vector = new THREE.Vector2();
+            const vector = new Vector2();
 
             vector.set(
                 ( ( pageX - scope.screen.width * 0.5 - scope.screen.left ) / ( scope.screen.width * 0.5 ) ),
@@ -144,12 +149,12 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
         }
         
         this.rotateCamera = () => {
-            const axis = new THREE.Vector3(),
-				quaternion = new THREE.Quaternion(),
-				eyeDirection = new THREE.Vector3(),
-				objectUpDirection = new THREE.Vector3(),
-				objectSidewaysDirection = new THREE.Vector3(),
-				moveDirection = new THREE.Vector3();
+            const axis = new Vector3(),
+				quaternion = new Quaternion(),
+				eyeDirection = new Vector3(),
+				objectUpDirection = new Vector3(),
+				objectSidewaysDirection = new Vector3(),
+				moveDirection = new Vector3();
 
             moveDirection.set( _moveCurr.x - _movePrev.x, _moveCurr.y - _movePrev.y, 0 );
             let angle = moveDirection.length();
@@ -224,9 +229,9 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
         }
 
         this.panCamera = () => {
-            const mouseChange = new THREE.Vector2(),
-				objectUp = new THREE.Vector3(),
-				pan = new THREE.Vector3();
+            const mouseChange = new Vector2(),
+				objectUp = new Vector3(),
+				pan = new Vector3();
 
                 mouseChange.copy( _panEnd ).sub( _panStart );
 
@@ -331,7 +336,7 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 			lastZoom = scope.object.zoom;
         }
 
-        this.handleRotate = (prev:THREE.Vector2,curr:THREE.Vector2) => {
+        this.handleRotate = (prev:Vector2,curr:Vector2) => {
             _movePrev.copy( prev );
             _moveCurr.copy( curr );
         }
@@ -728,7 +733,7 @@ class EnhancedTrackballControls extends THREE.EventDispatcher {
 
 			if ( position === undefined ) {
 
-				position = new THREE.Vector2();
+				position = new Vector2();
 				_pointerPositions[ event.pointerId ] = position;
 
 			}
