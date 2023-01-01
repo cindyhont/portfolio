@@ -1,21 +1,29 @@
-import { useFrame, useThree, Canvas } from "@react-three/fiber";
-import React, { useContext, useEffect, useMemo, useRef } from "react";
-import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
-import { TextureLoader } from "three/src/loaders/TextureLoader";
-import { RawShaderMaterial } from "three/src/materials/RawShaderMaterial";
-import { Vector2 } from "three/src/math/Vector2";
-import { Texture } from "three/src/textures/Texture";
-import { cdnPrefix, convertImgFileName } from "../../common";
-import { Context } from "../../context";
-import styles from './styles/HeaderImg.module.scss'
+import { extend, createRoot, useThree, useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { 
+    Mesh as _Mesh, 
+    PerspectiveCamera,
+    TextureLoader,
+    Texture,
+    Vector2,
+    RawShaderMaterial,
+    PlaneGeometry,
+} from 'three'
+import { cdnPrefix } from '../../../common'
+import styles from '../styles/IndividualWork.module.scss'
+
+extend({
+    Mesh: _Mesh
+})
 
 const 
     Scene = ({imgPaths,id}:{imgPaths:string[];id:string}) => {
         const 
             geometry = useThree(e=>{
-                const 
-                    aspect = e.viewport.aspect,
+                const aspect = e.viewport.aspect
+                if (isNaN(aspect)) return new PlaneGeometry()
+
+                const
                     camera = e.camera as PerspectiveCamera,
                     fovInRad = camera.fov * 0.5 * Math.PI / 180,
                     height = Math.tan(fovInRad) * camera.position.z * 2,
@@ -71,7 +79,7 @@ const
                 uniforms:{
                     textureSets:{value:blankTextureSpecs},
                     waterDuDv:{value:waterDuDv},
-                    aspect:{value:aspect},
+                    aspect:{value:aspect || 1},
                     progress:{value:0},
                 },
                 vertexShader:`
@@ -169,70 +177,49 @@ const
         },[])
 
         useEffect(()=>{
-            getTextureSpecs()
+            if (!isNaN(aspect)) getTextureSpecs()
         },[aspect])
 
         return (
-            <mesh args={[geometry,material]} />
+            <mesh args={[geometry, material]} />
         )
     },
-    Slider = ({imgPaths,backgroundColor,id}:{imgPaths:string[];backgroundColor:string;id:string;}) => {
+    WebglSlider = ({imgPaths,id}:{imgPaths:string[];id:string}) => {
         const 
-            img = useRef<HTMLImageElement>(),
             container = useRef<HTMLDivElement>(),
-            {webgl,devicePixelRatio,imgFormat} = useContext(Context),
-            onClick = (e:number) => {
-                container.current.dispatchEvent(new CustomEvent('swipe',{detail:e}))
-
-                // restart the auto loop if button is clicked, so that the next move doesn't come too soon after the first move
-                document.getElementById('works')?.dispatchEvent(new CustomEvent('restart',{detail:id}))
-            },
-            prevOnClick = () => onClick(-1),
-            nextOnClick = () => onClick(1),
-            imgIdx = useRef(0),
-            preloadImage = (idx:number) => {
-                if (!imgFormat) return
-                const image = new Image()
-                image.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[idx],imgFormat)}`
-                image.onload = () => {}
-            },
-            loadImage = () => {
-                if (!!imgFormat) img.current.src = `${cdnPrefix()}/${convertImgFileName(imgPaths[imgIdx.current],imgFormat)}`
-                preloadImage((imgPaths.length + imgIdx.current - 1) % imgPaths.length)
-                preloadImage((imgIdx.current + 1) % imgPaths.length)
-            },
-            onSwipe = (e:CustomEvent) => {
-                imgIdx.current = (imgPaths.length + imgIdx.current + e.detail as number) % imgPaths.length
-                loadImage()
+            canvasRef = useRef<HTMLCanvasElement>(),
+            root = createRoot(canvasRef.current),
+            [loaded,setLoaded] = useState(false),
+            prevSize = useRef({w:0,h:0}),
+            onResize = () => {
+                const {width,height} = container.current.getBoundingClientRect()
+                if (prevSize.current.w !== width || prevSize.current.h !== height){
+                    root.configure({ size: { width, height, top: 0, left: 0 } })
+                    prevSize.current = {w:width,h:height}
+                }
             }
-
 
         useEffect(()=>{
-            if (webgl===false && !!imgFormat) {
-                loadImage()
-                container.current.addEventListener('swipe',onSwipe,{passive:true})
+            setLoaded(true)
+        },[])
+
+        useEffect(()=>{
+            if (loaded){
+                if ('ResizeObserver' in window){
+                    const observer = new ResizeObserver(onResize)
+                    observer.observe(container.current)
+                } else window.addEventListener('resize',onResize)
             }
-            return () => container.current.removeEventListener('swipe',onSwipe)
-        },[webgl,imgFormat])
+            return () => window.removeEventListener('resize',onResize)
+        },[loaded])
+
+        root.render(<Scene {...{imgPaths,id}} />)
 
         return (
-            <div id={id} ref={container} className={styles['slide-cropped-image']} data-webgl={true} style={{backgroundColor}}>
-                {webgl && <Canvas dpr={devicePixelRatio} frameloop='demand'>
-                    <Scene imgPaths={imgPaths} id={id} />
-                </Canvas>}
-                {webgl===false && !!imgFormat && <img ref={img} className={styles['raw-image']} />}
-                <button className={styles['prev']} aria-label='Previous Slide' onClick={prevOnClick}>
-                    <svg viewBox="-3 -3 21 36" width='15' height='30'>
-                        <polyline points="15,0 0,15 15,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
-                    </svg>
-                </button>
-                <button className={styles['next']} aria-label='Next Slide' onClick={nextOnClick}>
-                    <svg viewBox="-3 -3 21 36" width='15' height='30'>
-                        <polyline points="0,0 15,15 0,30" stroke='#fff' fill='none' strokeWidth={3} strokeLinecap='round' strokeLinejoin="round" />
-                    </svg>
-                </button>
+            <div ref={container} className={styles['canvas-container']}>
+                <canvas ref={canvasRef} />
             </div>
         )
     }
 
-export default Slider
+export default WebglSlider
