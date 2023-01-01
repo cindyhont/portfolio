@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react"
+import { createRoot, events, RenderProps } from "@react-three/fiber"
+import { ReactNode, useEffect, useRef, useState } from "react"
 
 const 
     addLetterSpacing = (title:string,elem:HTMLElement,className:string) => {
@@ -43,6 +44,42 @@ const
         },[loaded])
 
         useEffect(()=>setLoaded(true),[])
+    },
+    useLoadThreejs = (
+        container:HTMLDivElement,
+        canvas:HTMLCanvasElement,
+        scene:ReactNode,
+    ) => {
+        const 
+            root = createRoot(canvas),
+            [loaded,setLoaded] = useState(false),
+            prevSize = useRef({w:0,h:0}),
+            onResize = () => {
+                const {width,height} = container.getBoundingClientRect()
+                if (prevSize.current.w !== width || prevSize.current.h !== height){
+                    root.configure({ size: { width, height, top: 0, left: 0 } })
+                    prevSize.current = {w:width,h:height}
+                }
+            }
+    
+        useEffect(()=>{
+            setLoaded(true)
+        },[])
+    
+        useEffect(()=>{
+            if (loaded){
+                root.configure({ events })
+                if ('ResizeObserver' in window){
+                    const observer = new ResizeObserver(onResize)
+                    observer.observe(container)
+                } else {
+                    onResize()
+                    window.addEventListener('resize',onResize)
+                }
+                root.render(scene)
+            }
+            return () => window.removeEventListener('resize',onResize)
+        },[loaded])
     }
 
 export {
@@ -50,4 +87,5 @@ export {
     addLetterSpacing,
     convertImgFileName,
     useOnScrollAfterResize,
+    useLoadThreejs,
 }

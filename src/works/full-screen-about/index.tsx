@@ -8,10 +8,7 @@ const FullScreenAbout = ({children}:{children:JSX.Element}) => {
         checkbox = useRef<HTMLInputElement>(),
         checkboxID = useRef('full-screen-about-checkbox').current,
         keyEscOnPress = (e:KeyboardEvent) => {
-            if (['Esc','Escape'].includes(e.key)) {
-                e.preventDefault()
-                checkbox.current.checked = false
-            }
+            if (['Esc','Escape'].includes(e.key) && checkbox.current.checked) checkbox.current.click()
         },
         onChange = (e:ChangeEvent<HTMLInputElement>) => {
             // hide gui if the modal is shown

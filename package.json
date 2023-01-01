@@ -14,6 +14,7 @@
     "gray-matter": "^4.0.3",
     "next": "^13.0.1",
     "next-mdx-remote": "^4.1.0",
+    "postprocessing": "^6.29.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.55.0",

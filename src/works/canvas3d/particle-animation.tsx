@@ -1,22 +1,15 @@
-import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
-import React, { useMemo, useRef } from 'react';
-import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import { useFrame, useThree, useLoader, extend } from '@react-three/fiber';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
 import styles from './Canvas.module.scss'
-import { BufferAttribute } from 'three/src/core/BufferAttribute';
-import { BufferGeometry } from 'three/src/core/BufferGeometry';
-import { Triangle } from 'three/src/math/Triangle';
-import { Vector3 } from 'three/src/math/Vector3';
-import { Vector4 } from 'three/src/math/Vector4';
-import { ShaderMaterial } from 'three/src/materials/ShaderMaterial';
-import { Group } from 'three/src/objects/Group';
-import { SkinnedMesh } from 'three/src/objects/SkinnedMesh';
-import { Mesh } from 'three/src/objects/Mesh';
-import { Points } from 'three/src/objects/Points';
-import { Euler } from 'three/src/math/Euler';
-import { AnimationMixer } from 'three/src/animation/AnimationMixer';
+import { AnimationMixer, BufferAttribute, BufferGeometry, Camera, Euler, GLSL3, Group as _Group, Mesh, OrthographicCamera, Points, RawShaderMaterial, RGBFormat, Scene, ShaderMaterial, SkinnedMesh, Triangle, Vector2, Vector3, Vector4, WebGLRenderer, WebGLRenderTarget } from 'three';
+import { useLoadThreejs } from '../../common';
+
+extend({
+    Group: _Group,
+})
 
 class SkinnedMeshSurfaceSampler{
     randomFunction:()=>number;
@@ -138,6 +131,93 @@ class SkinnedMeshSurfaceSampler{
     }
 }
 
+
+class BloomEffect {
+    renderer:WebGLRenderer;
+    scene:Scene;
+    dummyCamera:OrthographicCamera;
+    geometry:BufferGeometry;
+    resolution:Vector2;
+    target:WebGLRenderTarget;
+    material:RawShaderMaterial;
+    triangle:Mesh;
+    constructor(renderer:WebGLRenderer){
+        this.renderer = renderer;
+        this.scene = new Scene();
+        this.dummyCamera = new OrthographicCamera()
+        this.geometry = new BufferGeometry()
+
+        const vertices = new Float32Array([-1, -1, 3, -1, -1, 3])
+        this.geometry.setAttribute('position', new BufferAttribute(vertices, 2))
+        this.resolution = new Vector2()
+
+        this.renderer.getDrawingBufferSize(this.resolution)
+
+        this.target = new WebGLRenderTarget(this.resolution.x, this.resolution.y, {
+            format: RGBFormat,
+            stencilBuffer: false,
+            depthBuffer: false
+        })
+
+        this.material = new RawShaderMaterial({
+            uniforms: {
+                uScene: { value: this.target.texture },
+                uResolution: { value: this.resolution },
+            },
+            vertexShader:`
+                precision mediump float;
+                in vec2 position;
+                
+                void main(){
+                    gl_Position = vec4(position, 1.0, 1.0);
+                }
+            `,
+            fragmentShader:`
+                precision lowp float;
+
+                uniform sampler2D uScene;
+                uniform vec2 uResolution;
+
+                out vec4 color;
+
+                const float multipliers[5] = float[5](0.16, 0.15, 0.12, 0.09, 0.05);
+
+                void main(){
+                    vec2 uv = gl_FragCoord.xy / uResolution.xy;
+                    vec2 delta = vec2(3.) / uResolution.xy;
+
+                    float sum;
+
+                    for (int i=-4; i<5; i++){
+                        float multiplier = multipliers[abs(i)];
+                        float j = float(i);
+                        sum += texture( uScene, uv + vec2( delta.x * j, 0. ) ).x * multiplier;
+                        sum += texture( uScene, uv + vec2( 0. ,delta.y * j ) ).x * multiplier;
+                    }
+
+                    float result = sum * 1.1 + texture( uScene, uv ).x * 0.5;
+
+                    color = vec4(vec3( result ), 1.);
+                }
+            `,
+            transparent:true,
+            glslVersion:GLSL3
+        })
+
+        this.triangle = new Mesh(this.geometry, this.material)
+        this.triangle.frustumCulled = false
+        this.scene.add(this.triangle)
+    }
+
+    render(scene:Scene, camera:Camera) {
+        this.renderer.setRenderTarget(this.target)
+        this.renderer.render(scene, camera)
+        this.renderer.setRenderTarget(null)
+        this.renderer.render(this.scene, this.dummyCamera)
+    }
+}
+
+
 const 
     a = Math.PI * 0.4,
     b = Math.PI * 0.5,
@@ -146,11 +226,24 @@ const
     tempSkinWeight = new Vector4(),
     particleCount = 20000,
 
-    Scene = () => {
+    Postprocessing = () => {
+        const 
+            { gl, scene, camera } = useThree(),
+            renderer = new BloomEffect(gl)
+
+        return useFrame(() => {
+            renderer.render(scene, camera)
+        }, 1)
+    },
+
+    CanvasScene = () => {
         const 
             camPos = useThree(state=>state.camera.position),
             camera = useThree(state=>state.camera),
             glDom = useThree(state=>state.gl.domElement),
+            setDpr = useThree(e=>e.setDpr),
+            setFrameloop = useThree(e=>e.setFrameloop),
+            invalidate = useThree(e=>e.invalidate),
             controls = new TrackballControls(camera,glDom),
             angleX = useRef(a),
             material = new ShaderMaterial({
@@ -213,7 +306,7 @@ const
                 dracoLoader.setDecoderPath('/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
-            group = model.scene.children[0] as Group,
+            group = model.scene.children[0] as _Group,
             skinnedMesh = group.children[1] as SkinnedMesh,
             geom = useMemo(()=>{
                 if (!(group.children[1] as Mesh).geometry.index) return (group.children[1] as Mesh).geometry
@@ -266,7 +359,20 @@ const
                 
                 return geom
             },[]),
-            points = new Points(geom,material) as any;
+            points = new Points(geom,material) as any,
+            windowVisible = useRef(true),
+            windowIsHidden = () => {
+                windowVisible.current = false
+            },
+            windowIsVisible = () => {
+                windowVisible.current = true;
+                invalidate();
+            },
+            infoModalClosed = useRef(true),
+            infoModalOnChange = (e:Event) => {
+                infoModalClosed.current = !(e.target as HTMLInputElement).checked
+                if (infoModalClosed.current) invalidate()
+            }
 
         points.matrixWorld.copy(skinnedMesh.matrixWorld);
         points.skeleton = skinnedMesh.skeleton;
@@ -296,6 +402,8 @@ const
         controls.noPan = true
         
         useFrame((_,delta)=>{
+            if (windowVisible.current && infoModalClosed.current) invalidate()
+
             angleX.current += delta * 0.25;
             const material = (group.children[1] as SkinnedMesh).material as ShaderMaterial
             material.uniforms.cb.value = Math.cos(angleX.current)
@@ -306,19 +414,48 @@ const
             controls.update()
         })
 
+        useEffect(()=>{
+            setDpr(0.5)
+            setFrameloop('demand')
+
+            const checkbox = document.getElementById('full-screen-about-checkbox') as HTMLInputElement
+            checkbox?.addEventListener('change',infoModalOnChange,{passive:true})
+
+            window.addEventListener('resize',windowIsVisible,{passive:true})
+            window.addEventListener('focus',windowIsVisible,{passive:true})
+            window.addEventListener('blur',windowIsHidden,{passive:true})
+
+            return () => {
+                checkbox?.removeEventListener('change',infoModalOnChange)
+                window.removeEventListener('resize',windowIsVisible)
+                window.removeEventListener('focus',windowIsVisible)
+                window.removeEventListener('blur',windowIsHidden)
+            }
+        },[])
+
         return (
             <primitive object={group} />
         )
     },
-    ParticleAnimation = () => (
-        <div className={styles.canvas}>
-            <Canvas dpr={0.5}>
-                <Scene />
-                <EffectComposer>
-                    <Bloom luminanceThreshold={0} luminanceSmoothing={0} height={1000} />
-                </EffectComposer>
-            </Canvas>
-        </div>
-    )
+    ParticleAnimation = () => {
+        const 
+            container = useRef<HTMLDivElement>(),
+            canvasRef = useRef<HTMLCanvasElement>()
+
+        useLoadThreejs(
+            container.current,
+            canvasRef.current,
+            <>
+                <CanvasScene />
+                <Postprocessing />
+            </>,
+        )
+
+        return (
+            <div className={styles.canvas} ref={container}>
+                <canvas ref={canvasRef} />
+            </div>
+        )
+    }
 
 export default ParticleAnimation;

@@ -1,21 +1,17 @@
-import { Canvas, ThreeEvent, useFrame, useThree } from '@react-three/fiber';
+import { ThreeEvent, useFrame, useThree, extend } from '@react-three/fiber';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer.js';
 import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
-import { Context } from '../../context';
 import styles from './Canvas.module.scss'
-import { Vector3 } from 'three/src/math/Vector3';
-import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry';
-import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
-import { Vector2 } from 'three/src/math/Vector2';
-import { Mesh } from 'three/src/objects/Mesh';
-import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
-import { TorusKnotGeometry } from 'three/src/geometries/TorusKnotGeometry';
-import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
-import { DataTexture } from 'three/src/textures/DataTexture';
-import { FloatType, MOUSE, RGBAFormat } from 'three/src/constants';
+import { useLoadThreejs } from '../../common';
+import { DataTexture, FloatType, Mesh as _Mesh, Points as _Points, MeshBasicMaterial, MOUSE, PerspectiveCamera, PlaneGeometry, RawShaderMaterial, RGBAFormat, TorusKnotGeometry, Vector2, Vector3 } from 'three';
+
+extend({
+    Mesh:_Mesh,
+    Points:_Points,
+})
 
 const 
     particlesConfig = {
@@ -164,6 +160,8 @@ const
             aspect = useThree(state=>state.viewport.aspect),
             size = useThree(state=>state.size),
             invalidate = useThree(state => state.invalidate),
+            setFrameloop = useThree(e=>e.setFrameloop),
+            setDpr = useThree(e=>e.setDpr),
             controls = useMemo(()=>new EnhancedTrackballControls(camera,gl.domElement),[camera]),
             particleGeometry = new PlaneGeometry(1,1,textureSize - 1, textureSize - 1),
             joystickPadDiameterPx = useRef(60).current,
@@ -206,7 +204,7 @@ const
                 return (height * input / size.height) / controlPlaneSize
             },
             controlPlaneGeometry = new PlaneGeometry(controlPlaneSize,controlPlaneSize),
-            controlPlaneRef = useRef<Mesh>(),
+            controlPlaneRef = useRef<_Mesh>(),
             joystickCenter = useRef(getJoystickCenter(joystickPadDiameterPx,joystickPadMarginPx)),
             joystickInitial = useRef(new Vector2()),
             joystickCurrPos = useRef(new Vector2()),
@@ -307,7 +305,7 @@ const
                 const 
                     geometry = new TorusKnotGeometry(1,0.3,200,30),
                     material = new MeshBasicMaterial(),
-                    mesh = new Mesh(geometry,material),
+                    mesh = new _Mesh(geometry,material),
                     sampler = new MeshSurfaceSampler(mesh).build(),
                     particleCount = textureSize * textureSize,
                     particlePosArr = new Float32Array(particleCount * 4);
@@ -359,6 +357,11 @@ const
                     particlesOnAnimation.current = !particlesOnAnimation.current
                     if (particlesOnAnimation.current) invalidate()
                 }
+            },
+            infoModalClosed = useRef(true),
+            infoModalOnChange = (e:Event) => {
+                infoModalClosed.current = !(e.target as HTMLInputElement).checked
+                if (infoModalClosed.current) invalidate()
             }
 
         gpuCompute.setVariableDependencies( positionVariable, [ positionVariable, velocityVariable ] );
@@ -386,7 +389,7 @@ const
         }
 
         controls.setMouseButtons(
-            MOUSE.ROTATE,
+            null,//MOUSE.ROTATE,
             MOUSE.DOLLY,
             MOUSE.ROTATE,
         )
@@ -394,12 +397,19 @@ const
         controls.noPan = true
 
         useEffect(()=>{
+            setFrameloop('demand')
+            setDpr(Math.min(2,Math.floor(devicePixelRatio)))
+
+            const checkbox = document.getElementById('full-screen-about-checkbox') as HTMLInputElement
+            checkbox?.addEventListener('change',infoModalOnChange,{passive:true})
+
             window.addEventListener('keyup',keyOnPress,{passive:true})
             window.addEventListener('resize',windowIsVisible,{passive:true})
             window.addEventListener('focus',windowIsVisible,{passive:true})
             window.addEventListener('blur',windowIsHidden,{passive:true})
 
             return () => {
+                checkbox?.removeEventListener('change',infoModalOnChange)
                 window.removeEventListener('keyup',keyOnPress)
                 window.removeEventListener('resize',windowIsVisible)
                 window.removeEventListener('focus',windowIsVisible)
@@ -408,12 +418,12 @@ const
         },[])
 
         useFrame(({camera,invalidate},delta)=>{
-            if (windowVisible.current) invalidate()
+            if (windowVisible.current && infoModalClosed.current) invalidate()
             const 
                 camPos = camera.position,
                 timeDelta = Math.min(delta,1/30)
 
-            // controlPlaneRef.current?.lookAt(camPos)
+            controlPlaneRef.current?.lookAt(camPos)
 
             controls.update()
 
@@ -483,23 +493,33 @@ const
         })
 
         return (
-            <group>
-                <mesh 
-                    ref={controlPlaneRef}
-                    onPointerMove={onPointerMove}
-                    onPointerDown={onPointerDown}
-                    onPointerUp={onPointerUp}
-                    onPointerCancel={onPointerUp}
-                    onPointerLeave={onPointerUp}
-                    onPointerMissed={onPointerUp}
-                    onPointerOut={onPointerUp}
-                    args={[controlPlaneGeometry,controlPlaneMaterial]}
-                />
-                <points args={[particleGeometry,particleMaterial]} />
-            </group>
+            <>
+            <mesh 
+                ref={controlPlaneRef}
+                onPointerMove={onPointerMove}
+                onPointerDown={onPointerDown}
+                onPointerUp={onPointerUp}
+                onPointerCancel={onPointerUp}
+                onPointerLeave={onPointerUp}
+                onPointerMissed={onPointerUp}
+                onPointerOut={onPointerUp}
+                args={[controlPlaneGeometry,controlPlaneMaterial]}
+            />
+            <points args={[particleGeometry,particleMaterial]} />
+            </>
         )
     },
     ParticleCloud = () => {
+        const 
+            container = useRef<HTMLDivElement>(),
+            canvasRef = useRef<HTMLCanvasElement>()
+
+        useLoadThreejs(
+            container.current,
+            canvasRef.current,
+            <Scene />
+        )
+
         useEffect(() => {
             const gui = new GUI();
 
@@ -521,12 +541,8 @@ const
         },[])
 
         return (
-            <div className={styles.canvas}>
-                <Context.Consumer>{({devicePixelRatio})=>
-                    <Canvas dpr={devicePixelRatio} frameloop='demand'>
-                        <Scene />
-                    </Canvas>
-                }</Context.Consumer>
+            <div className={styles.canvas} ref={container}>
+                <canvas ref={canvasRef} />
             </div>
         )
     }

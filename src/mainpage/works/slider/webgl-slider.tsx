@@ -1,5 +1,5 @@
-import { extend, createRoot, useThree, useFrame } from '@react-three/fiber'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { extend, useThree, useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
 import { 
     Mesh as _Mesh, 
     PerspectiveCamera,
@@ -9,7 +9,7 @@ import {
     RawShaderMaterial,
     PlaneGeometry,
 } from 'three'
-import { cdnPrefix } from '../../../common'
+import { cdnPrefix, useLoadThreejs } from '../../../common'
 import styles from '../styles/IndividualWork.module.scss'
 
 extend({
@@ -31,6 +31,8 @@ const
 
                 return new PlaneGeometry(width,height,1,1)
             }),
+            setFrameloop = useThree(e=>e.setFrameloop),
+            setDpr = useThree(e=>e.setDpr),
             invalidate = useThree(e=>e.invalidate),
             textureLoader = useRef(new TextureLoader()).current,
             waterDuDv = useMemo(()=>textureLoader.load(cdnPrefix() + '/waterdudv.jpg'),[]),
@@ -171,6 +173,9 @@ const
         })
 
         useEffect(()=>{
+            setFrameloop('demand')
+            setDpr(Math.min(2,Math.floor(devicePixelRatio)))
+
             const parent = document.getElementById(id)
             parent.addEventListener('swipe',buttonOnClick,{passive:true})
             return () => parent.removeEventListener('swipe',buttonOnClick)
@@ -187,33 +192,13 @@ const
     WebglSlider = ({imgPaths,id}:{imgPaths:string[];id:string}) => {
         const 
             container = useRef<HTMLDivElement>(),
-            canvasRef = useRef<HTMLCanvasElement>(),
-            root = createRoot(canvasRef.current),
-            [loaded,setLoaded] = useState(false),
-            prevSize = useRef({w:0,h:0}),
-            onResize = () => {
-                const {width,height} = container.current.getBoundingClientRect()
-                if (prevSize.current.w !== width || prevSize.current.h !== height){
-                    root.configure({ size: { width, height, top: 0, left: 0 } })
-                    prevSize.current = {w:width,h:height}
-                }
-            }
+            canvasRef = useRef<HTMLCanvasElement>()
 
-        useEffect(()=>{
-            setLoaded(true)
-        },[])
-
-        useEffect(()=>{
-            if (loaded){
-                if ('ResizeObserver' in window){
-                    const observer = new ResizeObserver(onResize)
-                    observer.observe(container.current)
-                } else window.addEventListener('resize',onResize)
-            }
-            return () => window.removeEventListener('resize',onResize)
-        },[loaded])
-
-        root.render(<Scene {...{imgPaths,id}} />)
+            useLoadThreejs(
+                container.current,
+                canvasRef.current,
+                <Scene {...{imgPaths,id}} />,
+            )
 
         return (
             <div ref={container} className={styles['canvas-container']}>
