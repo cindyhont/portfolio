@@ -1,6 +1,7 @@
 import '../styles/global.scss'
 import React, { useEffect, useState } from 'react'
 import {Context} from '../src/context'
+import { useWindowEventListeners } from '../src/hooks'
 
 const App = ({ Component, pageProps }) => {
     const 
@@ -8,9 +9,11 @@ const App = ({ Component, pageProps }) => {
         [webgl,setWebgl] = useState<boolean>(null),
         [imgFormat,setImgFormat] = useState<'avif'|'webp'|'none'|''>(''),
         onResize = () => {
-            const htmlTag = document.getElementsByTagName('html')[0]
-            htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
-            htmlTag.style.setProperty('--current-actual-height', window.innerHeight + 'px');
+            const 
+                htmlTag = document.getElementsByTagName('html')[0],
+                {innerHeight,innerWidth} = window
+            htmlTag.style.setProperty('--vh', innerHeight/100 + 'px');
+            htmlTag.style.setProperty('--current-actual-height', innerHeight + 'px');
             const cssTexts = htmlTag.style.cssText.split(';')
             cssTexts.forEach(e=>{
                 const 
@@ -19,12 +22,12 @@ const App = ({ Component, pageProps }) => {
                 if (key==='--landscape-height'){
                     const 
                         prev = +value.replace('px',''),
-                        curr = Math.min(window.innerHeight,window.innerWidth)
+                        curr = Math.min(innerHeight,innerWidth)
                     if (curr < prev) htmlTag.style.setProperty('--landscape-height', curr + 'px');
                 } else if (key==='--portrait-height') {
                     const 
                         prev = +value.replace('px',''),
-                        curr = Math.max(window.innerHeight,window.innerWidth)
+                        curr = Math.max(innerHeight,innerWidth)
                     if (curr < prev) htmlTag.style.setProperty('--portrait-height', curr + 'px');
                 } 
             })
@@ -53,13 +56,15 @@ const App = ({ Component, pageProps }) => {
         }
 
     useEffect(()=>{
-        detectWebGL()
+        // detectWebGL()
+        setWebgl(false)
         findImageSupport()
         setDevicePixelRatio(Math.min(Math.floor(window.devicePixelRatio),2))
-        
-        window.addEventListener('resize',onResize,{passive:true})
-        return () => window.removeEventListener('resize',onResize)
     },[])
+
+    useWindowEventListeners([
+        {evt:'resize',func:onResize},
+    ])
 
     return (
         <Context.Provider value={{devicePixelRatio,webgl,imgFormat}}>

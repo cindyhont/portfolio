@@ -80,7 +80,6 @@ $title-font-size: min(20px, 5vw, 8vh);
 
     h1 {
         color:var(--title-text-color);
-        font-family: 'Arial Black', 'AvenirNext-Bold', 'Arial-BoldMT', 'Helvetica-Bold', sans-serif;
         font-weight: 900;
         font-size: $name-font-size;
         transition: color $mode-transition-time, text-shadow $mode-transition-time;

@@ -1,4 +1,5 @@
 import React from "react";
+import SectionHeading from "../section-heading";
 import SeparatorContainer from "../separator";
 import Logos from "./logos";
 import styles from './styles/AboutMe.module.scss'
@@ -11,7 +12,7 @@ const AboutMe = () => (
             "M0 451h900V292l-25 2c-25 1-75 4-125 12s-100 22-150 26c-50 5-100 0-150-9-50-10-100-25-150-21-50 3-100 26-150 26-50 1-100-20-125-30L0 287Z",
         ]}>
             <div className={styles['about-me-content']}>
-                <h2>ABOUT ME</h2>
+                <SectionHeading text='ABOUT' />
                 <p>
                     I am a self-taught developer 
                     who used to work as a product manager and marketer for over 5 years 
@@ -28,7 +29,7 @@ const AboutMe = () => (
                 <p>
                     I am open to new opportunities in the UK and remote.
                 </p>
-                <h2>Skills</h2>
+                <h3>Skills</h3>
                 <Logos />
             </div>
         </SeparatorContainer>

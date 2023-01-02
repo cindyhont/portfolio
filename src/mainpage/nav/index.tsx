@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react'
+import { useOnScrollAfterResize, useTheme } from '../../hooks'
+import navButtons from './buttons'
 import DesktopNavBar from './desktop'
 import MobileNav from './mobile'
 import styles from './styles/NavIcon.module.scss'
@@ -11,8 +13,8 @@ const Navigation = () => {
 
         sections = useRef<NodeListOf<HTMLElement>>(),
         currentSectionID = useRef(''),
-        sectionIDs = useRef(['home','works','about','contact']).current,
-        sectionCount = useRef(sectionIDs.length).current,
+        sectionIDs = useRef(navButtons.map(e=>e.toLowerCase())).current,
+        sectionCount = useRef(navButtons.length).current,
         offsetTopBottoms = useRef<{t:number,b:number}[]>([]),
 
         setCurrentSection = (idx:number) => {
@@ -27,6 +29,8 @@ const Navigation = () => {
 
             if (scrollY + innerHeight >= pageHeight - 10){
                 if (currentSectionID.current !== sectionIDs[sectionCount - 1]) setCurrentSection(sectionCount - 1)
+            } else if (scrollY <= 10) {
+                if (currentSectionID.current !== sectionIDs[0]) setCurrentSection(0)
             } else {
                 for (let i=0; i<sectionCount; i++){
                     const 
@@ -43,7 +47,6 @@ const Navigation = () => {
                 }
             }
         },
-        setListenerTimeout = useRef<NodeJS.Timeout>(),
         getButtonSizes = () => {
             for (let sectionID of sectionIDs) {
                 const 
@@ -64,32 +67,25 @@ const Navigation = () => {
                 topBottoms.push({ t: accHeight, b: accHeight + height - 1 })
                 accHeight += height
             }
-            offsetTopBottoms.current = topBottoms
+            offsetTopBottoms.current = [...topBottoms]
         },
         onResize = () => {
             currentSectionID.current = ''
 
             setTimeout(getButtonSizes,1)
-            setTimeout(getSectionSizes,1)
-            setTimeout(onScroll,2)
-
-            window.removeEventListener('scroll',onScroll)
-            clearTimeout(setListenerTimeout.current)
-            setListenerTimeout.current = setTimeout(()=>{
-                window.addEventListener('scroll',onScroll,{passive:true})
-            },100)
+            setTimeout(getSectionSizes,500)
+            setTimeout(onScroll,510)
         }
 
     useEffect(()=>{
         desktopNavBar.current = document.getElementById('desktop-nav') as HTMLDivElement
         sections.current = document.querySelectorAll('.section')
         desktopNavUnderline.current = document.getElementById('desktop-nav-underline') as HTMLDivElement
-
-        onResize()
-        window.addEventListener('resize',onResize,{passive:true})
-        return () => window.removeEventListener('resize',onResize)
     },[])
 
+    useOnScrollAfterResize(onScroll,onResize,null)
+
+    useTheme()
         
     return (
         <div ref={container}>

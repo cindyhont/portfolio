@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { IndexContext } from "../../context";
+import { useEventListeners } from "../../hooks";
+import SectionHeading from "../section-heading";
 import SeparatorContainer from "../separator";
 import Work from "./individual-work";
 import styles from './styles/Container.module.scss'
@@ -53,9 +55,11 @@ const
                 
                 if (!!canvas) observer.observe(canvas)
             }
-            container.current.addEventListener('restart',slideButtonOnClick)
-            return () => container.current.removeEventListener('restart',slideButtonOnClick)
         },[])
+
+        useEventListeners([
+            {elem:container,evt:'restart',func:slideButtonOnClick},
+        ])
 
         return (
             <div id='works' ref={container} className={`section ${styles['works-container']}`}>
@@ -78,6 +82,7 @@ const
             ]}>
                 <IndexContext.Consumer>{({works})=>(
                     <>
+                    <SectionHeading text='WORKS' className={styles['section-heading']} />
                     {works.filter(e=>e.slug !== 'portfolio').map(e=>(
                         <Work key={e.slug} {...e} />
                     ))}

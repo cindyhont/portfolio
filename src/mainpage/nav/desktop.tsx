@@ -4,7 +4,7 @@ import GithubButton from './github-button'
 import LinkButton from './link-button'
 import ThemeButton from './theme-button'
 import styles from './styles/DesktopNav.module.scss'
-import { useOnScrollAfterResize } from '../../common'
+import { useEventListeners, useOnScrollAfterResize } from '../../hooks'
 
 const 
     DesktopNavBarUnderline = () => {
@@ -21,7 +21,7 @@ const
             container = useRef<HTMLDivElement>(),
             prevScrollY = useRef(0),
             distanceScrolled = useRef(0),
-            lock = useRef(false),
+            lock = useRef(true),
             onScroll = () => {
                 // hide navbar while scrolling up
 
@@ -42,15 +42,14 @@ const
             lockNavBar = (e:CustomEvent) => lock.current = e.detail as boolean
 
         useOnScrollAfterResize(onScroll,onScroll,'(min-width:600px)')
-        
-        useEffect(()=>{
-            container.current.addEventListener('lock',lockNavBar,{passive:true})
-            return () => container.current.removeEventListener('lock',lockNavBar)
-        },[])
+
+        useEventListeners([
+            {elem:container,evt:'lock',func:lockNavBar}
+        ])
         
         return (
             <div id='desktop-nav' className={styles['desktop-nav']} ref={container}>
-                {navButtons.map(e=><LinkButton key={e.title} {...{...e,letterSpaceClassName:styles['letter-space']}} />)}
+                {navButtons.map(e=><LinkButton key={e} {...{title:e,letterSpaceClassName:styles['letter-space']}} />)}
                 <DesktopNavBarUnderline />
                 <GithubButton className={styles['github-button']} />
                 <ThemeButton className={styles['theme-button']} />

@@ -66,6 +66,15 @@ $sections:home, works, about, contact;
 
 .theme-button, .github-button{
     position: absolute;
+
+    svg {
+        fill:var(--desktop-nav-url);
+        transition:fill $mode-transition-time;
+    
+        &:hover{
+            fill:var(--desktop-nav-url-hover);
+        }
+    }
 }
 
 .theme-button{

@@ -6,7 +6,8 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial'
 import { Vector2 } from 'three/src/math/Vector2'
 import { Texture } from 'three/src/textures/Texture'
-import { cdnPrefix, useLoadThreejs } from '../../../common'
+import { cdnPrefix } from '../../../common'
+import { useEventListeners, useLoadThreejs } from '../../../hooks'
 import styles from '../styles/IndividualWork.module.scss'
 
 const 
@@ -168,11 +169,11 @@ const
         useEffect(()=>{
             setFrameloop('demand')
             setDpr(Math.min(2,Math.floor(devicePixelRatio)))
-
-            const parent = document.getElementById(id)
-            parent.addEventListener('swipe',buttonOnClick,{passive:true})
-            return () => parent.removeEventListener('swipe',buttonOnClick)
         },[])
+
+        useEventListeners([
+            {elem:document.getElementById(id),evt:'swipe',func:buttonOnClick},
+        ])
 
         useEffect(()=>{
             if (!isNaN(aspect)) getTextureSpecs()

@@ -1,0 +1,35 @@
+.container {
+    position:relative;
+
+    h2 {
+        margin:0;
+        font-size:min(14vw,60px);
+    }
+}
+
+.front {
+    position:absolute;
+    top:0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: var(--section-heading-bg-color);
+    background-size: 10px 100%;
+    background-image: 
+        -webkit-repeating-linear-gradient(left, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
+        -webkit-repeating-linear-gradient(left, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
+        -webkit-repeating-linear-gradient(left, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,0) 1.2%, hsla(0,0%,100%,.15) 2.2%),
+        linear-gradient(
+            180deg, hsl(0,0%,50%)  0%, 
+            hsl(0,0%,20%) 48%, 
+            hsl(0,0%,30%) 55%,
+            hsl(0,0%,30%) 65%,
+            hsl(0,0%,20%)100%
+        );
+
+    transition: -webkit-text-fill-color $mode-transition-time;
+}
+
+.back {
+    text-shadow: var(--section-heading-text-shadow);
+    transition: text-shadow $mode-transition-time;
+}

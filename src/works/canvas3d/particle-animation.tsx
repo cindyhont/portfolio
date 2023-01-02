@@ -4,8 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
 import styles from './Canvas.module.scss'
-// import { AnimationMixer, BufferAttribute, BufferGeometry, Camera, Euler, GLSL3, Group, Mesh, OrthographicCamera, Points, RawShaderMaterial, RGBFormat, Scene, ShaderMaterial, SkinnedMesh, Triangle, Vector2, Vector3, Vector4, WebGLRenderer, WebGLRenderTarget } from 'three';
-import { useLoadThreejs } from '../../common';
+import { useEventListeners, useLoadThreejs } from '../../hooks';
 import { BufferAttribute } from 'three/src/core/BufferAttribute';
 import { BufferGeometry } from 'three/src/core/BufferGeometry';
 import { Triangle } from 'three/src/math/Triangle';
@@ -433,21 +432,14 @@ const
         useEffect(()=>{
             setDpr(0.5)
             setFrameloop('demand')
-
-            const checkbox = document.getElementById('full-screen-about-checkbox') as HTMLInputElement
-            checkbox?.addEventListener('change',infoModalOnChange,{passive:true})
-
-            window.addEventListener('resize',windowIsVisible,{passive:true})
-            window.addEventListener('focus',windowIsVisible,{passive:true})
-            window.addEventListener('blur',windowIsHidden,{passive:true})
-
-            return () => {
-                checkbox?.removeEventListener('change',infoModalOnChange)
-                window.removeEventListener('resize',windowIsVisible)
-                window.removeEventListener('focus',windowIsVisible)
-                window.removeEventListener('blur',windowIsHidden)
-            }
         },[])
+
+        useEventListeners([
+            {elem:document.getElementById('full-screen-about-checkbox'),evt:'change',func:infoModalOnChange},
+            {elem:window,evt:'resize',func:windowIsVisible},
+            {elem:window,evt:'focus',func:windowIsVisible},
+            {elem:window,evt:'blur',func:windowIsHidden},
+        ])
 
         return (
             <primitive object={group} />

@@ -1,20 +1,3 @@
-export interface Ilinkbutton {
-    title:string;
-}
-
-const navButtons:Ilinkbutton[] = [
-    {
-        title:'Home',
-    },
-    {
-        title:'Works',
-    },
-    {
-        title:'About',
-    },
-    {
-        title:'Contact',
-    },
-]
+const navButtons:string[] = ['Home','Works','About','Contact']
 
 export default navButtons

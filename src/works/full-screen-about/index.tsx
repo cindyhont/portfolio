@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useEffect, useRef } from "react";
+import React, { ChangeEvent, useRef } from "react";
 import Image from "next/image";
 import { cdnPrefix } from "../../common";
 import styles from './FullScreenAbout.module.scss'
+import { useWindowEventListeners } from "../../hooks";
 
 const FullScreenAbout = ({children}:{children:JSX.Element}) => {
     const 
@@ -22,10 +23,9 @@ const FullScreenAbout = ({children}:{children:JSX.Element}) => {
             }
         }
 
-    useEffect(()=>{
-        window.addEventListener('keyup',keyEscOnPress,{passive:true})
-        return () => window.removeEventListener('keyup',keyEscOnPress)
-    },[])
+    useWindowEventListeners([
+        {evt:'keyup',func:keyEscOnPress},
+    ])
 
     return (
         <>

@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { delayInSecond } from "../../common";
+import { useWindowEventListeners } from "../../hooks";
 import Waves from "../waves";
 import styles from './Opening.module.scss'
 
-const Opening = () => {
+const Opening = memo(() => {
     const
         titleRef = useRef<HTMLParagraphElement>(),
         nameRef = useRef<HTMLHeadingElement>(),
@@ -39,9 +40,11 @@ const Opening = () => {
     useEffect(()=>{
         addTitle()
         setTimeout(()=>nameRef.current.style.animation = 'none',1500 + delayInSecond * 1000)
-        window.addEventListener('scroll',onScroll,{passive:true})
-        return () => window.removeEventListener('scroll',onScroll)
     },[])
+
+    useWindowEventListeners([
+        {evt:'scroll',func:onScroll},
+    ])
 
     return (
         <div id='home' className={`section ${styles.home}`}>
@@ -56,6 +59,7 @@ const Opening = () => {
             ]} />
         </div>
     )
-}
+})
 
+Opening.displayName = 'Opening'
 export default Opening

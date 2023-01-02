@@ -49,6 +49,17 @@ html[data-theme='light']{
     --contact-input-text-color:#777;
 
     --waves-shadow-color:#000;
+
+    --section-heading-bg-color:transparent;
+    --section-heading-text-shadow: 
+        min(0.7vw,3px)
+        min(0.7vw,3px)
+        min(0.7vw,3px)
+        rgba(0,0,0,0.2),
+        max(-0.35vw,-1.5px)
+        max(-0.35vw,-1.5px)
+        max(0.35vw,1.5px)
+        rgba(255,255,255,1);
 }
 
 html[data-theme='dark']{
@@ -97,4 +108,15 @@ html[data-theme='dark']{
     --contact-input-text-color:#ccc;
 
     --waves-shadow-color:#fff;
+
+    --section-heading-bg-color:rgba(255,255,255,0.5);
+    --section-heading-text-shadow: 
+        min(0.7vw,3px)
+        min(0.7vw,3px)
+        min(0.7vw,3px)
+        rgba(0,0,0,0.5),
+        max(-0.35vw,-1.5px)
+        max(-0.35vw,-1.5px)
+        max(0.35vw,1.5px)
+        rgba(255,255,255,0.3);
 }

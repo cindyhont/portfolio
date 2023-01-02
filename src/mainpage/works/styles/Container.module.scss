@@ -1,5 +1,12 @@
 .works-container {
     position:inherit;
+    padding-top:15px;
     background-color: var(--background-color);
     transition: background-color $mode-transition-time;
+}
+
+.section-heading {
+    // padding-top: 15px;
+    width: min(500px, 80vw);
+    margin: 0 auto;
 }

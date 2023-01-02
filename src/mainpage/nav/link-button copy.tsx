@@ -21,8 +21,6 @@ const LinkButton = (
 
     const 
         ref = useRef<HTMLDivElement>(),
-        timeout = useRef<NodeJS.Timeout>(),
-        /*
         scrollDistance = useRef(0),
         scrollTarget = useRef(0),
         scrollTargetID = useRef(''),
@@ -31,11 +29,9 @@ const LinkButton = (
         startTime = useRef(0),
         request = useRef(0),
         duration = useRef(500).current, // in milliseconds
-        */
         windowWidthQuery = useRef('(min-width:600px)').current,
         wideWindow = useRef(false),
 
-        /*
         scroll = (timestamp:number) => {
             if (!startTime.current) {
                 startTime.current = timestamp
@@ -55,7 +51,7 @@ const LinkButton = (
                 request.current = requestAnimationFrame(scroll)
             }
         },
-        */
+
         onClick = () => {
             hideMobileSidebar()
 
@@ -68,20 +64,7 @@ const LinkButton = (
                     || top >= 0 && top <= innerHeight * 0.5
                     || bottom <= innerHeight && bottom >= innerHeight * 0.5
 
-            if (!overlap) {
-                document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
-                setTimeout(()=>scrollBy({top:wideWindow.current ? top - 50 : top,behavior:'smooth'}),1)
-                // clearTimeout(timeout.current)
-                // timeout.current = setTimeout(()=>document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false})),1000)
-
-
-
-
-                // elem.scrollIntoView({block:'start',behavior:'smooth'})
-
-
-
-                /*
+            if (!overlap && (still.current || scrollTargetID.current !== elem.id)) {
                 cancelAnimationFrame(request.current)
                 
                 document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
@@ -93,7 +76,6 @@ const LinkButton = (
                 request.current = requestAnimationFrame(scroll)
 
                 still.current = false
-                */
             }
         },
         onResize = (e:MediaQueryListEvent) => wideWindow.current = e.matches

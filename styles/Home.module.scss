@@ -18,4 +18,18 @@
             text-decoration: underline;
         }
     }
+
+    h1, h2{
+        font-family: 'Arial Black', 'AvenirNext-Bold', 'Arial-BoldMT', 'Helvetica-Bold', sans-serif;
+    }
+
+    h3 {
+        font-family: Georgia;
+        font-weight: 900;
+        font-size: min(2.5rem,11vw);
+        margin: 1rem 0;
+        color: var(--work-title-text-color);
+        text-shadow: var(--work-title-shadow);
+        transition: all $mode-transition-time;
+    }
 }

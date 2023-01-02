@@ -5,7 +5,7 @@ import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRe
 import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import styles from './Canvas.module.scss'
-import { useLoadThreejs } from '../../common';
+import { useEventListeners, useLoadThreejs } from '../../hooks';
 import { Vector3 } from 'three/src/math/Vector3';
 import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry';
 import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
@@ -16,7 +16,6 @@ import { TorusKnotGeometry } from 'three/src/geometries/TorusKnotGeometry';
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
 import { DataTexture } from 'three/src/textures/DataTexture';
 import { FloatType, MOUSE, RGBAFormat } from 'three/src/constants';
-// import { DataTexture, FloatType, Mesh, MeshBasicMaterial, MOUSE, PerspectiveCamera, PlaneGeometry, RawShaderMaterial, RGBAFormat, TorusKnotGeometry, Vector2, Vector3 } from 'three';
 
 const 
     particlesConfig = {
@@ -404,23 +403,15 @@ const
         useEffect(()=>{
             setFrameloop('demand')
             setDpr(Math.min(2,Math.floor(devicePixelRatio)))
-
-            const checkbox = document.getElementById('full-screen-about-checkbox') as HTMLInputElement
-            checkbox?.addEventListener('change',infoModalOnChange,{passive:true})
-
-            window.addEventListener('keyup',keyOnPress,{passive:true})
-            window.addEventListener('resize',windowIsVisible,{passive:true})
-            window.addEventListener('focus',windowIsVisible,{passive:true})
-            window.addEventListener('blur',windowIsHidden,{passive:true})
-
-            return () => {
-                checkbox?.removeEventListener('change',infoModalOnChange)
-                window.removeEventListener('keyup',keyOnPress)
-                window.removeEventListener('resize',windowIsVisible)
-                window.removeEventListener('focus',windowIsVisible)
-                window.removeEventListener('blur',windowIsHidden)
-            }
         },[])
+
+        useEventListeners([
+            {elem:document.getElementById('full-screen-about-checkbox'),evt:'change',func:infoModalOnChange},
+            {elem:window,evt:'keyup',func:keyOnPress},
+            {elem:window,evt:'resize',func:windowIsVisible},
+            {elem:window,evt:'focus',func:windowIsVisible},
+            {elem:window,evt:'blur',func:windowIsHidden},
+        ])
 
         useFrame(({camera,invalidate},delta)=>{
             if (windowVisible.current && infoModalClosed.current) invalidate()

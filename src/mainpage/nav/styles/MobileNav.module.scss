@@ -115,6 +115,15 @@
     margin:0 auto;
     display: flex;
     flex-direction: row;
+
+    svg {
+        fill:var(--desktop-nav-url);
+        transition:fill $mode-transition-time;
+    
+        &:hover{
+            fill:var(--desktop-nav-url-hover);
+        }
+    }
 }
 
 // firefox only

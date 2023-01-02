@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { addLetterSpacing } from '../../common';
+import SectionHeading from '../section-heading';
 import styles from './ContactForm.module.scss'
 
 const ContactForm = () => {
@@ -87,8 +88,8 @@ const ContactForm = () => {
     return (
         <div id='contact' className={`section ${styles.contact}`}>
             <div>
-                <h2>Contact</h2>
-                <form onSubmit={onSubmit}>
+                <SectionHeading text='CONTACT' />
+                <form onSubmit={onSubmit} className={styles.form}>
                     <input 
                         ref={nameRef} 
                         type="text" 
