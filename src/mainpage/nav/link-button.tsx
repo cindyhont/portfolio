@@ -71,8 +71,8 @@ const LinkButton = (
             if (!overlap) {
                 document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
                 setTimeout(()=>scrollBy({top:wideWindow.current ? top - 50 : top,behavior:'smooth'}),1)
-                // clearTimeout(timeout.current)
-                // timeout.current = setTimeout(()=>document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false})),1000)
+                clearTimeout(timeout.current)
+                timeout.current = setTimeout(()=>document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false})),1000)
 
 
 

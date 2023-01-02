@@ -21,7 +21,7 @@ const
             container = useRef<HTMLDivElement>(),
             prevScrollY = useRef(0),
             distanceScrolled = useRef(0),
-            lock = useRef(true),
+            lock = useRef(false),
             onScroll = () => {
                 // hide navbar while scrolling up
 
