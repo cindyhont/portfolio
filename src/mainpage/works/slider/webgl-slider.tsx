@@ -28,48 +28,66 @@ const
             setFrameloop = useThree(e=>e.setFrameloop),
             setDpr = useThree(e=>e.setDpr),
             invalidate = useThree(e=>e.invalidate),
+            initialTextureLoaded = useRef(false),
+            texturesPending = useRef(true),
             textureLoader = useRef(new TextureLoader()).current,
             waterDuDv = useMemo(()=>textureLoader.load(cdnPrefix() + '/waterdudv.jpg'),[]),
             textureSpecs = useRef<{
                 texture:Texture;
                 offset:Vector2;
                 repeat:Vector2;
-            }[]>([]),
+            }[]>(Array.from(Array(imgPaths.length),()=>null)),
             blankTextureSpecs = useRef(Array(2).fill({
                 texture:new Texture(),
                 offset:new Vector2(),
                 repeat:new Vector2(),
             })).current,
             aspect = useThree(e=>e.viewport.aspect),
-            getTextureSpecs = async () => {
-                const 
-                    getSpec = (e:string) => new Promise<{
-                        texture:Texture;
-                        offset:Vector2;
-                        repeat:Vector2;
-                    }>(resolve=>{
-                        textureLoader.load(e,texture=>{
-                            const 
-                                imageRatio = texture.image.width / texture.image.height,
-                                offset = new Vector2(),
-                                repeat = new Vector2()
+            getSpec = (e:string) => new Promise<{
+                texture:Texture;
+                offset:Vector2;
+                repeat:Vector2;
+            }>(resolve=>{
+                textureLoader.load(e,texture=>{
+                    const 
+                        imageRatio = texture.image.width / texture.image.height,
+                        offset = new Vector2(),
+                        repeat = new Vector2()
 
-                            if (imageRatio < aspect){
-                                offset.set((1 - aspect / imageRatio) / 2, 0)
-                                repeat.set(aspect / imageRatio, 1)
-                            } else if (imageRatio > aspect){
-                                offset.set(0, (1 - imageRatio / aspect) / 2)
-                                repeat.set(1, imageRatio / aspect)
-                            } else {
-                                offset.set(0, 0)
-                                repeat.set(1, 1)
-                            }
-
-                            resolve({texture,repeat,offset})
-                        })
-                    })
-                textureSpecs.current = await Promise.all(imgPaths.map(e=>getSpec(`${cdnPrefix()}/${e}`)))
+                    if (imageRatio < aspect){
+                        offset.set((1 - aspect / imageRatio) / 2, 0)
+                        repeat.set(aspect / imageRatio, 1)
+                    } else if (imageRatio > aspect){
+                        offset.set(0, (1 - imageRatio / aspect) / 2)
+                        repeat.set(1, imageRatio / aspect)
+                    } else {
+                        offset.set(0, 0)
+                        repeat.set(1, 1)
+                    }
+                    resolve({texture,repeat,offset})
+                })
+            }),
+            getTextureSpecsOnAspectUpdare = async () => {
+                textureSpecs.current = await Promise.all(textureSpecs.current.map((e,i)=>!!e ? getSpec(`${cdnPrefix()}/${imgPaths[i]}`) : null))
                 invalidate()
+            },
+            initialTextureLoad = async () => {
+                const firstIndices = [0,1,imgPaths.length - 1]
+                textureSpecs.current = await Promise.all(imgPaths.map((e,i)=>firstIndices.includes(i) ? getSpec(`${cdnPrefix()}/${e}`) : null))
+                initialTextureLoaded.current = true
+                if (textureSpecs.current.every(e=>!!e)) texturesPending.current = false
+                invalidate()
+            },
+            preloadTexture = async (idx:number) => {
+                if (!textureSpecs.current[idx]){
+                    const textureSet = await getSpec(imgPaths[idx])
+                    textureSpecs.current = [
+                        ...textureSpecs.current.slice(0 ,idx),
+                        textureSet,
+                        ...textureSpecs.current.slice(idx + 1, imgPaths.length),
+                    ]
+                    if (textureSpecs.current.every(e=>!!e)) texturesPending.current = false
+                }
             },
             material = new RawShaderMaterial({
                 uniforms:{
@@ -132,16 +150,26 @@ const
                 if (!!progress.current && dir === direction.current){
                     if (dir===1) {
                         progress.current = 0
-                        imgIdx.current = (imgIdx.current + 1) % imgPaths .length
+                        imgIdx.current = (imgIdx.current + 1) % imgPaths.length
                     } else {
                         progress.current = 1
-                        imgIdx.current = (imgPaths .length + imgIdx.current - 1) % imgPaths .length
+                        imgIdx.current = (imgPaths.length + imgIdx.current - 1) % imgPaths.length
                     }
                 } else if (!progress.current && dir === -1) {
                     progress.current = 1
-                    imgIdx.current = (imgPaths .length + imgIdx.current - 1) % imgPaths .length
+                    imgIdx.current = (imgPaths.length + imgIdx.current - 1) % imgPaths.length
                 }
                 direction.current = dir
+
+                if (texturesPending.current){
+                    const
+                        prevIdx = (imgPaths.length + imgIdx.current - 1) % imgPaths.length,
+                        nextIdx = (imgIdx.current + 1) % imgPaths.length
+
+                    preloadTexture(prevIdx)
+                    preloadTexture(nextIdx)
+                }
+
                 invalidate()
             }
 
@@ -149,13 +177,13 @@ const
             if (direction.current !== 0){
                 progress.current += Math.min(delta,0.03333) * 1.5 * direction.current
                 if (progress.current < 0 || progress.current > 1){
-                    if (progress.current > 1) imgIdx.current = (imgIdx.current + 1) % imgPaths .length
+                    if (progress.current > 1) imgIdx.current = (imgIdx.current + 1) % imgPaths.length
                     progress.current = 0
                     direction.current = 0
                 }
             }
-            const secondImgIdx = (imgIdx.current + 1) % imgPaths .length
-            if (!!textureSpecs.current.length && !!textureSpecs.current[imgIdx.current] && !!textureSpecs.current[secondImgIdx]) {
+            const secondImgIdx = (imgIdx.current + 1) % imgPaths.length
+            if (!!textureSpecs.current[imgIdx.current] && !!textureSpecs.current[secondImgIdx]) {
                 material.uniforms.progress.value = progress.current
                 material.uniforms.textureSets.value = [
                     textureSpecs.current[imgIdx.current],
@@ -176,7 +204,10 @@ const
         ])
 
         useEffect(()=>{
-            if (!isNaN(aspect)) getTextureSpecs()
+            if (!isNaN(aspect)) {
+                if (initialTextureLoaded.current) getTextureSpecsOnAspectUpdare()
+                else initialTextureLoad()
+            }
         },[aspect])
 
         return (
