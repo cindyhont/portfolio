@@ -32,7 +32,7 @@ const YoutubePlayer = (
         timeout.current = setTimeout(()=>{
             setShowPlayer(true)
             observer.unobserve(container.current)
-        },2000)
+        },10000)
     },[])
 
     return (
