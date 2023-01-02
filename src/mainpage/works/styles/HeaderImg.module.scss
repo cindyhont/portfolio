@@ -55,6 +55,23 @@
     }
 }
 
+.youtube {
+    width:100%;
+    height:100%;
+}
+
+.youtube-loading {
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+
+    p {
+        text-align: center;
+    }
+}
+
 .next-image {
     object-fit: contain;
 }

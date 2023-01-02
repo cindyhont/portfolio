@@ -46,7 +46,7 @@ const Work = (
             {...(!!slideImg && {'data-hasslides':true})}
             data-sliderid={id}
         >
-            {!!youtube && <YoutubePlayer {...{url:youtube,title}} />}
+            {!!youtube && <YoutubePlayer {...{url:youtube,title,backgroundColor}} />}
             {!youtube && !!slideImg && <Slider imgPaths={slideImg} backgroundColor={backgroundColor} id={id} />}
             {!youtube && !slideImg && !!img && imgFormat !== '' && <div className={headerImgStyles['slide-cropped-image']} style={{backgroundColor}}>
                 <Image 
