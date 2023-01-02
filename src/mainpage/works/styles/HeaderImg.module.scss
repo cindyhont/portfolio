@@ -59,9 +59,23 @@
     object-fit: contain;
 }
 
+.raw-image-container {
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+
 .raw-image {
     max-width: 100%;
     max-height: 100%;
     margin: auto;
     display: block;
+    opacity: 0;
+    transition: opacity 2s;
+
+    &.show {
+        opacity: 1;
+    }
 }

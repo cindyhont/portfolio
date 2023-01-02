@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { MouseEventHandler, useEffect, useRef } from "react";
 import { addLetterSpacing, hideMobileSidebar } from "../../common";
 import { useMediaQueryListener } from "../../hooks";
 
@@ -22,40 +22,8 @@ const LinkButton = (
     const 
         ref = useRef<HTMLDivElement>(),
         timeout = useRef<NodeJS.Timeout>(),
-        /*
-        scrollDistance = useRef(0),
-        scrollTarget = useRef(0),
-        scrollTargetID = useRef(''),
-        prevTimeElapsed = useRef(0),
-        still = useRef(true),
-        startTime = useRef(0),
-        request = useRef(0),
-        duration = useRef(500).current, // in milliseconds
-        */
         windowWidthQuery = useRef('(min-width:600px)').current,
         wideWindow = useRef(false),
-
-        /*
-        scroll = (timestamp:number) => {
-            if (!startTime.current) {
-                startTime.current = timestamp
-                prevTimeElapsed.current = 0
-            }
-
-            const timeElapsed = timestamp - startTime.current
-
-            if (timeElapsed >= duration) {
-                window.scrollTo({top:scrollTarget.current,behavior:'auto'})
-                document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false}))
-                scrollTargetID.current = ''
-                still.current = true
-            } else {
-                window.scrollBy({top:scrollDistance.current * (timeElapsed - prevTimeElapsed.current) / duration,behavior:'auto'})
-                prevTimeElapsed.current = timeElapsed
-                request.current = requestAnimationFrame(scroll)
-            }
-        },
-        */
         onClick = () => {
             hideMobileSidebar()
 
@@ -73,27 +41,6 @@ const LinkButton = (
                 setTimeout(()=>scrollBy({top:wideWindow.current ? top - 50 : top,behavior:'smooth'}),1)
                 clearTimeout(timeout.current)
                 timeout.current = setTimeout(()=>document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:false})),1000)
-
-
-
-
-                // elem.scrollIntoView({block:'start',behavior:'smooth'})
-
-
-
-                /*
-                cancelAnimationFrame(request.current)
-                
-                document.getElementById('desktop-nav').dispatchEvent(new CustomEvent('lock',{detail:true}))
-                startTime.current = 0
-
-                scrollDistance.current = wideWindow.current ? top - 50 : top
-                scrollTarget.current = wideWindow.current ? elem.offsetTop - 50 : elem.offsetTop
-                scrollTargetID.current = elem.id
-                request.current = requestAnimationFrame(scroll)
-
-                still.current = false
-                */
             }
         },
         onResize = (e:MediaQueryListEvent) => wideWindow.current = e.matches
