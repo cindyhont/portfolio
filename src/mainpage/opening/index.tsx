@@ -31,7 +31,10 @@ const Opening = () => {
                 titleRef.current.appendChild(hr);
             }
         },
-        onScroll = () => (titleRef.current.lastElementChild as HTMLHRElement).style.animation = 'none'
+        onScroll = () => {
+            (titleRef.current.lastElementChild as HTMLHRElement).style.animation = 'none'
+            window.removeEventListener('scroll',onScroll)
+        }
 
     useEffect(()=>{
         addTitle()

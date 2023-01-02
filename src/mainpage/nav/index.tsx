@@ -14,7 +14,7 @@ const Navigation = () => {
         sectionIDs = useRef(['home','works','about','contact']).current,
         sectionCount = useRef(sectionIDs.length).current,
         offsetTopBottoms = useRef<{t:number,b:number}[]>([]),
-        
+
         setCurrentSection = (idx:number) => {
             const sectionID = sectionIDs[idx]
             container.current.dataset.currentSection = sectionID
@@ -44,30 +44,33 @@ const Navigation = () => {
             }
         },
         setListenerTimeout = useRef<NodeJS.Timeout>(),
-        getSizes = () => {
-            let tops:number[] = []
+        getButtonSizes = () => {
+            for (let sectionID of sectionIDs) {
+                const 
+                    button = desktopNavBar.current.getElementsByClassName(sectionID)[0],
+                    {left,right,width} = button.getBoundingClientRect()
+                container.current.style.setProperty(`--desktop-nav-underline-${sectionID}`,`translate3d(${Math.round((left + right) * 0.5)}px,0,0) scale(${Math.floor(width) - 40},1)`)
+            }
+        },
+        getSectionSizes = () => {
+            let 
+                topBottoms:{t:number;b:number}[] = [], 
+                accHeight = 0
+
             for (let sectionID of sectionIDs) {
                 const 
                     section = document.getElementById(sectionID),
-                    button = desktopNavBar.current.getElementsByClassName(sectionID)[0],
-                    {left,right,width} = button.getBoundingClientRect()
-                tops.push(section.offsetTop)
-                container.current.style.setProperty(`--desktop-nav-underline-${sectionID}`,`translate3d(${Math.round((left + right) * 0.5)}px,0,0) scale(${Math.floor(width) - 40},1)`)
+                    {height} = section.getBoundingClientRect()
+                topBottoms.push({ t: accHeight, b: accHeight + height - 1 })
+                accHeight += height
             }
-            const 
-                finalTops = tops.sort(),
-                bottoms = [...finalTops.slice(1,sectionCount).map(e=>e-1),document.body.offsetHeight]
-
-            let topBottoms:{t:number;b:number}[] = []
-
-            for (let i=0; i<sectionCount; i++) topBottoms.push({t:finalTops[i],b:bottoms[i]})
-
             offsetTopBottoms.current = topBottoms
         },
         onResize = () => {
             currentSectionID.current = ''
 
-            setTimeout(getSizes,1)
+            setTimeout(getButtonSizes,1)
+            setTimeout(getSectionSizes,1)
             setTimeout(onScroll,2)
 
             window.removeEventListener('scroll',onScroll)
