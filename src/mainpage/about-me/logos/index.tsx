@@ -31,7 +31,7 @@ const Logos = () => {
         }
 
     useEffect(()=>{
-        container.current.querySelectorAll('rect, polygon, path').forEach(e=>e.setAttribute('pathLength','50000'))
+        container.current.querySelectorAll('rect, polygon, path').forEach(e=>e.setAttribute('pathLength','60'))
         const observer = new IntersectionObserver(handleAnim,{root:null,rootMargin:'0px',threshold:0.3})
         document.querySelectorAll(`.${styles['about-me-skill']}`).forEach(e=>observer.observe(e))
     },[])

@@ -81,7 +81,7 @@ const
             return () => window.removeEventListener('resize',onResize)
         },[loaded])
     },
-    delayInSecond = 0.1
+    delayInSecond = 0
 
 export {
     cdnPrefix,

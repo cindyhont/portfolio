@@ -81,7 +81,7 @@ const LinkButton = (
     },[])
 
     return (
-        <button className={`${title.toLowerCase()} ${extraClassNames || ''}`} aria-label={title} onClick={onClick}>
+        <button className={`${title.toLowerCase()} ${extraClassNames || ''}`.trim()} aria-label={title} onClick={onClick}>
             <div ref={ref} />
         </button>
     )

@@ -12,7 +12,6 @@ import ContactForm from "../src/mainpage/contact-form";
 import Navigation from "../src/mainpage/nav";
 import Head from "next/head";
 import styles from '../styles/Home.module.scss'
-import { delayInSecond } from "../src/common";
 
 export const getStaticProps:GetStaticProps = async () => {
     const 
@@ -43,7 +42,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
     const containerRef = useRef<HTMLDivElement>()
 
     useEffect(()=>{
-        setTimeout(()=>containerRef.current.style.display = null,delayInSecond * 1000)
+        containerRef.current.style.display = null
     },[])
 
     return (

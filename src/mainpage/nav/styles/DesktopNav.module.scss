@@ -46,8 +46,18 @@
     position:absolute;
     top:30px;
     left:0px;
-    right:0px;
+    width:1px;
     transition: background-color $mode-transition-time;
+}
+
+$sections:home, works, about, contact;
+
+@each $section in $sections {
+    [data-current-section="#{$section}"]{
+        .underline{
+            transform:var(--desktop-nav-underline-#{$section});
+        }
+    }
 }
 
 .hide {

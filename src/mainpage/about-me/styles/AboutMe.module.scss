@@ -29,10 +29,10 @@ $padding:5px;
         width:100%;
         height:100%;
 
-        path, rect, polygon {
+        path {
             stroke:var(--about-me-logo-stroke-color);
             fill: none;
-            $dash-count: 50000;
+            $dash-count: 60;
             stroke-dasharray: $dash-count;
             stroke-dashoffset: $dash-count;
             transition: stroke $mode-transition-time, stroke-dashoffset 1s;
@@ -141,8 +141,6 @@ $padding:5px;
     stroke-width: 15px;
 }
 
-.show {
-    path, rect, polygon {
-        stroke-dashoffset: 0 !important;
-    }
+.show path {
+    stroke-dashoffset: 0 !important;
 }
