@@ -1,37 +1,12 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 import Script from 'next/script'
+import { cdnPrefix } from '../src/common'
 
 const Document = () => {
     return (
         <Html lang="en">
             <Head>
-                <Script strategy='beforeInteractive' id='theme-script' dangerouslySetInnerHTML={{__html:`
-                    // preload and set theme color to avoid 'flashing'
-                    let dark = false;
-                    const 
-                        prevDark = localStorage.getItem('dark'),
-                        systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches,
-                        htmlTag = document.getElementsByTagName('html')[0]
-
-                    htmlTag.style.setProperty('--vh', window.innerHeight/100 + 'px');
-                    htmlTag.style.setProperty('--current-actual-height', window.innerHeight + 'px');
-                    htmlTag.style.setProperty('--landscape-height', Math.min(window.innerHeight,window.innerWidth) + 'px');
-                    htmlTag.style.setProperty('--portrait-height', Math.max(window.innerHeight,window.innerWidth) + 'px');
-
-                    if (!!prevDark) {
-                        dark = prevDark === 'true'
-                        if (dark === systemDark) localStorage.removeItem('dark')
-                    }
-                    else dark = systemDark
-                    
-                    if (dark) htmlTag.dataset.theme = 'dark'
-                    else htmlTag.dataset.theme = 'light'
-                        
-                    if (window.location.pathname === '/') {
-                        htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
-                        htmlTag.style.transition = 'background-color 0.5s'
-                    }
-                `}} />
+                <Script strategy='beforeInteractive' src={`${cdnPrefix()}/before-interactive.min.js`} />
                 <link rel="icon" type="image/png" sizes="192x192" href="https://cdn.cindyhodev.com/favicon/android-chrome-192x192.png" />
                 <link rel="icon" type="image/png" sizes="512x512" href="https://cdn.cindyhodev.com/favicon/android-chrome-512x512.png" />
                 <link rel="icon" type="image/png" sizes="180x180" href="https://cdn.cindyhodev.com/favicon/apple-touch-icon.png" />
