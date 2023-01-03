@@ -103,8 +103,7 @@ const
     
                 const htmlTag = document.getElementsByTagName('html')[0]
                 htmlTag.style.backgroundColor = dark ? '#333' : '#eee'
-                if (dark) htmlTag.dataset.theme = 'dark'
-                else htmlTag.dataset.theme = 'light'
+                htmlTag.dataset.theme = dark ? 'dark' : 'light'
             },
             systemThemeUpdate = (e:MediaQueryListEvent) => {
                 const storageValueStr = localStorage.getItem('dark')
