@@ -70,6 +70,17 @@ const
     Works = () => (
         <WorksContainer>
             <>
+            <style global jsx>{`
+                .modal-pm-tool-ul-title{
+                    display: inline-block;
+                    margin-right:0.3rem;
+                }
+                @media screen and (min-width: 500px){
+                    .modal-pm-tool-ul-title{
+                        width: 5.5rem;
+                    }
+                }
+            `}</style>
             <svg width='0' height='0' style={{position:'absolute'}}>
                 <filter id='slider-button-glow-onclick'>
                     {[1,3].map(e=><feDropShadow key={e} stdDeviation={e} dx={0} dy={0} floodColor='#fff' />)}
