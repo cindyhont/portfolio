@@ -38,29 +38,35 @@ export const getStaticProps:GetStaticProps = async () => {
     }
 }
 
-const Index = ({works}:{works:IindexItem[]}) => (
-    <>
-    <Head>
-        <title>Cindy Ho - Full Stack Developer</title>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{__html:`{"@context":"https://schema.org","@type":"WebSite","name":"Cindy Ho - Full Stack Developer","description":"I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site.","url":"https://cindyhodev.com/","image":"portfolio.jpg","creator":{"@type":"Person","name":"Cindy Ho"}`}}></script>
-        <link rel="canonical" href="https://cindyhodev.com" />
-        <meta charSet="utf-8"/>
-        <meta name="robots" content="index,follow" />
-        <meta httpEquiv="cache-control" content="private" />
-        <meta httpEquiv="expires" content="43200"/>
-        <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </Head>
-    <div id='main-page' className={styles['main-page']}>
-        <Navigation />
-        <Opening />
-        <IndexContext.Provider value={{works}}>
-            <Works />
-        </IndexContext.Provider>
-        <AboutMe />
-        <ContactForm />
-    </div>
-    </>
-)
+const Index = ({works}:{works:IindexItem[]}) => {
+    const container = useRef<HTMLDivElement>()
+    useEffect(()=>{
+        container.current.style.display = null
+    },[])
+    return (
+        <>
+        <Head>
+            <title>Cindy Ho - Full Stack Developer</title>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{__html:`{"@context":"https://schema.org","@type":"WebSite","name":"Cindy Ho - Full Stack Developer","description":"I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site.","url":"https://cindyhodev.com/","image":"portfolio.jpg","creator":{"@type":"Person","name":"Cindy Ho"}`}}></script>
+            <link rel="canonical" href="https://cindyhodev.com" />
+            <meta charSet="utf-8"/>
+            <meta name="robots" content="index,follow" />
+            <meta httpEquiv="cache-control" content="private" />
+            <meta httpEquiv="expires" content="43200"/>
+            <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <div id='main-page' className={styles['main-page']} ref={container} style={{display:'none'}}>
+            <Navigation />
+            <Opening />
+            <IndexContext.Provider value={{works}}>
+                <Works />
+            </IndexContext.Provider>
+            <AboutMe />
+            <ContactForm />
+        </div>
+        </>
+    )
+}
 
 export default Index
