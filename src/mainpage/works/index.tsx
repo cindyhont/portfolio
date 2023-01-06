@@ -75,9 +75,17 @@ const
                     display: inline-block;
                     margin-right:0.3rem;
                 }
+                .list{
+                    transition: padding-left 0.5s;
+                }
                 @media screen and (min-width: 500px){
                     .modal-pm-tool-ul-title{
                         width: 5.5rem;
+                    }
+                }
+                @media screen and (max-width: 499px){
+                    .list{
+                        padding-left: 15px;
                     }
                 }
             `}</style>

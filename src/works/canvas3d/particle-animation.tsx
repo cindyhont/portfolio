@@ -17,7 +17,7 @@ import { Vector2 } from 'three/src/math/Vector2';
 import { WebGLRenderTarget } from 'three/src/renderers/WebGLRenderTarget';
 import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial';
 import { Mesh } from 'three/src/objects/Mesh';
-import { GLSL3, RGBFormat } from 'three/src/constants';
+import { GLSL3, RGBAFormat } from 'three/src/constants';
 import { Camera } from 'three/src/cameras/Camera';
 import { ShaderMaterial } from 'three/src/materials/ShaderMaterial';
 import { Group } from 'three/src/objects/Group';
@@ -169,7 +169,7 @@ class BloomEffect {
         this.renderer.getDrawingBufferSize(this.resolution)
 
         this.target = new WebGLRenderTarget(this.resolution.x, this.resolution.y, {
-            format: RGBFormat,
+            format: RGBAFormat,
             stencilBuffer: false,
             depthBuffer: false
         })
@@ -261,6 +261,7 @@ const
             invalidate = useThree(e=>e.invalidate),
             controls = new TrackballControls(camera,glDom),
             angleX = useRef(a),
+            size = useThree(e=>e.size),
             material = new ShaderMaterial({
                 uniforms:{
                     ca:{value:Math.cos(a)},
@@ -268,12 +269,13 @@ const
                     cb:{value:Math.cos(b)},
                     sb:{value:Math.sin(b)},
                     camPos:{value:camPos},
-                    uTime:{value:0}
+                    uTime:{value:0},
+                    particleSize:{value:1},
                 },
                 vertexShader:`
                     attribute vec3 varInitialPos;
                     attribute vec2 rotSpeed;
-                    uniform float ca,sa,cb,sb,uTime;
+                    uniform float ca,sa,cb,sb,uTime,particleSize;
                     uniform vec3 camPos;
                     
                     #include <skinning_pars_vertex>
@@ -302,7 +304,7 @@ const
                         transformed.z += sin(uTime);
                         transformed*=0.7;
 
-                        gl_PointSize = 10. / distance(camPos,transformed);
+                        gl_PointSize = particleSize / distance(camPos,transformed);
 
                         gl_Position = modelViewProjectionMatrix * vec4( transformed, 1.0 );
                     }
@@ -321,8 +323,14 @@ const
                 dracoLoader.setDecoderPath('/draco/gltf/');
                 loader.setDRACOLoader(dracoLoader);
             }),
-            group = model.scene.children[0] as Group,
-            skinnedMesh = group.children[1] as SkinnedMesh,
+            // group = model.scene.children[0] as Group,
+            // skinnedMesh = group.children[1] as SkinnedMesh,
+            {group,skinnedMesh} = useMemo(()=>{
+                const 
+                    group = model.scene.children[0] as Group,
+                    skinnedMesh = group.children[1] as SkinnedMesh
+                return {group,skinnedMesh}
+            },[]),
             geom = useMemo(()=>{
                 if (!(group.children[1] as Mesh).geometry.index) return (group.children[1] as Mesh).geometry
                 
@@ -416,7 +424,7 @@ const
         controls.rotateSpeed = 2
         controls.noPan = true
         
-        useFrame((_,delta)=>{
+        useFrame(({size:{height}},delta)=>{
             if (windowVisible.current && infoModalClosed.current) invalidate()
 
             angleX.current += delta * 0.25;
@@ -424,6 +432,7 @@ const
             material.uniforms.cb.value = Math.cos(angleX.current)
             material.uniforms.sb.value = Math.sin(angleX.current)
             material.uniforms.uTime.value +=delta * 0.25
+            material.uniforms.particleSize.value = height * 0.015
             mixer.update(delta)
 
             controls.update()
@@ -432,7 +441,7 @@ const
         useEffect(()=>{
             setDpr(0.5)
             setFrameloop('demand')
-        },[])
+        },[size.width,size.height])
 
         useEventListeners([
             {elem:document.getElementById('full-screen-about-checkbox'),evt:'change',func:infoModalOnChange},

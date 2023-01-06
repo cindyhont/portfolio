@@ -7,6 +7,7 @@ import styles from './styles/IndividualWork.module.scss'
 import headerImgStyles from './styles/HeaderImg.module.scss'
 import Image from "next/image";
 import { Context } from "../../context";
+import { IindexItem } from "../../interfaces";
 
 const Work = (
     {
@@ -21,20 +22,8 @@ const Work = (
         excerpt,
         youtube,
         backgroundColor,
-    }:{
-        title:string;
-        excerpt?:any;
-        img:string;
-        slideImg?:string[];
-        youtube?:string;
-        order:number;
-        code?:string;
-        live?:string;
-        frontend?:string;
-        backend?:string;
-        slug:string;
-        backgroundColor:string;
-    }
+        stack,
+    }:IindexItem
 ) => {
     const 
         id = useId(),
@@ -68,6 +57,11 @@ const Work = (
                     __html:excerpt
                 }}
             />
+            <ul className={styles.stack}>
+                {stack.map((e,i)=>(
+                    <li key={i}>{e}</li>
+                ))}
+            </ul>
         </div>
     )
 }

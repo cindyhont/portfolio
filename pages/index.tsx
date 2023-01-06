@@ -76,6 +76,8 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 --work-box-shadow-all:var(--work-box-shadow-outer),inset 10px 10px 20px 0 #ddd, inset -10px -10px 10px 0 #fff;
                 --work-title-text-color:rgba(0,0,0,0.4);
                 --work-title-shadow:0px 1px 1px var(--background-color), 0 0 0 var(--text-color-pale);
+                --work-stack-text-color:rgba(0,0,0,0.8);
+                --work-stack-bg-color:rgba(0,0,0,0.08);
             
                 --button-shadow-light:#fff;
                 --button-shadow-dark:rgba(195, 193, 198, 0.9);
@@ -92,7 +94,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
             
                 --waves-shadow-color:#000;
             
-                --section-heading-bg-color:transparent;
+                --section-heading-bg-color:rgba(255,255,255,0.2);
                 --section-heading-text-shadow: 
                     min(0.7vw,3px)
                     min(0.7vw,3px)
@@ -135,6 +137,8 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 --work-box-shadow-all:var(--work-box-shadow-outer),inset 10px 10px 20px 0 #222, inset -10px -10px 10px 0 #444;
                 --work-title-text-color:rgba(255,255,255,0.7);
                 --work-title-shadow:1px 1px 1px #000;
+                --work-stack-text-color:rgba(255,255,255,0.8);
+                --work-stack-bg-color:rgba(255,255,255,0.1);
             
                 --button-shadow-light:#444;
                 --button-shadow-dark:rgba(0,0,0, 0.5);
@@ -163,6 +167,10 @@ const Index = ({works}:{works:IindexItem[]}) => {
                     rgba(255,255,255,0.3);
             }
 
+            html, body {
+                overflow-x: hidden;
+            }
+
             body {
                 background-color: var(--background-color);
                 letter-spacing: 0.03rem;
@@ -170,7 +178,6 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 font-weight: 300;
                 transition: background-color $mode-transition-time, color $mode-transition-time;
                 color: var(--text-color);
-                overflow-x: hidden;
                 position: relative;
             }
 

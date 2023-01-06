@@ -40,3 +40,19 @@
     width:100%;
     height:100%;
 }
+
+.stack {
+    padding: 0;
+    color: var(--work-stack-text-color);
+    font-size: 0.95rem;
+    transition: color $mode-transition-time;
+
+    li {
+        display: inline-block;
+        border-radius: 0.4rem;
+        padding: 0.5rem;
+        background-color: var(--work-stack-bg-color);
+        margin: 0 0.8rem 0.5rem 0;
+        transition: background-color $mode-transition-time;
+    }
+}
