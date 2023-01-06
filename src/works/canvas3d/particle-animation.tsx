@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js';
 import styles from './Canvas.module.scss'
-import { useEventListeners, useLoadThreejs } from '../../hooks';
+import { useEventListeners, useLoadThreejs, useUpdateThreeJsOnCanvasChange } from '../../hooks';
 import { BufferAttribute } from 'three/src/core/BufferAttribute';
 import { BufferGeometry } from 'three/src/core/BufferGeometry';
 import { Triangle } from 'three/src/math/Triangle';
@@ -256,12 +256,9 @@ const
             camPos = useThree(state=>state.camera.position),
             camera = useThree(state=>state.camera),
             glDom = useThree(state=>state.gl.domElement),
-            setDpr = useThree(e=>e.setDpr),
-            setFrameloop = useThree(e=>e.setFrameloop),
             invalidate = useThree(e=>e.invalidate),
             controls = new TrackballControls(camera,glDom),
             angleX = useRef(a),
-            size = useThree(e=>e.size),
             material = new ShaderMaterial({
                 uniforms:{
                     ca:{value:Math.cos(a)},
@@ -438,10 +435,7 @@ const
             controls.update()
         })
 
-        useEffect(()=>{
-            setDpr(0.5)
-            setFrameloop('demand')
-        },[size.width,size.height])
+        useUpdateThreeJsOnCanvasChange(0.5,'demand')
 
         useEventListeners([
             {elem:document.getElementById('full-screen-about-checkbox'),evt:'change',func:infoModalOnChange},

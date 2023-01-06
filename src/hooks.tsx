@@ -1,4 +1,4 @@
-import { createRoot, events } from "@react-three/fiber";
+import { createRoot, events, useThree } from "@react-three/fiber";
 import { MutableRefObject, ReactNode, useEffect, useRef, useState } from "react";
 
 const
@@ -89,6 +89,20 @@ const
             return () => window.removeEventListener('resize',onResize)
         },[loaded])
     },
+    useUpdateThreeJsOnCanvasChange = (
+        dpr:number,
+        frameloop?: "always" | "demand" | "never"
+    ) => {
+        const 
+            size = useThree(e=>size),
+            setDpr = useThree(e=>e.setDpr),
+            setFrameloop = useThree(e=>e.setFrameloop)
+
+        useEffect(()=>{
+            setDpr(dpr)
+            if (!!frameloop) setFrameloop(frameloop)
+        },[size.width,size.height])
+    },
     useTheme = () => {
         /*
             this is written because there are more than one theme button in the same page
@@ -151,5 +165,6 @@ export {
     useMediaQueryListener,
     useOnScrollAfterResize,
     useLoadThreejs,
+    useUpdateThreeJsOnCanvasChange,
     useTheme,
 }

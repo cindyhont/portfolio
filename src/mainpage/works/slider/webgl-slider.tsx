@@ -7,7 +7,7 @@ import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial'
 import { Vector2 } from 'three/src/math/Vector2'
 import { Texture } from 'three/src/textures/Texture'
 import { cdnPrefix } from '../../../common'
-import { useEventListeners, useLoadThreejs } from '../../../hooks'
+import { useEventListeners, useLoadThreejs, useUpdateThreeJsOnCanvasChange } from '../../../hooks'
 import styles from '../styles/IndividualWork.module.scss'
 
 const 
@@ -25,8 +25,6 @@ const
 
                 return new PlaneGeometry(width,height,1,1)
             }),
-            setFrameloop = useThree(e=>e.setFrameloop),
-            setDpr = useThree(e=>e.setDpr),
             invalidate = useThree(e=>e.invalidate),
             initialTextureLoaded = useRef(false),
             texturesPending = useRef(true),
@@ -194,10 +192,7 @@ const
             if (direction.current !== 0) invalidate()
         })
 
-        useEffect(()=>{
-            setFrameloop('demand')
-            setDpr(Math.min(2,Math.floor(devicePixelRatio)))
-        },[])
+        useUpdateThreeJsOnCanvasChange(Math.min(2,Math.floor(devicePixelRatio)),'demand')
 
         useEventListeners([
             {elem:document.getElementById(id),evt:'swipe',func:buttonOnClick},

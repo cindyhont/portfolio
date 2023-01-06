@@ -5,7 +5,7 @@ import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRe
 import EnhancedTrackballControls from '../enhanced-trackball-controls';
 import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import styles from './Canvas.module.scss'
-import { useEventListeners, useLoadThreejs } from '../../hooks';
+import { useEventListeners, useLoadThreejs, useUpdateThreeJsOnCanvasChange } from '../../hooks';
 import { Vector3 } from 'three/src/math/Vector3';
 import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry';
 import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
@@ -164,8 +164,6 @@ const
             aspect = useThree(state=>state.viewport.aspect),
             size = useThree(state=>state.size),
             invalidate = useThree(state => state.invalidate),
-            setFrameloop = useThree(e=>e.setFrameloop),
-            setDpr = useThree(e=>e.setDpr),
             controls = useMemo(()=>new EnhancedTrackballControls(camera,gl.domElement),[camera]),
             particleGeometry = new PlaneGeometry(1,1,textureSize - 1, textureSize - 1),
             joystickPadDiameterPx = useRef(60).current,
@@ -400,10 +398,7 @@ const
 
         controls.noPan = true
 
-        useEffect(()=>{
-            setFrameloop('demand')
-            setDpr(Math.min(2,Math.floor(devicePixelRatio)))
-        },[])
+        useUpdateThreeJsOnCanvasChange(Math.min(2,Math.floor(devicePixelRatio)),'demand')
 
         useEventListeners([
             {elem:document.getElementById('full-screen-about-checkbox'),evt:'change',func:infoModalOnChange},
