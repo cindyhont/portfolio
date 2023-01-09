@@ -111,11 +111,19 @@ const Opening = memo(() => {
             }
 
             @media (hover:none) and (orientation:landscape){
+                .home.section{
+                    height: max(calc(var(--landscape-height) + 50vw),calc(var(--landscape-height) + 250px));
+                    position: relative;
+                }
                 .home.section > div {
                     height: var(--landscape-height);
                 }
             }
             @media (hover:none) and (orientation:portrait){
+                .home.section{
+                    height: max(calc(var(--portrait-height) + 50vw),calc(var(--portrait-height) + 250px));
+                    position: relative;
+                }
                 .home.section > div {
                     height: var(--portrait-height);
                 }

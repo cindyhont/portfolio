@@ -181,12 +181,12 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 position: relative;
             }
 
-            @-moz-document url-prefix(){
-                body{
-                    height: 100vh;
-                    overflow-y: scroll;
-                }
-            }
+            // @-moz-document url-prefix(){
+            //     body{
+            //         height: 100vh;
+            //         overflow-y: scroll;
+            //     }
+            // }
 
             a {
                 color: var(--text-color);
