@@ -56,6 +56,7 @@ const App = ({ Component, pageProps }) => {
         }
 
     useEffect(()=>{
+        onResize()
         detectWebGL()
         findImageSupport()
         setDevicePixelRatio(Math.min(Math.floor(window.devicePixelRatio),2))
