@@ -38,10 +38,10 @@ export const getStaticProps:GetStaticProps = async () => {
 }
 
 const Index = ({works}:{works:IindexItem[]}) => {
-    const container = useRef<HTMLDivElement>()
-    useEffect(()=>{
-        container.current.style.display = null
-    },[])
+    // const container = useRef<HTMLDivElement>()
+    // useEffect(()=>{
+    //     container.current.style.display = null
+    // },[])
     return (
         <>
         <style global jsx>{`
@@ -181,6 +181,13 @@ const Index = ({works}:{works:IindexItem[]}) => {
                 position: relative;
             }
 
+            @-moz-document url-prefix(){
+                body{
+                    height: 100vh;
+                    overflow-y: scroll;
+                }
+            }
+
             a {
                 color: var(--text-color);
                 font-weight: 400;
@@ -217,7 +224,7 @@ const Index = ({works}:{works:IindexItem[]}) => {
             <meta name="description" content="I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site."></meta>
             <meta name="viewport" content="width=device-width, initial-scale=1" />
         </Head>
-        <div ref={container} style={{display:'none'}}>
+        <div /*ref={container} style={{display:'none'}}*/ >
             <Navigation />
             <Opening />
             <IndexContext.Provider value={{works}}>
