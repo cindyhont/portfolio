@@ -94,14 +94,14 @@ const
         frameloop?: "always" | "demand" | "never"
     ) => {
         const 
-            size = useThree(e=>size),
+            size = useThree(e=>e.size),
             setDpr = useThree(e=>e.setDpr),
             setFrameloop = useThree(e=>e.setFrameloop)
 
         useEffect(()=>{
             setDpr(dpr)
             if (!!frameloop) setFrameloop(frameloop)
-        },[size.width,size.height])
+        },[size.width,size.height,frameloop])
     },
     useTheme = () => {
         /*
