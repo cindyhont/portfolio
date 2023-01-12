@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useEffect, useRef } from "react";
-import { addLetterSpacing, hideMobileSidebar } from "../../common";
+import { addLetterSpacing, hideMobileSidebar } from "../../common/functions";
 import { useMediaQueryListener } from "../../hooks";
 
 const LinkButton = (

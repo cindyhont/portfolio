@@ -1,4 +1,5 @@
 import React from "react";
+import LinkButton from "../../common/link-button";
 import SectionHeading from "../section-heading";
 import SeparatorContainer from "../separator";
 import Logos from "./logos";
@@ -13,11 +14,16 @@ const AboutMe = () => (
         ]}>
             <div className={styles['about-me-content']}>
                 <SectionHeading text='ABOUT' />
+                <LinkButton {...{
+                    link:'https://github.com/cindyhont/',
+                    title:'My Github',
+                    className:styles['my-github']
+                }} />
                 <p>
                     I am a self-taught developer 
                     who used to work as a product manager and marketer for over 5 years 
                     in the fashion accessories sector - which means: 
-                    I value both functionality and commercial value.
+                    I am experienced in both working with people and things, with result.
                 </p>
                 <p>
                     I am a fast and aggressive learner. 

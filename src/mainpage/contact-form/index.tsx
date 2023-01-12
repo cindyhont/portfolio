@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
-import { addLetterSpacing } from '../../common';
+import { addLetterSpacing } from '../../common/functions';
 import SectionHeading from '../section-heading';
 import styles from './ContactForm.module.scss'
 

@@ -6,7 +6,7 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { RawShaderMaterial } from 'three/src/materials/RawShaderMaterial'
 import { Vector2 } from 'three/src/math/Vector2'
 import { Texture } from 'three/src/textures/Texture'
-import { cdnPrefix } from '../../../common'
+import { cdnPrefix } from '../../../common/functions'
 import { useEventListeners, useLoadThreejs, useUpdateThreeJsOnCanvasChange } from '../../../hooks'
 import styles from '../styles/IndividualWork.module.scss'
 

@@ -4,6 +4,11 @@
     transition: background-color $mode-transition-time;
 }
 
+.my-github {
+    margin-top: 1rem;
+    max-width: 10rem;
+}
+
 .about-me-content{
     padding: 15px;
     width: min(500px, 80vw);

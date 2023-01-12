@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { cdnPrefix, convertImgFileName } from "../../../common";
+import { cdnPrefix, convertImgFileName } from "../../../common/functions";
 import { Context } from "../../../context";
 import styles from '../styles/HeaderImg.module.scss'
 

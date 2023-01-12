@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef } from "react";
-import { delayInSecond } from "../../common";
+import { delayInSecond } from "../../common/functions";
 import { useWindowEventListeners } from "../../hooks";
 import Waves from "../waves";
 

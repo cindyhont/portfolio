@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef } from "react";
 import Image from "next/image";
-import { cdnPrefix } from "../../common";
+import { cdnPrefix } from "../../common/functions";
 import styles from './FullScreenAbout.module.scss'
 import { useWindowEventListeners } from "../../hooks";
 

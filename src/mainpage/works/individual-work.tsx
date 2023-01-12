@@ -1,6 +1,6 @@
 import React, { useContext, useId } from "react";
-import { cdnPrefix, convertImgFileName } from "../../common";
-import LinkButton from "./link-button";
+import { cdnPrefix, convertImgFileName } from "../../common/functions";
+import LinkButton from "../../common/link-button";
 import Slider from "./slider";
 import YoutubePlayer from "./youtube";
 import styles from './styles/IndividualWork.module.scss'

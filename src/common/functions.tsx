@@ -1,6 +1,3 @@
-import { createRoot, events } from "@react-three/fiber"
-import { ReactNode, useEffect, useRef, useState } from "react"
-
 const 
     addLetterSpacing = (title:string,elem:HTMLElement,className:string) => {
         const len = title.length
