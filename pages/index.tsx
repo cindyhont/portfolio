@@ -166,12 +166,16 @@ const Index = ({works}:{works:IindexItem[]}) => (
             overflow-x: hidden;
         }
 
+        html {
+            transition: background-color 0.5s;
+        }
+
         body {
             background-color: var(--background-color);
             letter-spacing: 0.03rem;
             font-family: Helvetica, Arial, sans-serif;
             font-weight: 300;
-            transition: background-color $mode-transition-time, color $mode-transition-time;
+            transition: background-color 0.5s, color 0.5s;
             color: var(--text-color);
             position: relative;
         }
@@ -180,7 +184,7 @@ const Index = ({works}:{works:IindexItem[]}) => (
             color: var(--text-color);
             font-weight: 400;
             text-decoration: none;
-            transition: color $mode-transition-time;
+            transition: color 0.5s;
         }
 
         a:hover {
@@ -198,7 +202,7 @@ const Index = ({works}:{works:IindexItem[]}) => (
             margin: 1rem 0;
             color: var(--work-title-text-color);
             text-shadow: var(--work-title-shadow);
-            transition: all $mode-transition-time;
+            transition: all 0.5s;
         }
     `}</style>
     <Head>
