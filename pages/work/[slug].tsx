@@ -60,6 +60,14 @@ const
   PageTemplate = ({data}:{data:any}) => (
     <>
     <Head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKHR264QYG"></script>
+      <script dangerouslySetInnerHTML={{__html:`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-KKHR264QYG');
+      `}}></script>
       <title>{`${data.title} - Portfolio - Cindy Ho`}</title>
       <link rel="canonical" href={`https://cindyhodev.com/work/${data.slug}`} />
     </Head>
