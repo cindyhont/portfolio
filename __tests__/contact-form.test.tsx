@@ -28,6 +28,23 @@ describe('Contact form test',()=>{
         },100)
     })
 
+    it('Window location should not change when honeypot is empty',async() => {
+        const 
+            contactForm = render(<Contact />),
+            nameField = await contactForm.findByPlaceholderText(placeholders.name),
+            emailField = await contactForm.findByPlaceholderText(placeholders.email),
+            messageField = await contactForm.findByPlaceholderText(placeholders.message),
+            submitBtn = await contactForm.findByLabelText('form-submit')
+        user.type(nameField,'test name')
+        user.type(emailField,'test@cindyhodev.com')
+        user.type(messageField,'test message')
+        user.click(submitBtn)
+
+        setTimeout(()=>{
+            expect(global.window.location).toBe('https://cindyhodev.com')
+        },3000)
+    })
+
     it('Update after message is sent',async() => {
         const 
             contactForm = render(<Contact />),
