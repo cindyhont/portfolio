@@ -35,7 +35,6 @@ const AboutMe = () => (
                 <p>
                     I am open to new opportunities in the UK and remote.
                 </p>
-                <h3>Skills</h3>
                 <Logos />
             </div>
         </SeparatorContainer>

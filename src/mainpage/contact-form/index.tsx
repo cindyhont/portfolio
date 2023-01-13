@@ -2,6 +2,7 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { addLetterSpacing } from '../../common/functions';
 import SectionHeading from '../section-heading';
 import styles from './ContactForm.module.scss'
+import { placeholders } from './placeholders';
 
 const ContactForm = () => {
     const 
@@ -38,7 +39,8 @@ const ContactForm = () => {
             e.preventDefault();
             
             if (!!phoneRef.current.value){
-                return; // redirect to cloudflare block page (zero trust) when cloudflare page is set up
+                window.location.replace('https://no-bot.pages.dev')
+                return;
             }
 
             replaceSubmitButtonText('sending');
@@ -96,7 +98,7 @@ const ContactForm = () => {
                         required={true} 
                         minLength={2} 
                         maxLength={128}
-                        placeholder='Your name'
+                        placeholder={placeholders.name}
                         onInput={dismissMsg}
                     />
                     <input 
@@ -107,23 +109,28 @@ const ContactForm = () => {
                         maxLength={128} 
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                         // onInvalid={onInvalidEmail}
-                        placeholder='Your email address'
+                        placeholder={placeholders.email}
                         onInput={dismissMsg}
                     />
-                    <input className={styles.phone} ref={phoneRef} type="text" />
+                    <input 
+                        className={styles.phone} 
+                        ref={phoneRef} 
+                        type="text" 
+                        placeholder={placeholders.phone}
+                    />
                     <textarea 
                         ref={messageRef} 
                         required={true} 
                         minLength={2} 
                         maxLength={5000} 
-                        placeholder='Message' 
+                        placeholder={placeholders.message}
                         rows={6} 
                         onInput={dismissMsg}
                     ></textarea>
-                    <button type="submit" id='form-submit' ref={submitBtn} className={styles.button}>
+                    <button type="submit" id='form-submit' aria-label='form-submit' ref={submitBtn} className={styles.button}>
                         <div ref={submitBtnP} />
                     </button>
-                    <p className={styles['admin-msg']}>{adminMsg}</p>
+                    <p className={styles['admin-msg']} aria-label='admin-msg'>{adminMsg}</p>
                 </form>
             </div>
         </div>

@@ -11,7 +11,10 @@ const
         const underline = useRef<HTMLDivElement>()
 
         useEffect(()=>{
-            setTimeout(()=>underline.current.style.transition = 'background-color 0.5s, transform 0.5s',200)
+            setTimeout(()=>{
+                underline.current.style.transition = 'background-color var(--mode-transition-time), transform 0.5s'
+                underline.current.style.backgroundColor = 'var(--text-color)';
+            },1000)
         },[])
 
         return <div className={styles.underline} id='desktop-nav-underline' ref={underline} />

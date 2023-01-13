@@ -1,10 +1,8 @@
-$mode-transition-time: 0.5s;
-
 @mixin letter-space {
     .letter-space {
         display: inline-flex;
         width: 0.15rem;
-        transition: width $mode-transition-time;
+        transition: width var(--mode-transition-time);
     }
 }
 
@@ -27,7 +25,7 @@ $mode-transition-time: 0.5s;
     font-size: 0.8rem;
     color:var(--button-text-color) !important;
 
-    transition: color $mode-transition-time, box-shadow $mode-transition-time, background-color $mode-transition-time !important;
+    transition: color var(--mode-transition-time), box-shadow var(--mode-transition-time), background-color var(--mode-transition-time) !important;
 
     & > div {
         width:fit-content;

@@ -16,6 +16,7 @@ import HTML from "./html";
 import CSS from "./css";
 import Javascript from "./javascript";
 import styles from '../styles/AboutMe.module.scss'
+import MaterialUI from "./material-ui";
 
 const Logos = () => {
     const 
@@ -31,29 +32,36 @@ const Logos = () => {
         }
 
     useEffect(()=>{
-        container.current.querySelectorAll('rect, polygon, path').forEach(e=>e.setAttribute('pathLength','60'))
+        container.current.querySelectorAll('path').forEach(e=>e.setAttribute('pathLength','60'))
         const observer = new IntersectionObserver(handleAnim,{root:null,rootMargin:'0px',threshold:0.3})
         document.querySelectorAll(`.${styles['about-me-skill']}`).forEach(e=>observer.observe(e))
     },[])
 
     return (
-        <div className={styles['about-me-skills']} ref={container}>
-            <HTML />
-            <CSS />
-            <Javascript />
-            <Typescript />
-            <Sass />
-            <ReactLogo />
-            <NextJS />
-            <Redux />
-            <GSAP />
-            <ThreeJS />
-            <WebGL />
-            <Golang />
-            <Postgresql />
-            <RabbitMQ />
-            <Nginx />
-            <Docker />
+        <div ref={container}>
+            <h3>Languages</h3>
+            <div className={styles['about-me-skills']}>
+                <HTML />
+                <CSS />
+                <Sass />
+                <Javascript />
+                <Typescript />
+                <Golang />
+            </div>
+            <h3>Technologies</h3>
+            <div className={styles['about-me-skills']}>
+                <ReactLogo />
+                <NextJS />
+                <Redux />
+                <MaterialUI />
+                <GSAP />
+                <ThreeJS />
+                <WebGL />
+                <Postgresql />
+                <RabbitMQ />
+                <Nginx />
+                <Docker />
+            </div>
         </div>
     )
 }

@@ -2,7 +2,7 @@
     position:inherit;
     padding-top:15px;
     background-color: var(--background-color);
-    transition: background-color $mode-transition-time;
+    transition: background-color var(--mode-transition-time);
 }
 
 .section-heading {

@@ -27,7 +27,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "__tests__/contact-form.test.tsx"  ],
   "exclude": [
     "node_modules"
   ]

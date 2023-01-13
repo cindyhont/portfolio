@@ -17,9 +17,9 @@
     animation: reveal-desktop-nav 1.5s;
 
     transition: 
-        background-color $mode-transition-time, 
-        box-shadow $mode-transition-time,
-        transform $mode-transition-time;
+        background-color var(--mode-transition-time), 
+        box-shadow var(--mode-transition-time),
+        transform var(--mode-transition-time);
     
     button {
         border: none;
@@ -42,12 +42,12 @@
 
 .underline {
     height:1.5px;
-    background-color:var(--text-color-pale);
+    background-color:var(--background-color);
     position:absolute;
     top:30px;
     left:0px;
     width:1px;
-    transition: background-color $mode-transition-time;
+    transition: background-color var(--mode-transition-time);
 }
 
 $sections:home, works, about, contact;
@@ -69,7 +69,7 @@ $sections:home, works, about, contact;
 
     svg {
         fill:var(--desktop-nav-url);
-        transition:fill $mode-transition-time;
+        transition:fill var(--mode-transition-time);
     
         &:hover{
             fill:var(--desktop-nav-url-hover);
@@ -89,7 +89,7 @@ $sections:home, works, about, contact;
 @-moz-document url-prefix(){
     .theme-button svg, .github-button svg{
         fill:var(--desktop-nav-url);
-        transition:fill $mode-transition-time;
+        transition:fill var(--mode-transition-time);
     }
 }
 

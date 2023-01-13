@@ -56,7 +56,6 @@ const Opening = memo(() => {
                 --name-shadow-back-a: min(30px, 4.5vw, 9vh);
                 --name-shadow-back-b: min(40px, 6vw, 12vh);
                 --title-font-size: min(20px, 5vw, 8vh);
-                --mode-transition-time: 0.5s;
             }
             
             @keyframes title-name-reveal {

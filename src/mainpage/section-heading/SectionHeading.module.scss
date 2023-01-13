@@ -26,10 +26,10 @@
             hsl(0,0%,20%)100%
         );
 
-    transition: -webkit-text-fill-color $mode-transition-time;
+    transition: -webkit-text-fill-color var(--mode-transition-time);
 }
 
 .back {
     text-shadow: var(--section-heading-text-shadow);
-    transition: text-shadow $mode-transition-time;
+    transition: text-shadow var(--mode-transition-time);
 }

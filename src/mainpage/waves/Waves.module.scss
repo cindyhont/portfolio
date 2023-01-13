@@ -6,12 +6,12 @@
     path {
         filter:url(#wave-shadow);
         fill:var(--background-color);
-        transition: fill $mode-transition-time;
+        transition: fill var(--mode-transition-time);
     }
 }
 
 .shadow {
     flood-color: var(--waves-shadow-color);
     flood-opacity: 0.3;
-    transition: flood-color $mode-transition-time;
+    transition: flood-color var(--mode-transition-time);
 }

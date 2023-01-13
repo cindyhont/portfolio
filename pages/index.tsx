@@ -40,6 +40,10 @@ export const getStaticProps:GetStaticProps = async () => {
 const Index = ({works}:{works:IindexItem[]}) => (
     <>
     <style global jsx>{`
+        :root{
+            --mode-transition-time: 0.5s
+        }
+
         html[data-theme='light']{
             --background-color:#eee;
             --text-color:#555;
@@ -167,7 +171,7 @@ const Index = ({works}:{works:IindexItem[]}) => (
         }
 
         html {
-            transition: background-color 0.5s;
+            transition: background-color var(--mode-transition-time);
         }
 
         body {
@@ -175,7 +179,7 @@ const Index = ({works}:{works:IindexItem[]}) => (
             letter-spacing: 0.03rem;
             font-family: Helvetica, Arial, sans-serif;
             font-weight: 300;
-            transition: background-color 0.5s, color 0.5s;
+            transition: background-color var(--mode-transition-time), color var(--mode-transition-time);
             color: var(--text-color);
             position: relative;
         }
@@ -184,7 +188,7 @@ const Index = ({works}:{works:IindexItem[]}) => (
             color: var(--text-color);
             font-weight: 400;
             text-decoration: none;
-            transition: color 0.5s;
+            transition: color var(--mode-transition-time);
         }
 
         a:hover {
@@ -202,7 +206,7 @@ const Index = ({works}:{works:IindexItem[]}) => (
             margin: 1rem 0;
             color: var(--work-title-text-color);
             text-shadow: var(--work-title-shadow);
-            transition: all 0.5s;
+            transition: all var(--mode-transition-time);
         }
     `}</style>
     <Head>

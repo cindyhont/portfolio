@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: space-around;
     background-color: var(--mobile-nav-button-bg);
-    transition: background-color $mode-transition-time;
+    transition: background-color var(--mode-transition-time);
 
     & > div{
         display:block;
@@ -12,7 +12,7 @@
         height:3px;
         width:100%;
         border-radius:3px;
-        transition: transform 0.3s, background-color $mode-transition-time;
+        transition: transform 0.3s, background-color var(--mode-transition-time);
     }
 }
 
@@ -21,7 +21,7 @@
     background-color: transparent;
     cursor: pointer;
     box-shadow: var(--mobile-nav-button-shadow);
-    transition: box-shadow $mode-transition-time;
+    transition: box-shadow var(--mode-transition-time);
 
     &:active {
         box-shadow: var(--mobile-nav-button-shadow-active);
@@ -75,13 +75,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transition: transform 0.3s, background-color $mode-transition-time;
+    transition: transform 0.3s, background-color var(--mode-transition-time);
 
     button {
         border:none;
         cursor: pointer;
         background-color: var(--background-color);
-        transition: background-color $mode-transition-time, color $mode-transition-time;
+        transition: background-color var(--mode-transition-time), color var(--mode-transition-time);
 
         &:not(.theme-button){
             text-transform: uppercase;
@@ -118,7 +118,7 @@
 
     svg {
         fill:var(--desktop-nav-url);
-        transition:fill $mode-transition-time;
+        transition:fill var(--mode-transition-time);
     
         &:hover{
             fill:var(--desktop-nav-url-hover);
@@ -130,7 +130,7 @@
 @-moz-document url-prefix(){
     .icon-buttons svg{
         fill:var(--desktop-nav-url);
-        transition:fill $mode-transition-time;
+        transition:fill var(--mode-transition-time);
     }
 }
 

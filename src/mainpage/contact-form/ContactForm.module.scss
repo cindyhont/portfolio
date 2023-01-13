@@ -2,7 +2,7 @@
     background-color: var(--background-color);
     padding-bottom: 20vh;
     position: inherit;
-    transition: background-color $mode-transition-time;
+    transition: background-color var(--mode-transition-time);
 
     & > div {
         padding: 15px;
@@ -39,7 +39,7 @@
             -webkit-box-shadow: $all;
             box-shadow: $all;
         }
-        transition: background-color $mode-transition-time, box-shadow $mode-transition-time;
+        transition: background-color var(--mode-transition-time), box-shadow var(--mode-transition-time);
     }
 }
 

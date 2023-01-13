@@ -4,7 +4,7 @@
     padding: 15px;
     width: min(500px, 80vw);
     margin: 20px auto;
-    transition: all $mode-transition-time;
+    transition: all var(--mode-transition-time);
 
     @media (hover:hover){
         box-shadow: var(--work-box-shadow-outer);
@@ -45,7 +45,7 @@
     padding: 0;
     color: var(--work-stack-text-color);
     font-size: 0.95rem;
-    transition: color $mode-transition-time;
+    transition: color var(--mode-transition-time);
 
     li {
         display: inline-block;
@@ -53,6 +53,6 @@
         padding: 0.5rem;
         background-color: var(--work-stack-bg-color);
         margin: 0 0.8rem 0.5rem 0;
-        transition: background-color $mode-transition-time;
+        transition: background-color var(--mode-transition-time);
     }
 }

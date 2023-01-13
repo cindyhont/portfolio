@@ -1,7 +1,7 @@
 .about-me-container {
     background-color: var(--background-color);
     position: inherit;
-    transition: background-color $mode-transition-time;
+    transition: background-color var(--mode-transition-time);
 }
 
 .my-github {
@@ -13,6 +13,10 @@
     padding: 15px;
     width: min(500px, 80vw);
     margin:0 auto;
+
+    & > p:last-of-type {
+        margin-bottom: 2rem;
+    }
 }
 
 .about-me-skills{
@@ -40,7 +44,7 @@ $padding:5px;
             $dash-count: 60;
             stroke-dasharray: $dash-count;
             stroke-dashoffset: $dash-count;
-            transition: stroke $mode-transition-time, stroke-dashoffset 1s;
+            transition: stroke var(--mode-transition-time), stroke-dashoffset 1s;
         }
     }
 }
@@ -48,7 +52,7 @@ $padding:5px;
 .about-me-skill-logo{
     height:calc($size - $padding * 2);
     padding:$padding;
-    transition: box-shadow $mode-transition-time;
+    transition: box-shadow var(--mode-transition-time);
 
     border-radius: 7px;
     $about-me-skill-logo-shadow-offset:5px;
@@ -144,6 +148,10 @@ $padding:5px;
 
 .docker path {
     stroke-width: 15px;
+}
+
+.mui path {
+    stroke-width: 1.5px;
 }
 
 .show path {
