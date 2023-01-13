@@ -5,6 +5,14 @@ const Document = () => {
     return (
         <Html lang="en">
             <Head>
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKHR264QYG"></script>
+                <script>{`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+    
+                    gtag('config', 'G-KKHR264QYG');
+                `}</script>
                 <Script 
                     strategy='beforeInteractive' 
                     id='before-interactive'
