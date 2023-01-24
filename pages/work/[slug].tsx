@@ -17,7 +17,7 @@ const
   excerptSeparator = '<!-- excerpt end -->'
 
 export const getStaticPaths:GetStaticPaths = () => {
-  const listing = fs.readdirSync(root)
+  const listing = fs.readdirSync(root).filter(e=>['pm-tool','portfolio','video-conferencing'].every(f=>!e.includes(f)))
   return {
     paths:listing.map(e=>({params:{slug:e.replace('.mdx','')}})),
     fallback:false

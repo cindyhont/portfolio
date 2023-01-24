@@ -1,10 +1,13 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 import Script from 'next/script'
+import { cdnPrefix } from '../src/common/functions'
 
 const Document = () => {
     return (
         <Html lang="en">
             <Head>
+                <Script strategy='beforeInteractive' src="https://www.googletagmanager.com/gtag/js?id=G-KKHR264QYG" defer={false} />
+                <Script strategy='beforeInteractive' src={cdnPrefix() + '/ga-script.js'} defer={false} />
                 <Script 
                     strategy='beforeInteractive' 
                     id='before-interactive'

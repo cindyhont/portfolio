@@ -17,6 +17,9 @@ import CSS from "./css";
 import Javascript from "./javascript";
 import styles from '../styles/AboutMe.module.scss'
 import MaterialUI from "./material-ui";
+import Nodejs from "./nodejs";
+import Webpack from "./webpack";
+import TailwindCSS from "./tailwindcss";
 
 const Logos = () => {
     const 
@@ -50,10 +53,13 @@ const Logos = () => {
             </div>
             <h3>Technologies</h3>
             <div className={styles['about-me-skills']}>
+                <Nodejs />
                 <ReactLogo />
                 <NextJS />
                 <Redux />
+                <TailwindCSS />
                 <MaterialUI />
+                <Webpack />
                 <GSAP />
                 <ThreeJS />
                 <WebGL />

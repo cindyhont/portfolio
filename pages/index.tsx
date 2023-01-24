@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import matter from 'gray-matter'
 import fs from 'fs'
 import { join } from 'path'
@@ -210,14 +210,6 @@ const Index = ({works}:{works:IindexItem[]}) => (
         }
     `}</style>
     <Head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKHR264QYG"></script>
-        <script dangerouslySetInnerHTML={{__html:`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-KKHR264QYG');
-        `}}></script>
         <title>Cindy Ho - Full Stack Developer</title>
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html:`{"@context":"https://schema.org","@type":"WebSite","name":"Cindy Ho - Full Stack Developer","description":"I am a self-taught full stack developer. Welcome to my portfolio, which is written with Next.js, Sass, Three.js and GSAP. Feel free to contact me and have a nice visit on my site.","url":"https://cindyhodev.com/","image":"portfolio.jpg","creator":{"@type":"Person","name":"Cindy Ho"}}`}}></script>
         <link rel="canonical" href="https://cindyhodev.com" />

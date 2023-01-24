@@ -14,6 +14,8 @@ const
             container = useRef<HTMLDivElement>(),
             timeout = useRef<NodeJS.Timeout>(),
             sliderID = useRef(''),
+            sliderIDs = useRef<string[]>([]),
+            slidersIntersecting = useRef<boolean[]>([]),
             dispatchEvent = (id:string) => {
                 document.getElementById(id)?.dispatchEvent(new CustomEvent('swipe',{detail:1}))
                 timeout.current = setTimeout(dispatchEvent,5000,id)
@@ -30,10 +32,28 @@ const
                 timeout.current = setTimeout(dispatchEvent,5000,id)
             },
             handleSliderAuto = (entries:IntersectionObserverEntry[]) => {
-                // auto swipe first slider in viewport
-                const targets = entries.filter(e=>e.isIntersecting).map(e=>e.target)
-                if (!targets.length) deactivate()
-                else if (targets[0].id !== sliderID.current) activate(targets[0].id)
+                if (!sliderIDs.current.length){
+                    sliderIDs.current = entries.map(e=>e.target.id)
+                    slidersIntersecting.current = entries.map(e=>e.isIntersecting)
+
+                    if (slidersIntersecting.current.indexOf(true) !== -1) {
+                        activate(sliderIDs.current[slidersIntersecting.current.indexOf(true)])
+                    }
+                    return
+                }
+
+                const prevIntersectingIdx = slidersIntersecting.current.indexOf(true)
+
+                entries.forEach(e=>{
+                    slidersIntersecting.current[sliderIDs.current.indexOf(e.target.id)] = e.isIntersecting
+                })
+
+                const currIntersectingIdx = slidersIntersecting.current.indexOf(true)
+
+                if (prevIntersectingIdx !== currIntersectingIdx){
+                    if (currIntersectingIdx === -1) deactivate()
+                    else activate(sliderIDs.current[currIntersectingIdx])
+                }
             },
             slideButtonOnClick = (e:CustomEvent) => {
                 const sliderId = e.detail as string
