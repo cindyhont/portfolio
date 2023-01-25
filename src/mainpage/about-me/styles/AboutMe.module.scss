@@ -26,7 +26,7 @@
     margin-right: -20px;
 }
 
-$size:60px;
+$size:65px;
 $padding:5px;
 
 .about-me-skill{
@@ -71,7 +71,7 @@ $padding:5px;
 
 .about-me-skill-caption{
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 0.5px;
     margin-top: 5px;
 }
@@ -164,6 +164,10 @@ $padding:5px;
 
 .tailwindcss path {
     stroke-width: 1.5px;
+}
+
+.heroku path {
+    stroke-width: 3px;
 }
 
 .show path {

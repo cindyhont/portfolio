@@ -20,6 +20,8 @@ import MaterialUI from "./material-ui";
 import Nodejs from "./nodejs";
 import Webpack from "./webpack";
 import TailwindCSS from "./tailwindcss";
+import Heroku from "./heroku";
+import OCI from "./oci";
 
 const Logos = () => {
     const 
@@ -67,6 +69,8 @@ const Logos = () => {
                 <RabbitMQ />
                 <Nginx />
                 <Docker />
+                <Heroku />
+                <OCI />
             </div>
         </div>
     )
